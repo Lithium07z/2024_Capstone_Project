@@ -11,10 +11,6 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     void Awake()
     {
-#if UNITY_STANDALONE_WIN
-        Screen.SetResolution(1366, 768, false);
-#endif
-
         Debug.Log("Connecting...");
         PhotonNetwork.ConnectUsingSettings();
     }
@@ -32,7 +28,8 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinOrCreateRoom("Room", null, null);
         
         Debug.Log("You Entered the Room Name: " + "Room");
-
+        Debug.Log("Character will be Create in 5s...");
+            
         Invoke("InstantiatePlayer", 5f);
         
     }
