@@ -33,11 +33,13 @@ MonoBehaviour:
     - Assembly-CSharp
     - Assembly-CSharp-firstpass
     - Cinemachine
+    - Inputs
     - PhotonChat
     - PhotonRealtime
     - PhotonUnityNetworking
     - PhotonUnityNetworking.Demos
     - PhotonUnityNetworking.Utilities
+    - Scripts
     showAdvancedSettings: 0
   addMgrToSceneAutomatically: 0
   autoUpdateReferences: 1

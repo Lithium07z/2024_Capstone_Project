@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: ee2c4c5786a801f48913b152134ee7db
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - inventorySettingsAnchorSo: {fileID: 11400000, guid: 483c6cf171389a445849e17c8269c905, type: 2}
+  - abstractGridSelectedAnchorSo: {fileID: 11400000, guid: f89d2ef7851cd66429cf108cbcda73a8, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

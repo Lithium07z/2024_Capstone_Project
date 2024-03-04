@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: baf678ed43074c34b800078e2c6b3c3f
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - onGridInteractEventChannelSo: {fileID: 11400000, guid: bbbd47790a22fdf49a064eda590bdd4b, type: 2}
+  - abstractGridSelectedAnchorSo: {fileID: 11400000, guid: f89d2ef7851cd66429cf108cbcda73a8, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

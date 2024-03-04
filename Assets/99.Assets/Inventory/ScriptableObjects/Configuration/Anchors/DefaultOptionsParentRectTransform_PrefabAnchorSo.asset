@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07c930d831bd2314ea0e0074df494c96, type: 3}
+  m_Name: DefaultOptionsParentRectTransform_PrefabAnchorSo
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 6302952859185011109, guid: b367860ac35ea0343b535206a17db335, type: 3}

@@ -1,0 +1,20 @@
+fileFormatVersion: 2
+guid: 10ad95ad0a625e44b89114573e0d9edb
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - inventorySettingsAnchorSo: {fileID: 11400000, guid: 483c6cf171389a445849e17c8269c905, type: 2}
+  - draggableProviderSo: {fileID: 11400000, guid: 122a1f446253a7c4a9122527da560b71, type: 2}
+  - defaultItemParentWhenDrag: {fileID: 11400000, guid: 2c9610ebc4f5c544e96dc166d1b89cfd, type: 2}
+  - onAbstractItemBeingDragEventChannelSo: {fileID: 11400000, guid: cd302baf0aac881408ee2dc8c625b84a, type: 2}
+  - onGridInteractEventChannelSo: {fileID: 11400000, guid: bbbd47790a22fdf49a064eda590bdd4b, type: 2}
+  - onItemHolderInteractEventChannelSo: {fileID: 11400000, guid: 77032c4eaf0a32c46964c2970c1b838e, type: 2}
+  - inputProvider: {fileID: 11400000, guid: 97eef48d6d382f3489d7fa6b17b7dd2a, type: 2}
+  - onAudioStateEventChannelSo: {fileID: 11400000, guid: bd1b34013f17245cc89c0eb9a5027d90, type: 2}
+  - updateHighlightEventChannelSo: {fileID: 11400000, guid: ef9afa3b9fa493848804e7d2d53224be, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

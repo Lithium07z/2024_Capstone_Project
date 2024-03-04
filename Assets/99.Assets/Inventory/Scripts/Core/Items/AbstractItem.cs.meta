@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 9dcfa7dda1f43004eb18704f080cc7a9
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - abstractGridSelectedAnchorSo: {fileID: 11400000, guid: f89d2ef7851cd66429cf108cbcda73a8, type: 2}
+  - tileSpecSo: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

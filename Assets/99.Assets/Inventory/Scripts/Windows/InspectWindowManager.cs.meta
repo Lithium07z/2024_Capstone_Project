@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: ed0ad96d249e7c64f890674e15bc9080
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - inventorySettingsAnchorSo: {fileID: 11400000, guid: 483c6cf171389a445849e17c8269c905, type: 2}
+  - parentRectTransform: {fileID: 11400000, guid: 94d4f95a82755e547883f647843153a0, type: 2}
+  - onInspectItemEventChannelSo: {fileID: 11400000, guid: 5bb2509dab09bf549999acf66366f513, type: 2}
+  - windowContainerChangeStateEventChannelSo: {fileID: 11400000, guid: 996e71655d7ded64b9307e2496b24c61, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

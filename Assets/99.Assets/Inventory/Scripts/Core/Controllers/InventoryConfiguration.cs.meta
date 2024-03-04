@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 5e7d6a4bdabbd204da23274ca1f2fb6b
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - inventorySettingsAnchorSo: {fileID: 11400000, guid: 483c6cf171389a445849e17c8269c905, type: 2}
+  - sceneInventorySettingsSo: {instanceID: 0}
+  executionOrder: -1
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 48564750b7d7f764ea57ab57bde9a65d
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - m_ViewDataDictionary: {instanceID: 0}
+  - prefabInventoryGrid: {fileID: 1226886507904969987, guid: 7ce67731b9d1cc845b60f09312449d0b, type: 3}
+  - canvasAnchorSo: {fileID: 11400000, guid: 4296485868d88c043858572cbf67459b, type: 2}
+  - inventorySettingsAnchorSo: {fileID: 11400000, guid: 483c6cf171389a445849e17c8269c905, type: 2}
+  - itemParentWhenDragPrefabAnchorSo: {fileID: 11400000, guid: 2c9610ebc4f5c544e96dc166d1b89cfd, type: 2}
+  - optionsParentPrefabAnchorSo: {fileID: 11400000, guid: 19ca0e6bd26efc34ebcb0fd7a845cfd2, type: 2}
+  - windowParentPrefabAnchorSo: {fileID: 11400000, guid: 94d4f95a82755e547883f647843153a0, type: 2}
+  - highlighterPrefabAnchorSo: {fileID: 11400000, guid: ecea8d9bb6c04c846ad67212609f971c, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

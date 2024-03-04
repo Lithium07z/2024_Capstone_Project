@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 224587d1e2920e547afe245cd5d8e23a, type: 3}
+  m_Name: InventoryEnvironmnetStorage_Second
+  m_EditorClassIdentifier: 
+  displayName: Box
+  dimensionsSo: {fileID: 11400000, guid: 9d2c2ca27dd1b2b48b458410ecd5bfaf, type: 2}
+  icon: {fileID: 0}
+  itemDataTypeSo: {fileID: 11400000, guid: 0605cd59be1f7154bb3d0747c2ef8be6, type: 2}
+  audioCueSo: {fileID: 0}
+  iconSizeSo: {fileID: 11400000, guid: 4a19487363af47945bb8c272883469d5, type: 2}
+  inHolderIconSizeSo: {fileID: 0}
+  optionsSo: []
+  containerGrids: {fileID: 6122822761523932755, guid: b49fc9a7bc2b1f344b9f5749dc2fae3f, type: 3}

@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: ba6c5024fd768024fa72f2c16bde2ab2
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - inventorySettingsAnchorSo: {fileID: 11400000, guid: 483c6cf171389a445849e17c8269c905, type: 2}
+  - gridUpdateEventChannelSo: {fileID: 11400000, guid: 64f5a12b2e3b5074ca226ba72e01923a, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

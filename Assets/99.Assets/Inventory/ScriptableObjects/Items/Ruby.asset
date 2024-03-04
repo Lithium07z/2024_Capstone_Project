@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6b834ab4891b8d4c8bc57fc5919e440, type: 3}
+  m_Name: Ruby
+  m_EditorClassIdentifier: 
+  displayName: Ruby
+  dimensionsSo: {fileID: 11400000, guid: 8de22abe6aea68c4994373f40af5cb6c, type: 2}
+  icon: {fileID: 21300000, guid: 2c91d6b7e7e220742a297035b50f8284, type: 3}
+  itemDataTypeSo: {fileID: 0}
+  audioCueSo: {fileID: 11400000, guid: 160abf67ab51445fc94b8dd8b8d729b0, type: 2}
+  iconSizeSo: {fileID: 11400000, guid: 18cdba2040f342944bc2cdc0daffb204, type: 2}
+  inHolderIconSizeSo: {fileID: 0}
+  prefabInGame: {fileID: 0}
+  optionsSo:
+  - {fileID: 11400000, guid: c1cec9d777c06408d8dbd9c66423daf4, type: 2}
+  - {fileID: 11400000, guid: e42c6c32c3d6d4286a3b11b055016222, type: 2}

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 553e8ef2b567bae4da3852a879d6af37
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - datasourceItems: {instanceID: 0}
+  - inventorySupplierSo: {fileID: 11400000, guid: 5b9dfb24d6eaa0e4cba00c6c53305396, type: 2}
+  - inputProviderSo: {fileID: 11400000, guid: 97eef48d6d382f3489d7fa6b17b7dd2a, type: 2}
+  - onGridInteractEventChannelSo: {fileID: 11400000, guid: bbbd47790a22fdf49a064eda590bdd4b, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

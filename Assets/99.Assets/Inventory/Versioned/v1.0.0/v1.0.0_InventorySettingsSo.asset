@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ccd4a9314471f34faf70098dda20a5d, type: 3}
+  m_Name: v1.0.0_InventorySettingsSo
+  m_EditorClassIdentifier: 
+  tileSpecSo: {fileID: 11400000, guid: 9066106b153028b42b8d7a7c985737f6, type: 2}
+  tileGridHelperSo: {fileID: 11400000, guid: 0e87ba415eb5a6a43a7059db818b103e, type: 2}
+  borderGridSprite: {fileID: 21300000, guid: abf5b40d980b3eb42b6e8deb88d78720, type: 3}
+  slotSprite: {fileID: 21300000, guid: 7e261a16071ad6a4193e378b255ead46, type: 3}
+  holdToDrag: 1
+  showDragRepresentation: 1
+  playerInventorySo: {fileID: 11400000, guid: 64c55f7b16662aa4aaa73b2ea1984023, type: 2}
+  itemPrefabSo: {fileID: 11400000, guid: 85c24d8d5220286459ed72e95001db3c, type: 2}
+  holdScrollPadding: 195
+  holdScrollRate: 10.25
+  onHoverItem: {r: 0.7254902, g: 0.7254902, b: 0.7254902, a: 0.1764706}
+  onHoverItemOverlapError: {r: 0.8666667, g: 0.3882353, b: 0.3882353, a: 0.64705884}
+  onHoverEmptyCell: {r: 0.20392157, g: 0.81960785, b: 0.21568628, a: 0.5294118}
+  onHoverContainerThatCanBeInserted: {r: 0.77254903, g: 0.8039216, b: 0.30980393, a: 0.41960785}
+  enableHighlightHolder: 1
+  colorHighlightHolder: {r: 0.77254903, g: 0.8039216, b: 0.30980393, a: 0.41960785}
+  enableHighlightContainerInPlayerInventoryFitsItemDragged: 1
+  onContainerInPlayerInventoryFitsItemDragged: {r: 0.77254903, g: 0.8039216, b: 0.30980393, a: 0.41960785}
+  displayFiller: {fileID: 962958508609295521, guid: 62fe647773094c34682fa5d59bc3f4f1, type: 3}
+  optionsController: {fileID: 5390505209599318872, guid: cc637326c9d6ff4438e71c5b4b3f9cfa, type: 3}
+  buttonPrefab: {fileID: 4564838039166327665, guid: 36de6bc5ca3292e44a4aef4a99b217c7, type: 3}
+  maxInspectWindowOpen: 4
+  basicPrefabWindow: {fileID: 6020058797220201287, guid: 7fff86ed3d8489742b9a3c32fd8736a7, type: 3}
+  maxContainerWindowOpen: 4
+  containerPrefabWindow: {fileID: 6019304577628090912, guid: ac2b2b645fd5e2c4ca6b7a2a8e97a8fd, type: 3}

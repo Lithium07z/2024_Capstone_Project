@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 9af2fc90ab5b69944bc937f59da6cd6b
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - defaultSprite: {instanceID: 0}
+  - itemDataTypeSo: {instanceID: 0}
+  - inventorySettingsAnchorSo: {fileID: 11400000, guid: 483c6cf171389a445849e17c8269c905, type: 2}
+  - onAbstractItemBeingDragEventChannelSo: {fileID: 11400000, guid: cd302baf0aac881408ee2dc8c625b84a, type: 2}
+  - onEquipItemTableInHolderEventChannelSo: {fileID: 11400000, guid: f21e75cd3f9eb5c479906f6d074a6c89, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,3 +1,4 @@
+/*
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -39,20 +40,15 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         PhotonNetwork.Instantiate("PlayerArmature", Vector3.zero, Quaternion.identity);
     }
 }
+*/
 
-/*
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
 
-public class NetworkManager : MonoBehaviourPunCallbacks
+public class PhotonManager : MonoBehaviourPunCallbacks
 {
-    public Text StatusText;
-    public InputField NickNameInput;
-    public string gameVersion = "1.0";
-
-
     void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
@@ -60,7 +56,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        PhotonNetwork.GameVersion = this.gameVersion;
         PhotonNetwork.ConnectUsingSettings();
     }
 
@@ -86,4 +81,3 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = 4 });
     }
 }
-*/

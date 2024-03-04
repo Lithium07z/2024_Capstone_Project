@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 99aa373df33d4c0ab891429aa7070ffc
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - inventorySettingsAnchorSo: {fileID: 11400000, guid: 483c6cf171389a445849e17c8269c905, type: 2}
+  - onAbstractItemBeingDragEventChannelSo: {fileID: 11400000, guid: cd302baf0aac881408ee2dc8c625b84a, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

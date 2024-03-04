@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 66c2ec07ad4dd3646b8ef276a200cc3a
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - inventorySettingsAnchorSo: {fileID: 11400000, guid: 483c6cf171389a445849e17c8269c905, type: 2}
+  - defaultOptionsParent: {fileID: 11400000, guid: 19ca0e6bd26efc34ebcb0fd7a845cfd2, type: 2}
+  - inputProviderSo: {fileID: 11400000, guid: 97eef48d6d382f3489d7fa6b17b7dd2a, type: 2}
+  - onGridInteractEventChannelSo: {fileID: 11400000, guid: bbbd47790a22fdf49a064eda590bdd4b, type: 2}
+  - onItemHolderInteractEventChannelSo: {fileID: 11400000, guid: 77032c4eaf0a32c46964c2970c1b838e, type: 2}
+  - onOptionInteractEventChannelSo: {fileID: 11400000, guid: cdba7a710f1f2444ab569415e0318380, type: 2}
+  - onAbstractItemBeingDragEventChannelSo: {fileID: 11400000, guid: cd302baf0aac881408ee2dc8c625b84a, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

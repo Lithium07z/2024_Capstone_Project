@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 8a432539e2b314d439c9cfd51e0e30d8
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - onItemExecuteOptionEventChannelSo: {instanceID: 0}
+  - onAudioStateEventChannelSo: {fileID: 11400000, guid: bd1b34013f17245cc89c0eb9a5027d90, type: 2}
+  - audioStateSo: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

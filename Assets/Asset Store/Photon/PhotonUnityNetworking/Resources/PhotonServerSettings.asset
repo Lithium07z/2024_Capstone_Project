@@ -39,6 +39,11 @@ MonoBehaviour:
   - DestroySpaceship
   - Fire
   - RespawnSpaceship
+  - DestroyItem
+  - SelfDestroy
+  - ReceiveItemDataSo
+  - ReceiveRandomValue
+  - ReceiveSelectedItemId
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
