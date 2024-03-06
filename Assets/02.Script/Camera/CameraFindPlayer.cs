@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
@@ -7,18 +8,21 @@ using UnityEngine;
 
 public class CameraFindPlayer : MonoBehaviour
 {
-    [SerializeField] private CinemachineVirtualCamera cvc;
-
+    private CinemachineVirtualCamera _cinemachineVirtualCamera;
     private PhotonView _photonView;
-
     private GameObject[] playerGameObjects;
+
+    private void Awake()
+    {
+        _cinemachineVirtualCamera = GetComponent<CinemachineVirtualCamera>();
+    }
 
     public void SettingCamera()
     {
         _photonView = PhotonView.Find(FindMyPhotonViewID());
 
-        cvc.Follow = _photonView.gameObject.transform.Find("PlayerCameraRoot");
-        cvc.LookAt = _photonView.gameObject.transform.Find("PlayerCameraRoot");
+        _cinemachineVirtualCamera.Follow = _photonView.gameObject.transform.Find("PlayerCameraRoot");
+        _cinemachineVirtualCamera.LookAt = _photonView.gameObject.transform.Find("PlayerCameraRoot");
     }
 
     private int FindMyPhotonViewID()
