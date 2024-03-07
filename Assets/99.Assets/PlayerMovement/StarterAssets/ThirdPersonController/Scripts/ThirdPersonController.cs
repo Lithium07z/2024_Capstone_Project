@@ -571,13 +571,13 @@ namespace StarterAssets
         {
             if (_canvasGroup.alpha == 1)
             {
-                _starterAssetsInputs.cursorLocked = true;
+                //_starterAssetsInputs.cursorLocked = true;
                 //Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
             }
             else
             {
-                _starterAssetsInputs.cursorLocked = false;
+                //_starterAssetsInputs.cursorLocked = false;
                 //Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
             }
