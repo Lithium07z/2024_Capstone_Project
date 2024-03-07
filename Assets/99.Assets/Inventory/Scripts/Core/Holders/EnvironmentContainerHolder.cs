@@ -4,6 +4,7 @@ using Inventory.Scripts.Core.Items;
 using Inventory.Scripts.Core.ScriptableObjects;
 using Inventory.Scripts.Core.ScriptableObjects.Configuration.Anchors;
 using Inventory.Scripts.Core.ScriptableObjects.Items;
+using Photon.Pun;
 using UnityEngine;
 
 namespace Inventory.Scripts.Core.Holders
@@ -21,8 +22,11 @@ namespace Inventory.Scripts.Core.Holders
 
         public Action<bool> OnChangeOpenState;
 
-        private bool _isOpen;
         private ItemTable _containerInventoryItem;
+
+        private PhotonView _photonView;
+
+        private bool _isOpen;
 
         private void Start()
         {
@@ -33,7 +37,17 @@ namespace Inventory.Scripts.Core.Holders
                         .Configuration());
             }
 
+            _photonView = this.GetComponent<PhotonView>();
+
             InitializeEnvironmentContainer();
+        }
+
+        private void Update()
+        {
+            if (_containerInventoryItem.CurrentGridTable != null)
+            {
+                Debug.Log(_containerInventoryItem.CurrentGridTable.ToString());
+            }
         }
 
         private void InitializeEnvironmentContainer()

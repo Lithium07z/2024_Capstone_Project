@@ -49,7 +49,7 @@ namespace Inventory.Scripts.Core.Items.Grids
             var containerGrids = GetComponentInParent<ContainerGrids>();
 
             if (containerGrids != null) return;
-
+            Debug.Log(this.gameObject.name + "!@#@!");
             Set(new GridTable(gridWidth, gridHeight));
         }
 

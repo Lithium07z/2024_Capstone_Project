@@ -44,6 +44,21 @@ MonoBehaviour:
   - ReceiveItemDataSo
   - ReceiveRandomValue
   - ReceiveSelectedItemId
+  - CreateCargo
+  - DestroyCargo
+  - DisableItem
+  - DisableItemFromGrid
+  - OpenContainer
+  - CloseContainer
+  - SynchronizationItemTable
+  - ReceivedItemTable
+  - OpenContainerRPC
+  - CloseContainerRPC
+  - SynchronizationGridTable
+  - PlaceItem
+  - UpdateAllGridsOpenedRPC
+  - Test
+  - ReceiveCustonClass
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -6,6 +6,7 @@ using Inventory.Scripts.Core.Items.Grids;
 using Inventory.Scripts.Core.ScriptableObjects.Configuration;
 using Inventory.Scripts.Core.ScriptableObjects.Configuration.Anchors;
 using Inventory.Scripts.Core.ScriptableObjects.Items;
+using Photon.Pun;
 using UnityEngine;
 
 namespace Inventory.Scripts.Core.ScriptableObjects

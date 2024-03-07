@@ -1536,6 +1536,7 @@ GameObject:
   - component: {fileID: 8884357793275590581}
   - component: {fileID: 3100064389622333753}
   - component: {fileID: 1705732929995529545}
+  - component: {fileID: 3830405297315691722}
   - component: {fileID: 3091696754715891612}
   - component: {fileID: 3091696754715891613}
   - component: {fileID: 4808647034611636078}
@@ -1651,12 +1652,7 @@ MonoBehaviour:
   BottomClamp: -30
   CameraAngleOverride: 0
   LockCameraPosition: 0
-  _inventory: {fileID: 3142032894342849412}
-  _playerInventorySo: {fileID: 11400000, guid: 64c55f7b16662aa4aaa73b2ea1984023, type: 2}
-  _inventorySupplierSo: {fileID: 11400000, guid: 5b9dfb24d6eaa0e4cba00c6c53305396, type: 2}
-  _chestContainerHolder: {fileID: 3740032263002119175}
-  _backpackContainerHolder: {fileID: 728761494060937459}
-  _walletContainerHolder: {fileID: 1400830512529004425}
+  _isInventoryOpen: 0
 --- !u!114 &8884357793275590581
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1791,6 +1787,25 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &3830405297315691722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1705732929995529541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 657d5be73fb2b284ead43984ec9f307d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _inventory: {fileID: 3142032894342849412}
+  _inventoryManager: {fileID: 4104362353395072617}
+  _playerInventorySo: {fileID: 11400000, guid: 64c55f7b16662aa4aaa73b2ea1984023, type: 2}
+  _inventorySupplierSo: {fileID: 11400000, guid: 5b9dfb24d6eaa0e4cba00c6c53305396, type: 2}
+  _chestContainerHolder: {fileID: 3740032263002119175}
+  _backpackContainerHolder: {fileID: 728761494060937459}
+  _walletContainerHolder: {fileID: 1400830512529004425}
 --- !u!114 &3091696754715891612
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8065,7 +8080,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1226886507904969987, guid: 7ce67731b9d1cc845b60f09312449d0b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1226886507904969988, guid: 7ce67731b9d1cc845b60f09312449d0b, type: 3}
       propertyPath: highlighter
@@ -8129,5 +8144,10 @@ PrefabInstance:
 --- !u!4 &4104362353395072616 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1226886507904969986, guid: 7ce67731b9d1cc845b60f09312449d0b, type: 3}
+  m_PrefabInstance: {fileID: 3022857733788160874}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4104362353395072617 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1226886507904969987, guid: 7ce67731b9d1cc845b60f09312449d0b, type: 3}
   m_PrefabInstance: {fileID: 3022857733788160874}
   m_PrefabAsset: {fileID: 0}

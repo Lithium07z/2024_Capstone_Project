@@ -1,9 +1,8 @@
-using Inventory.Scripts.Core.Controllers.Inputs;
 using Inventory.Scripts.Core.Enums;
 using Inventory.Scripts.Core.Helper;
+using Inventory.Scripts.Core.Items;
 using Inventory.Scripts.Core.Items.Grids;
 using Inventory.Scripts.Core.ScriptableObjects;
-using Inventory.Scripts.Core.ScriptableObjects.Configuration.Events.Interact;
 using Inventory.Scripts.Core.ScriptableObjects.Datastores;
 using Inventory.Scripts.Core.ScriptableObjects.Items;
 using Photon.Pun;
@@ -29,14 +28,53 @@ public class EnvironmentContainerCreatorController : MonoBehaviour
 
     private ItemDataSo itemDataSo;
 
+    private (ItemTable, GridResponse) placeItemResult;
+
+    private bool isOpen = false;
     private bool hasBeenCalled = false;
     private bool hasBeenGenerated = false;
 
-    private int itemID;
+    private int itemID = -1;
 
     private void Awake()
     {
         enabled = isEnabled;
+    }
+
+    private void Start()
+    {
+        _photonView = GetComponent<PhotonView>();
+    }
+
+    private void Update()
+    {
+        if (placeItemResult.Item1 != null && placeItemResult.Item1.CurrentGridTable != null)
+        {
+            Debug.Log(placeItemResult.Item1.CurrentGridTable.ToString() + "!!!!!");
+
+            /*
+            ItemTable[] itemtable = placeItemResult.Item1.CurrentGridTable.GetAllItemsFromGrid();
+            Debug.Log("GetAllItemsFromGrid is : " + itemtable.Length);
+            foreach (var item in itemtable)
+            {
+                Debug.Log(item.ItemDataSo.name + "!");
+            }
+            */
+            string temp = "";
+
+            ItemTable[,] itemsSlot = placeItemResult.Item1.CurrentGridTable.InventoryItemsSlot;
+
+            for (int i = 0; i < itemsSlot.GetLength(0); i++)
+            {
+                for (int j = 0; j < itemsSlot.GetLength(1); j++)
+                {
+                    temp += itemsSlot[i, j] == null ? "null " : itemsSlot[i, j].ItemDataSo.name + " ";
+                }
+                temp += "\n";
+            }
+
+            Debug.Log(temp);
+        }
     }
 
     public void ChangeAbstractGrid(AbstractGrid abstractGrid)
@@ -59,21 +97,20 @@ public class EnvironmentContainerCreatorController : MonoBehaviour
         {
             itemID = datastoreItems.GetRandomItemID();
             itemDataSo = datastoreItems.GetItemFromID(itemID);
-            _photonView = GetComponent<PhotonView>();
             _photonView.RPC("ReceiveRandomValue", RpcTarget.AllBufferedViaServer, itemID, true);
             hasBeenGenerated = true;
         }
 
-        var (itemTable, inserted) = inventorySupplierSo.PlaceItem(itemDataSo, _selectedGridTable);
+        placeItemResult = inventorySupplierSo.PlaceItem(itemDataSo, _selectedGridTable);
 
-        if (inserted.Equals(GridResponse.InventoryFull))
+        if (placeItemResult.Item2.Equals(GridResponse.InventoryFull))
         {
             Debug.Log("Inventory is full...".Info());
         }
 
-        var abstractItem = itemTable.GetAbstractItem();
+        var abstractItem = placeItemResult.Item1.GetAbstractItem();
 
-        if (!inserted.Equals(GridResponse.Inserted) && abstractItem != null)
+        if (!placeItemResult.Item2.Equals(GridResponse.Inserted) && abstractItem != null)
         {
             Destroy(abstractItem.gameObject);
         }

@@ -70,7 +70,6 @@ namespace Inventory.Scripts.Core.Controllers.Inputs
 
         private void HandleOnPickupItemMiddleware()
         {
-            Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             OnPickupItem?.Invoke();
         }
 

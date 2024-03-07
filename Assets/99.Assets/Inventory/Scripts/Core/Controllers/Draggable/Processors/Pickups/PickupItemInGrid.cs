@@ -15,10 +15,10 @@ namespace Inventory.Scripts.Core.Controllers.Draggable.Processors.Pickups
 
             var tileGridPosition =
                 tileGridHelperSo.GetTileGridPosition(selectedAbstractGrid.transform, selectedInventoryItem);
-
+            
             var pickupItem = selectedAbstractGrid.Grid.PickUpItem(tileGridPosition.x, tileGridPosition.y)
                 ?.GetAbstractItem();
-
+            Debug.Log("Pick up item in grid is active | " + selectedAbstractGrid.name);
             if (pickupItem == null)
             {
                 return;

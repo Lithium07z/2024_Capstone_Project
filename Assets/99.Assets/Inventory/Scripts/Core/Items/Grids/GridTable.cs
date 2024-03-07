@@ -6,6 +6,7 @@ using Inventory.Scripts.Core.Helper;
 using Inventory.Scripts.Core.Items.Grids.Helper;
 using Inventory.Scripts.Core.ItemsMetadata;
 using UnityEngine;
+using Photon.Pun;
 
 namespace Inventory.Scripts.Core.Items.Grids
 {
@@ -169,7 +170,7 @@ namespace Inventory.Scripts.Core.Items.Grids
             var abstractItem = GetItem(x, y);
 
             if (abstractItem == null) return null;
-
+            
             for (var ix = 0; ix < abstractItem.Width; ix++)
             {
                 for (var iy = 0; iy < abstractItem.Height; iy++)

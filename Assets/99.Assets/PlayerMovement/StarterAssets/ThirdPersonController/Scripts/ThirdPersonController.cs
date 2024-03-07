@@ -1,12 +1,5 @@
 ﻿using UnityEngine;
-using Inventory.Scripts.Core.Enums;
-using Inventory.Scripts.Core.Holders;
-using Inventory.Scripts.Core.ScriptableObjects;
-using Inventory.Scripts.Core.ScriptableObjects.Items;
-using Inventory.Scripts.Core.Items.Grids;
-using Inventory.Scripts.Core.Items;
 using System;
-using Inventory.Scripts.Core.Displays.Filler;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
@@ -82,10 +75,6 @@ namespace StarterAssets
 
         // photon
         private PhotonView _photonView;
-        private PhotonView _itemPhotonView;
-
-        // inventory canvas group
-        private CanvasGroup _canvasGroup;
 
         // cinemachine
         private float _cinemachineTargetYaw;
@@ -94,30 +83,7 @@ namespace StarterAssets
         // cinemachine virtual camera
         private GameObject _cinemachineVirtualCamera;
 
-        // displayFiller for ScrollArea_Environment Component
-        private Transform displayFiller;
-
-        // inventory canvas
-        [SerializeField] private GameObject _inventory;
-
-
-        [SerializeField] private InventorySo _playerInventorySo;             // player inventory scriptable object
-        [SerializeField] private InventorySupplierSo _inventorySupplierSo;   // inventory supplier scriptable object
-
-        // player conainer
-        [SerializeField] private ContainerHolder _chestContainerHolder;      // 가슴 인벤토리
-        [SerializeField] private ContainerHolder _backpackContainerHolder;   // 가방 인벤토리
-        [SerializeField] private ContainerHolder _walletContainerHolder;     // 지갑 인벤토리
-
-        // 
-        private EnvironmentContainerHolder _environmentContainerHolder;
-
-        // 
-        private StarterAssetsInputs _starterAssetsInputs;
-
-        // RaycastHit, Ray
-        private RaycastHit _hit;
-        private Ray _ray;
+        public bool _isInventoryOpen = false;
 
         // player
         private float _speed;
@@ -137,9 +103,6 @@ namespace StarterAssets
         private int _animIDJump;
         private int _animIDFreeFall;
         private int _animIDMotionSpeed;
-
-        private string[] itemTags = new string[] { "Item", "Backpack", "Chest", "Wallet" };
-        private string[] equipment = new string[] { "Backpack", "Chest", "Wallet" };
 
 #if ENABLE_INPUT_SYSTEM
         private PlayerInput _playerInput;
@@ -180,7 +143,6 @@ namespace StarterAssets
         private void Start()
         {
             _photonView = GetComponent<PhotonView>();
-            _starterAssetsInputs = GetComponent<StarterAssetsInputs>();
             _cinemachineVirtualCamera.GetComponent<CameraFindPlayer>().SettingCamera();
 
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
@@ -203,15 +165,12 @@ namespace StarterAssets
             if (_photonView.IsMine)
             {
                 _playerInput.enabled = true;
-                _inventory.SetActive(true);
             }
-
-            _canvasGroup = _inventory.GetComponent<CanvasGroup>();
         }
 
         private void Update()
         {
-            if (_photonView.IsMine)
+            if (_photonView.IsMine && !_isInventoryOpen)
             {
                 _hasAnimator = TryGetComponent(out _animator);
 
@@ -219,29 +178,14 @@ namespace StarterAssets
                 GroundedCheck();
                 Move();
             }
-
-            _ray = new Ray(_cinemachineVirtualCamera.transform.position, _cinemachineVirtualCamera.transform.forward);
-            Debug.DrawRay(_cinemachineVirtualCamera.transform.position, _cinemachineVirtualCamera.transform.forward * 6, Color.red);
-
-            /*************************************** 
-            *              ↓디버깅 코드↓            *                                       
-            ***************************************/
-
-            if (_playerInventorySo.GetGrids().Count > 0)
-            {
-                int sum = 0;
-                for (int i = 0; i < _playerInventorySo.GetGrids().Count; i++)
-                {
-                    sum += _playerInventorySo.GetGrids()[i].GetAllItemsFromGrid().Length;
-                }
-
-                Debug.Log(sum);
-            }
         }
 
         private void LateUpdate()
         {
-            CameraRotation();
+            if (!_isInventoryOpen)
+            {
+                CameraRotation();
+            }
         }
 
         private void AssignAnimationIDs()
@@ -467,122 +411,6 @@ namespace StarterAssets
                 AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center),
                     FootstepAudioVolume);
             }
-        }
-
-        private void OnInteraction(InputValue value)
-        {
-            if (Physics.Raycast(_ray, out _hit, 6, ~LayerMask.GetMask("Player")))
-            {
-
-                if (_hit.transform.CompareTag("Box"))
-                {
-                    OpenBox();
-                }
-                else if (Array.Exists(itemTags, tag => _hit.transform.CompareTag(tag)))
-                {
-                    (ItemTable, GridResponse) findPlaceResult = new(null, GridResponse.NoGridTableSelected);
-                    Item item = _hit.transform.GetComponent<Item>();
-                    ItemDataSo itemSo = item.GetItemDataSo();
-
-                    if (_hit.transform.CompareTag("Item"))
-                    {
-                        findPlaceResult = _inventorySupplierSo.FindPlaceForItemInGrids(itemSo, _playerInventorySo.GetGrids());
-
-                        if (findPlaceResult.Item2 != GridResponse.Inserted) 
-                        {
-                            return;
-                        }
-                        
-                        Debug.Log("Take Item");
-                    }
-                    else if (Array.Exists(equipment, tag => _hit.transform.CompareTag(tag)))
-                    {
-                        (ItemTable, HolderResponse) equipItemResult = new(null, HolderResponse.Error);
-
-                        if (_hit.transform.CompareTag("Backpack"))
-                        {
-                            Debug.Log("Backpack");
-                            equipItemResult = _inventorySupplierSo.TryEquipItem(itemSo, _backpackContainerHolder);
-                        }
-                        else if (_hit.transform.CompareTag("Chest"))
-                        {
-                            Debug.Log("Chest");
-                            equipItemResult = _inventorySupplierSo.TryEquipItem(itemSo, _chestContainerHolder);
-                        }
-                        else if (_hit.transform.CompareTag("Wallet"))
-                        {
-                            Debug.Log("Wallet");
-                            equipItemResult = _inventorySupplierSo.TryEquipItem(itemSo, _walletContainerHolder);
-                        }
-
-                        if (equipItemResult.Item2 == HolderResponse.AlreadyEquipped)
-                        {
-                            findPlaceResult = _inventorySupplierSo.FindPlaceForItemInGrids(itemSo, _playerInventorySo.GetGrids());
-                            
-                            if (findPlaceResult.Item2 != GridResponse.Inserted) 
-                            { 
-                                return; 
-                            }
-                        }
-                    }
-
-                    item.DestroyItem();
-                }
-            }
-        }
-
-        private void OpenBox()
-        {   // 바라보는 물체의 EnvironmentContainerHolder를 가져옴
-            Transform _environmentContainer = _hit.transform;
-            _environmentContainerHolder = _environmentContainer.GetComponent<EnvironmentContainerHolder>();
-
-            if (_canvasGroup.alpha == 0)
-            {   // 인벤토리가 닫혀 있었다면
-                ToggleInventory();      // 인벤토리를 열고
-                _environmentContainerHolder.OpenContainer();    // 바라보는 물체의 컨테이너를 열음
-
-                if (displayFiller == null)
-                {
-                    displayFiller = this.transform.Find("Canvas/ScrollArea_Enviroment/View/Content/DisplayFiller(Clone)");
-                }
-
-                _environmentContainer.GetComponent<EnvironmentContainerCreatorController>().ChangeAbstractGrid(displayFiller.GetComponent<DisplayFiller>().abstractGrid);
-            }
-            else
-            {   // 인벤토리가 열려 있었다면
-                _environmentContainerHolder.CloseContainer();   // 바라보는 물체의 컨테이너를 닫고
-                ToggleInventory();      // 인벤토리도 닫음
-            }
-
-            Debug.Log("Open the Item box");
-        }
-
-        private void OnOpenInventory(InputValue value)
-        {
-            if (_environmentContainerHolder != null)
-            {
-                _environmentContainerHolder.CloseContainer();
-            }
-
-            ToggleInventory();        // 인벤토리를 열고
-        }
-
-        private void ToggleInventory() // << 이거 고쳐줘 ㅋㅋ
-        {
-            if (_canvasGroup.alpha == 1)
-            {
-                _starterAssetsInputs.cursorLocked = true;
-                //Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
-            }
-            else
-            {
-                _starterAssetsInputs.cursorLocked = false;
-                //Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-            }
-
-            _canvasGroup.alpha = _canvasGroup.alpha == 0 ? 1 : 0;
         }
     }
 }
