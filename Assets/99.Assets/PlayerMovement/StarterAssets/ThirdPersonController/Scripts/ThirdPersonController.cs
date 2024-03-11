@@ -315,13 +315,14 @@ namespace StarterAssets
         {
             if (Grounded)
             {
-                if (_input.crouch)
+                if (_input.crouch || _crouchToggle&&_input.jump)
                 {
                     _animator.SetBool(_animIDCrouch, _crouchToggle = !_crouchToggle);
                     _input.crouch = false;
                 }
-                
+
             }
+
         }
         private void JumpAndGravity()
         {

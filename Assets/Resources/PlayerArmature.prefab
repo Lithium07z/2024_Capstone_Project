@@ -1878,7 +1878,7 @@ MonoBehaviour:
     SynchronizeType: 1
     Name: MotionSpeed
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: Crouch
   m_SynchronizeLayers:
   - SynchronizeType: 1

@@ -45,10 +45,12 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
-using UnityEngine.UI;
+using TMPro;
 
 public class PhotonManager : MonoBehaviourPunCallbacks
 {
+    public string testRoomNumber;
+    public TMP_Text testRoomNumberTxt;
     void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = false;
@@ -56,6 +58,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
+        testRoomNumberTxt.text = "Test Room " + testRoomNumber;
         PhotonNetwork.ConnectUsingSettings();
     }
 
@@ -63,21 +66,11 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
-        PhotonNetwork.JoinRandomRoom();
+        PhotonNetwork.JoinOrCreateRoom(testRoomNumber, new RoomOptions { MaxPlayers = 4 }, TypedLobby.Default);
     }
 
     public override void OnJoinedRoom()
     {
         PhotonNetwork.Instantiate("PlayerArmature", Vector3.zero, Quaternion.identity);
-    }
-
-    public override void OnJoinRandomFailed(short returnCode, string message)
-    {
-        this.CreateRoom();
-    }
-
-    void CreateRoom()
-    {
-        PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = 4 });
     }
 }
