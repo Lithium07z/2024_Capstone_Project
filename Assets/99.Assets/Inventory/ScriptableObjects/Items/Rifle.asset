@@ -13,13 +13,14 @@ MonoBehaviour:
   m_Name: Rifle
   m_EditorClassIdentifier: 
   displayName: Rifle
+  description: 
   dimensionsSo: {fileID: 11400000, guid: b64c4fc6feff0a44fb19fadcdf861df6, type: 2}
   icon: {fileID: 21300000, guid: 953a567b2b792b74ea1869ce7137d7a2, type: 3}
   itemDataTypeSo: {fileID: 11400000, guid: 469f8ff37f466564e8ae94912574472d, type: 2}
   audioCueSo: {fileID: 0}
+  itemID: 7
   iconSizeSo: {fileID: 11400000, guid: 94cba8b097b9dff4582ff84a2ca2dada, type: 2}
   inHolderIconSizeSo: {fileID: 11400000, guid: 94cba8b097b9dff4582ff84a2ca2dada, type: 2}
-  prefabInGame: {fileID: 0}
   optionsSo:
   - {fileID: 11400000, guid: c1cec9d777c06408d8dbd9c66423daf4, type: 2}
   - {fileID: 11400000, guid: 62af6a1365d83406da127cc736b9120f, type: 2}

@@ -736,6 +736,8 @@ MonoBehaviour:
   inventorySupplierSo: {fileID: 11400000, guid: 5b9dfb24d6eaa0e4cba00c6c53305396, type: 2}
   itemContainerDataSo: {fileID: 11400000, guid: ad7b965a241e13745b9d38b4abde7c7d, type: 2}
   containerDisplayAnchorSo: {fileID: 11400000, guid: 1496162ba3ab44d9dbe27350c9387a35, type: 2}
+  environmentContainerCreatorController: {fileID: 0}
+  _isOpen: 0
 --- !u!114 &7792859046749005858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1687,7 +1689,6 @@ MonoBehaviour:
   jump: 0
   sprint: 0
   analogMovement: 0
-  cursorLocked: 1
   cursorInputForLook: 1
 --- !u!114 &1705732929995529545
 MonoBehaviour:
@@ -2824,6 +2825,8 @@ MonoBehaviour:
   inventorySupplierSo: {fileID: 11400000, guid: 5b9dfb24d6eaa0e4cba00c6c53305396, type: 2}
   itemContainerDataSo: {fileID: 11400000, guid: 9da2ae4e32c5df842ab2f788a0704d55, type: 2}
   containerDisplayAnchorSo: {fileID: 11400000, guid: 1496162ba3ab44d9dbe27350c9387a35, type: 2}
+  environmentContainerCreatorController: {fileID: 0}
+  _isOpen: 0
 --- !u!114 &6947544678897591001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8097,43 +8100,43 @@ PrefabInstance:
     - target: {fileID: 1838635843439640840, guid: 7ce67731b9d1cc845b60f09312449d0b, type: 3}
       propertyPath: holders.Array.data[0]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 4738343715427284540}
     - target: {fileID: 1838635843439640840, guid: 7ce67731b9d1cc845b60f09312449d0b, type: 3}
       propertyPath: holders.Array.data[1]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 3740032263002119175}
     - target: {fileID: 1838635843439640840, guid: 7ce67731b9d1cc845b60f09312449d0b, type: 3}
       propertyPath: holders.Array.data[2]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 728761494060937459}
     - target: {fileID: 1838635843439640840, guid: 7ce67731b9d1cc845b60f09312449d0b, type: 3}
       propertyPath: holders.Array.data[3]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 5154594598653726741}
     - target: {fileID: 1838635843439640840, guid: 7ce67731b9d1cc845b60f09312449d0b, type: 3}
       propertyPath: holders.Array.data[4]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 4084208817214180602}
     - target: {fileID: 1838635843439640840, guid: 7ce67731b9d1cc845b60f09312449d0b, type: 3}
       propertyPath: holders.Array.data[5]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 6153136989387458866}
     - target: {fileID: 1838635843439640840, guid: 7ce67731b9d1cc845b60f09312449d0b, type: 3}
       propertyPath: holders.Array.data[6]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1400830512529004425}
     - target: {fileID: 1838635843439640840, guid: 7ce67731b9d1cc845b60f09312449d0b, type: 3}
       propertyPath: holders.Array.data[7]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 7061349150114542256}
     - target: {fileID: 1838635843439640840, guid: 7ce67731b9d1cc845b60f09312449d0b, type: 3}
       propertyPath: holders.Array.data[8]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 74098857877125104}
     - target: {fileID: 1838635843439640840, guid: 7ce67731b9d1cc845b60f09312449d0b, type: 3}
       propertyPath: holders.Array.data[9]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2281784564294813968}
     - target: {fileID: 7410478530541111144, guid: 7ce67731b9d1cc845b60f09312449d0b, type: 3}
       propertyPath: sceneInventorySettingsSo
       value: 

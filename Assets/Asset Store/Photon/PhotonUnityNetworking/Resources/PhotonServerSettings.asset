@@ -59,6 +59,16 @@ MonoBehaviour:
   - UpdateAllGridsOpenedRPC
   - Test
   - ReceiveCustonClass
+  - Sync2DIntArray
+  - ReceiveItemID
+  - SyncItemID
+  - SyncIntArray
+  - ReceiveIntArray
+  - ReceiveAllItemsFromGridToInt
+  - ReceiveAllContainersFromGridToInt
+  - ReceiveIsOpen
+  - ReceiveGenerateFlag
+  - ReceiveAllItemsInfoFromGrid
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -6,10 +6,10 @@ TagManager:
   tags:
   - CinemachineTarget
   - Item
-  - Box
   - Backpack
   - Chest
   - Wallet
+  - Container
   layers:
   - Default
   - TransparentFX
@@ -19,7 +19,6 @@ TagManager:
   - UI
   - Player
   - Ignore Cenemachine Obstacle
-  - 
   - 
   - 
   - 

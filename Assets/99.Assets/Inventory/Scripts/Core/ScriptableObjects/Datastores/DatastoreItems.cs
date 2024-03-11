@@ -9,7 +9,15 @@ namespace Inventory.Scripts.Core.ScriptableObjects.Datastores
     public class DatastoreItems : ScriptableObject
     {
         [Header("Items DataSource")] [SerializeField]
-        private List<ItemDataSo> items = new();
+        public List<ItemDataSo> items = new();
+
+        private void OnEnable()
+        {
+            for (int i = 0; i < items.Count; i++)
+            {
+                items[i].itemID = i;
+            }
+        }
 
         public ItemDataSo GetRandomItem()
         {
@@ -50,12 +58,6 @@ namespace Inventory.Scripts.Core.ScriptableObjects.Datastores
         public ItemDataSo GetItemFromID(int selectedItemID)
         {
             return items[selectedItemID];
-        }
-
-        [PunRPC]
-        void ReceiveSelectedItemId(int selectedItemID)
-        {
-            Debug.Log("Received Random Value: " + selectedItemID);
         }
     }
 }

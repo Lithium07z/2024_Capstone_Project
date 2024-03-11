@@ -18,7 +18,7 @@ namespace Inventory.Scripts.Core.ScriptableObjects
         private InventorySettingsAnchorSo inventorySettingsAnchorSo;
 
         [Header("Abstract Grid Selected AnchorSo")] [SerializeField]
-        private AbstractGridSelectedAnchorSo abstractGridSelectedAnchorSo;
+        public AbstractGridSelectedAnchorSo abstractGridSelectedAnchorSo;
 
         /// <summary>
         /// Will place the item inside the grid, and also remove from the previous place (if was on a holder, going to unequipped and then place inside the grid)
@@ -26,11 +26,11 @@ namespace Inventory.Scripts.Core.ScriptableObjects
         /// <param name="itemDataSo">The item data so which will be placed (Will create an ItemTable)</param>
         /// <param name="gridTable">The grid which will be placed</param>
         /// <returns>ItemTable created and also the Grid Response to see if was inserted or not</returns>
-        public (ItemTable, GridResponse) PlaceItem(ItemDataSo itemDataSo, GridTable gridTable)
+        public (ItemTable, GridResponse) PlaceItem(ItemDataSo itemDataSo, GridTable gridTable, int posX = -1, int posY = -1)
         {
             var itemTable = new ItemTable(itemDataSo, abstractGridSelectedAnchorSo);
 
-            var inserted = PlaceItem(itemTable, gridTable);
+            var inserted = PlaceItem(itemTable, gridTable, posX, posY);
 
             return (itemTable, inserted);
         }
@@ -41,7 +41,7 @@ namespace Inventory.Scripts.Core.ScriptableObjects
         /// <param name="itemTable">Item Table that is the item serialization</param>
         /// <param name="gridTable">The grid which will be placed</param>
         /// <returns>Grid Response with the result if was inserted or not</returns>
-        public GridResponse PlaceItem(ItemTable itemTable, GridTable gridTable)
+        public GridResponse PlaceItem(ItemTable itemTable, GridTable gridTable, int posX = -1, int posY = -1)
         {
             if (gridTable == null)
             {
@@ -55,7 +55,16 @@ namespace Inventory.Scripts.Core.ScriptableObjects
                 return GridResponse.InventoryFull;
             }
 
-            var inventoryMessage = gridTable.PlaceItem(itemTable, posOnGrid.Value.x, posOnGrid.Value.y);
+            GridResponse inventoryMessage;
+
+            if (posX == -1 && posY == -1)
+            {
+                inventoryMessage = gridTable.PlaceItem(itemTable, posOnGrid.Value.x, posOnGrid.Value.y);
+            }
+            else
+            {
+                inventoryMessage = gridTable.PlaceItem(itemTable, posX, posY);
+            }
 
             return inventoryMessage;
         }

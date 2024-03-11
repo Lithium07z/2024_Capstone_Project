@@ -42,6 +42,8 @@ namespace Inventory.Scripts.Core.Controllers
 
         private bool _shouldUpdateAgainWhenEnterAnotherGrid;
 
+        private bool overlapCheck;
+
         private AbstractItem _hoveredContainerWithSpace;
 
         private void OnEnable()
@@ -186,7 +188,7 @@ namespace Inventory.Scripts.Core.Controllers
                 selectedInventoryItem.ItemTable.Height
             );
 
-            var overlapCheck = false;
+            overlapCheck = false;
 
             if (boundaryCheck)
             {
@@ -205,7 +207,7 @@ namespace Inventory.Scripts.Core.Controllers
             if (HandleContainerSpaceColor())
             {
                 if (_hoveredContainerWithSpace == null) return;
-
+ 
                 _hoveredContainerWithSpace.SetBackground(true, GetOnHoverContainerThatCanBeInserted());
                 highlighter.SetColor(new Color(0, 0, 0, 0));
                 return;
@@ -237,6 +239,13 @@ namespace Inventory.Scripts.Core.Controllers
                 _hoveredContainerWithSpace.SetBackground(false);
                 _hoveredContainerWithSpace = null;
 
+                return false;
+            }
+
+            // TODO: 객체 이름으로 Grid 특정하는 방법 추후 수정해야 함
+            if (_selectedAbstractGrid.transform.parent.name.Equals("Box_Container(Clone)"))
+            {
+                overlapCheck = false;
                 return false;
             }
 

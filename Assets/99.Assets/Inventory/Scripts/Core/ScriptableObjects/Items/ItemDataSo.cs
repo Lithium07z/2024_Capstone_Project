@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Inventory.Scripts.Core.ScriptableObjects.Audio;
 using Inventory.Scripts.Core.ScriptableObjects.Items.Dimensions;
 using Inventory.Scripts.Core.ScriptableObjects.Items.IconSize;
@@ -22,6 +24,8 @@ namespace Inventory.Scripts.Core.ScriptableObjects.Items
         [SerializeField] private ItemDataTypeSo itemDataTypeSo;
 
         [SerializeField] private AudioCueSo audioCueSo;
+
+        public int itemID;
 
         [Header("Images Configuration")] [SerializeField] [Tooltip("The icon size in the grid")]
         private IconSizeSo iconSizeSo;
