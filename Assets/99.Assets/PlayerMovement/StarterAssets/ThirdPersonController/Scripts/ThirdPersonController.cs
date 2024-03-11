@@ -4,6 +4,7 @@ using System;
 using UnityEngine.InputSystem;
 #endif
 using Photon.Pun;
+using UnityEngine.Serialization;
 
 /* Note: animations are called via the controller for both the character and capsule using animator null checks
  */
@@ -22,6 +23,9 @@ namespace StarterAssets
         [Tooltip("Sprint speed of the character in m/s")]
         public float SprintSpeed = 5.335f;
 
+        [FormerlySerializedAs("CrouchDampling")] [Tooltip("앉기 중일 때 캐릭터의 속도 감쇠율")] 
+        public float CrouchDamping = 0.1f;
+        
         [Tooltip("How fast the character turns to face movement direction")] [Range(0.0f, 0.3f)]
         public float RotationSmoothTime = 0.12f;
 
@@ -92,6 +96,7 @@ namespace StarterAssets
         private float _rotationVelocity;
         private float _verticalVelocity;
         private float _terminalVelocity = 53.0f;
+        private bool _crouchToggle = false;
 
         // timeout deltatime
         private float _jumpTimeoutDelta;
@@ -103,6 +108,7 @@ namespace StarterAssets
         private int _animIDJump;
         private int _animIDFreeFall;
         private int _animIDMotionSpeed;
+        private int _animIDCrouch;
 
 #if ENABLE_INPUT_SYSTEM
         private PlayerInput _playerInput;
@@ -177,6 +183,7 @@ namespace StarterAssets
                 JumpAndGravity();
                 GroundedCheck();
                 Move();
+                Crouch();
             }
         }
 
@@ -195,6 +202,7 @@ namespace StarterAssets
             _animIDJump = Animator.StringToHash("Jump");
             _animIDFreeFall = Animator.StringToHash("FreeFall");
             _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
+            _animIDCrouch = Animator.StringToHash("Crouch");
         }
 
         private void GroundedCheck()
@@ -235,9 +243,11 @@ namespace StarterAssets
 
         private void Move()
         {
+            
             // set target speed based on move speed, sprint speed and if sprint is pressed
-            float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
-
+            // target speed is affected by Crouch damping
+            float targetSpeed = (_input.sprint ? SprintSpeed : MoveSpeed) * (_crouchToggle ? CrouchDamping : 1.0f);
+            
             // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
             // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
@@ -301,6 +311,19 @@ namespace StarterAssets
             }
         }
 
+        private void Crouch()
+        {
+            if (Grounded)
+            {
+                if (_input.crouch || _crouchToggle&&_input.jump)
+                {
+                    _animator.SetBool(_animIDCrouch, _crouchToggle = !_crouchToggle);
+                    _input.crouch = false;
+                }
+
+            }
+
+        }
         private void JumpAndGravity()
         {
             if (Grounded)
