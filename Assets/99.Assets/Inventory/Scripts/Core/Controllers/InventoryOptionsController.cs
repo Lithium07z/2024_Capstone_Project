@@ -1,13 +1,16 @@
 using System.Linq;
 using Inventory.Scripts.Core.Controllers.Inputs;
+using Inventory.Scripts.Core.Enums;
 using Inventory.Scripts.Core.Holders;
 using Inventory.Scripts.Core.Items;
 using Inventory.Scripts.Core.Items.Grids;
+using Inventory.Scripts.Core.ItemsMetadata;
 using Inventory.Scripts.Core.ScriptableObjects;
 using Inventory.Scripts.Core.ScriptableObjects.Configuration.Anchors;
 using Inventory.Scripts.Core.ScriptableObjects.Configuration.Events;
 using Inventory.Scripts.Core.ScriptableObjects.Configuration.Events.Interact;
 using Inventory.Scripts.Core.ScriptableObjects.Configuration.Tile;
+using Inventory.Scripts.Core.ScriptableObjects.Options;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -106,6 +109,20 @@ namespace Inventory.Scripts.Core.Controllers
 
             var orderedEnumerable = inventoryMetadata.OptionsMetadata.OrderBy(so => so.Order).ToList();
 
+            if (_selectedAbstractGrid.name.Equals("Item Grid") && inventoryMetadata is ContainerMetadata)
+            {
+                foreach (OptionSo optionSo in orderedEnumerable)
+                {
+                    if (optionSo.OptionsType is OptionsType.Open)
+                    {
+                        orderedEnumerable.Remove(optionSo);
+                        break;
+                    }
+                }
+
+                Debug.Log("OpenOption Detect");
+            }
+
             _optionsController.SetOptions(_selectedInventoryItem, orderedEnumerable);
             
             OpenOptionsMenu();
@@ -131,7 +148,7 @@ namespace Inventory.Scripts.Core.Controllers
             }
 
             if (_selectedAbstractGrid == null) return null;
-
+            
             var tileGridHelperSo = GetTileGridHelperSo();
 
             var tileGridPosition =

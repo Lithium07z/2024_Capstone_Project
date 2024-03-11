@@ -139,7 +139,7 @@ namespace Inventory.Scripts.Core.ItemsMetadata
                     status = GridResponse.AlreadyInserted;
                     break;
                 }
-
+                
                 status = gridTable.PlaceItem(selectedInventoryItem, posInGrid.Value.x, posInGrid.Value.y);
 
                 if (status != GridResponse.Inserted) continue;

@@ -18,6 +18,7 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 786a89d611ef8a442aaa05358149b973, type: 3}
   itemDataTypeSo: {fileID: 0}
   audioCueSo: {fileID: 0}
+  itemID: 7
   iconSizeSo: {fileID: 11400000, guid: 2c978556c1c394e43b9ba847360753fb, type: 2}
   inHolderIconSizeSo: {fileID: 11400000, guid: 2c978556c1c394e43b9ba847360753fb, type: 2}
   optionsSo:

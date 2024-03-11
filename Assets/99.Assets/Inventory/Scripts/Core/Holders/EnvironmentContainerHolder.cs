@@ -20,13 +20,15 @@ namespace Inventory.Scripts.Core.Holders
         [Header("Displaying on...")] [SerializeField]
         private ContainerDisplayAnchorSo containerDisplayAnchorSo;
 
+        [SerializeField] private EnvironmentContainerCreatorController environmentContainerCreatorController;
+
         public Action<bool> OnChangeOpenState;
 
         private ItemTable _containerInventoryItem;
 
         private PhotonView _photonView;
 
-        private bool _isOpen;
+        public bool _isOpen;
 
         private void Start()
         {
@@ -62,7 +64,7 @@ namespace Inventory.Scripts.Core.Holders
         public void OpenContainer()
         {
             containerDisplayAnchorSo.OpenContainer(_containerInventoryItem);
-            _isOpen = true;
+            SendIsOpen(true);
             OnChangeOpenState?.Invoke(_isOpen);
         }
 
@@ -71,8 +73,9 @@ namespace Inventory.Scripts.Core.Holders
         /// </summary>
         public void CloseContainer()
         {
+            environmentContainerCreatorController.ConvertGridTableToArray();
             containerDisplayAnchorSo.CloseContainer(_containerInventoryItem);
-            _isOpen = false;
+            SendIsOpen(false);
             OnChangeOpenState?.Invoke(_isOpen);
         }
 
@@ -93,6 +96,17 @@ namespace Inventory.Scripts.Core.Holders
         public ItemTable GetItemTable()
         {
             return _containerInventoryItem;
+        }
+
+        [PunRPC]
+        private void ReceiveIsOpen(bool _isOpen)
+        {
+            this._isOpen = _isOpen;
+        }
+
+        private void SendIsOpen(bool _isOpen)
+        {
+            _photonView.RPC("ReceiveIsOpen", RpcTarget.AllBuffered, _isOpen);
         }
     }
 }

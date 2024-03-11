@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Datastore_Items
   m_EditorClassIdentifier: 
   items:
-  - {fileID: 11400000, guid: ff267b841693fb54bae07ae0f207d2fe, type: 2}
-  - {fileID: 11400000, guid: c5c72f4253291454cb8920a152b9021c, type: 2}
   - {fileID: 11400000, guid: 47a9fb884068891469573a0c8a4a408a, type: 2}
   - {fileID: 11400000, guid: 8efbaa45eb82fdd48bb47614d6f85a14, type: 2}
   - {fileID: 11400000, guid: 9577f5b19921c2648b66afb1f8b25584, type: 2}
+  - {fileID: 11400000, guid: ff267b841693fb54bae07ae0f207d2fe, type: 2}
+  - {fileID: 11400000, guid: c5c72f4253291454cb8920a152b9021c, type: 2}
   - {fileID: 11400000, guid: d65ff071be02f754787c52d8b4cd7c87, type: 2}
   - {fileID: 11400000, guid: 4b522693966520a4bbfb6494980bc254, type: 2}
   - {fileID: 11400000, guid: ed22d6e6bf0839241a24c811674d52ca, type: 2}
