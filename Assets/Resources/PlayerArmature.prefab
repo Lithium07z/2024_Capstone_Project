@@ -1622,6 +1622,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MoveSpeed: 2
   SprintSpeed: 5.335
+  CrouchDamping: 0.5
   RotationSmoothTime: 0.12
   SpeedChangeRate: 10
   LandingAudioClip: {fileID: 8300000, guid: ff697d3070687ce4583faa0561a145a2, type: 3}
@@ -1686,8 +1687,8 @@ MonoBehaviour:
   look: {x: 0, y: 0}
   jump: 0
   sprint: 0
+  crouch: 0
   analogMovement: 0
-  cursorLocked: 1
   cursorInputForLook: 1
 --- !u!114 &1705732929995529545
 MonoBehaviour:
@@ -1876,6 +1877,9 @@ MonoBehaviour:
   - Type: 1
     SynchronizeType: 1
     Name: MotionSpeed
+  - Type: 4
+    SynchronizeType: 0
+    Name: Crouch
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
