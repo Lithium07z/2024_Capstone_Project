@@ -45,12 +45,10 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
-using TMPro;
 
 public class PhotonManager : MonoBehaviourPunCallbacks
 {
     public string testRoomNumber;
-    public TMP_Text testRoomNumberTxt;
     void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = false;
@@ -58,7 +56,6 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        testRoomNumberTxt.text = "Test Room " + testRoomNumber;
         PhotonNetwork.ConnectUsingSettings();
     }
 
