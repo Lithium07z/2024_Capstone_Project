@@ -87,7 +87,8 @@ namespace StarterAssets
         // cinemachine virtual camera
         private GameObject _cinemachineVirtualCamera;
 
-        public bool _isInventoryOpen = false;
+        //public bool _isInventoryOpen = false;
+        private InteractionController _interactionController;
 
         // player
         private float _speed;
@@ -150,6 +151,7 @@ namespace StarterAssets
         {
             _photonView = GetComponent<PhotonView>();
             _cinemachineVirtualCamera.GetComponent<CameraFindPlayer>().SettingCamera();
+            _interactionController = GetComponent<InteractionController>();
 
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
 
@@ -176,7 +178,7 @@ namespace StarterAssets
 
         private void Update()
         {
-            if (_photonView.IsMine && !_isInventoryOpen)
+            if (_photonView.IsMine && !_interactionController._isInventoryOpen)
             {
                 _hasAnimator = TryGetComponent(out _animator);
 
@@ -189,7 +191,7 @@ namespace StarterAssets
 
         private void LateUpdate()
         {
-            if (!_isInventoryOpen)
+            if (!_interactionController._isInventoryOpen)
             {
                 CameraRotation();
             }

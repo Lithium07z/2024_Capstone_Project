@@ -2,10 +2,6 @@
 using Inventory.Scripts.Core.Helper;
 using Inventory.Scripts.Core.Items.Grids;
 using Inventory.Scripts.Core.ItemsMetadata;
-using Inventory.Scripts.Core.ScriptableObjects.Items;
-using Inventory.Scripts.Helper;
-using PlasticPipe.PlasticProtocol.Messages;
-using System;
 using UnityEngine;
 
 namespace Inventory.Scripts.Core.Controllers.Draggable.Processors.Places
@@ -34,7 +30,7 @@ namespace Inventory.Scripts.Core.Controllers.Draggable.Processors.Places
 
             // TODO: 객체 이름으로 Grid 특정하는 방법 추후 수정해야 함
             // 아이템을 넣으려는 Grid가 필드 컨테이너이고 넣으려는 아이템이 컨테이너(가방, 조끼, 지갑) 종류라면
-            if (selectedAbstractGrid.transform.parent.name.Equals("Box_Container(Clone)") && itemTable.InventoryMetadata is ContainerMetadata containerMetadata)
+            if (selectedAbstractGrid.transform.parent.CompareTag("Container") && itemTable.InventoryMetadata is ContainerMetadata containerMetadata)
             {
                 var gridsInventory = containerMetadata.GridsInventory;  // 아이템의 Grid를 모두 가져온 뒤
 

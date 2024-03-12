@@ -27,7 +27,7 @@ namespace Inventory.Scripts.Core.Controllers.Draggable.Processors.Places
 
             // TODO: 객체 이름으로 Grid 특정하는 방법 추후 수정해야 함
             // 현재 필드 컨테이너 Grid에서 아이템을 가방에 넣으려 하면
-            if (_selectedAbstractGrid.transform.parent.name.Equals("Box_Container(Clone)"))
+            if (_selectedAbstractGrid.transform.parent.CompareTag("Container"))
             {
                 finalState.Placed = false;
                 return;

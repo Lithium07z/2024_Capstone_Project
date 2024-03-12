@@ -1655,7 +1655,6 @@ MonoBehaviour:
   BottomClamp: -30
   CameraAngleOverride: 0
   LockCameraPosition: 0
-  _isInventoryOpen: 0
 --- !u!114 &8884357793275590581
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1802,6 +1801,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 657d5be73fb2b284ead43984ec9f307d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _displayFiller: {fileID: 0}
   _inventory: {fileID: 3142032894342849412}
   _inventoryManager: {fileID: 4104362353395072617}
   _playerInventorySo: {fileID: 11400000, guid: 64c55f7b16662aa4aaa73b2ea1984023, type: 2}
@@ -1809,6 +1809,7 @@ MonoBehaviour:
   _chestContainerHolder: {fileID: 3740032263002119175}
   _backpackContainerHolder: {fileID: 728761494060937459}
   _walletContainerHolder: {fileID: 1400830512529004425}
+  _isInventoryOpen: 0
 --- !u!114 &3091696754715891612
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -9,12 +9,12 @@ using Photon.Pun;
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using StarterAssets;
+//using StarterAssets;
 
 public class InteractionController : MonoBehaviour
 {
     // thirdPersonController
-    private ThirdPersonController _thirdPersonController;
+    //private ThirdPersonController _thirdPersonController;
 
     // photon
     private PhotonView _photonView;
@@ -26,7 +26,7 @@ public class InteractionController : MonoBehaviour
     private GameObject _cinemachineVirtualCamera;
 
     // displayFiller for ScrollArea_Environment Component
-    private Transform displayFiller;
+    public DisplayFiller _displayFiller;
 
     // inventory canvas
     [SerializeField] private GameObject _inventory;         // 인벤토리 캔버스
@@ -50,6 +50,9 @@ public class InteractionController : MonoBehaviour
     private RaycastHit _hit;
     private Ray _ray;
 
+    // 
+    public bool _isInventoryOpen = false;
+
     // tags
     private string[] itemTags = new string[] { "Item", "Backpack", "Chest", "Wallet" }; // 아이템 태그
     private string[] equipment = new string[] { "Backpack", "Chest", "Wallet" };        // 장비 태그
@@ -58,7 +61,7 @@ public class InteractionController : MonoBehaviour
     {
         _photonView = this.GetComponent<PhotonView>();
         _canvasGroup = _inventory.GetComponent<CanvasGroup>();
-        _thirdPersonController = this.GetComponent<ThirdPersonController>();
+        //_thirdPersonController = this.GetComponent<ThirdPersonController>();
 
         _cinemachineVirtualCamera = GameObject.Find("PlayerFollowCamera");
 
@@ -73,11 +76,12 @@ public class InteractionController : MonoBehaviour
     {
         // 시네머신 버츄얼 카메라가 바라보는 위치로 Ray 발사
         _ray = new Ray(_cinemachineVirtualCamera.transform.position, _cinemachineVirtualCamera.transform.forward);
-        Debug.DrawRay(_cinemachineVirtualCamera.transform.position, _cinemachineVirtualCamera.transform.forward * 6, Color.red);
 
         /*************************************** 
         *              ↓디버깅 코드↓            *                                       
         ***************************************/
+
+        Debug.DrawRay(_cinemachineVirtualCamera.transform.position, _cinemachineVirtualCamera.transform.forward * 6, Color.red);
 
         if (_playerInventorySo.GetGrids().Count > 0)
         {
@@ -108,53 +112,57 @@ public class InteractionController : MonoBehaviour
                 OpenContainer();    // 컨테이너 오픈
             }
             else if (Array.Exists(itemTags, tag => _hit.transform.CompareTag(tag)))
-            {   
+            {   // 아이템인 경우
+                // FindPlaceForItemInGrids함수의 반환형, 넣으려 시도한 아이템의 ItemTable과 결과를 반환함
                 (ItemTable, GridResponse) findPlaceResult = new(null, GridResponse.NoGridTableSelected);
-                Item item = _hit.transform.GetComponent<Item>();
-                ItemDataSo itemSo = item.GetItemDataSo();
+                Item item = _hit.transform.GetComponent<Item>();    // 아이템 스크립트를 얻어옴
+                ItemDataSo itemSo = item.GetItemDataSo();           // 실제 아이템 정보를 얻어옴
 
                 if (_hit.transform.CompareTag("Item"))
-                {
+                {   // 아이템 중에서도 장착물이 아닌 경우
                     findPlaceResult = _inventorySupplierSo.FindPlaceForItemInGrids(itemSo, _playerInventorySo.GetGrids());
 
                     if (findPlaceResult.Item2 != GridResponse.Inserted)
-                    {
+                    {   // 아이템이 인벤토리에 들어가지 않은 경우
                         return;
                     }
 
                     Debug.Log("Take Item");
                 }
                 else if (Array.Exists(equipment, tag => _hit.transform.CompareTag(tag)))
-                {
+                {   // 아이템 중에서도 장착물인 경우 (가방, 조끼, 지갑)
                     (ItemTable, HolderResponse) equipItemResult = new(null, HolderResponse.Error);
+                    // TryEquipItem함수의 반환형, 입으려 시도한 아이템의 ItemTable과 결과를 반환함
 
-                    if (_hit.transform.CompareTag("Backpack"))
+                    if (_hit.transform.CompareTag("Backpack"))  // 가방의 경우
                     {
                         Debug.Log("Backpack");
                         equipItemResult = _inventorySupplierSo.TryEquipItem(itemSo, _backpackContainerHolder);
                     }
-                    else if (_hit.transform.CompareTag("Chest"))
+                    else if (_hit.transform.CompareTag("Chest"))    // 조끼의 경우
                     {
                         Debug.Log("Chest");
                         equipItemResult = _inventorySupplierSo.TryEquipItem(itemSo, _chestContainerHolder);
                     }
-                    else if (_hit.transform.CompareTag("Wallet"))
+                    else if (_hit.transform.CompareTag("Wallet"))   // 지갑의 경우
                     {
                         Debug.Log("Wallet");
                         equipItemResult = _inventorySupplierSo.TryEquipItem(itemSo, _walletContainerHolder);
                     }
 
+                    // 아이템을 이미 착용한 경우 (가방, 조끼, 지갑 등)
                     if (equipItemResult.Item2 == HolderResponse.AlreadyEquipped)
-                    {
+                    {   // 다시 시도해보고
                         findPlaceResult = _inventorySupplierSo.FindPlaceForItemInGrids(itemSo, _playerInventorySo.GetGrids());
 
                         if (findPlaceResult.Item2 != GridResponse.Inserted)
-                        {
+                        {   // 실패 시 아무 일도 일어나지 않음
                             return;
                         }
                     }
                 }
 
+                // 아이템 획득이 끝났다면 파괴
                 item.DestroyItem();
             }
         }
@@ -173,26 +181,25 @@ public class InteractionController : MonoBehaviour
         {   // 인벤토리가 닫혀있고
             if (!_environmentContainerHolder._isOpen)
             {   // 다른 플레이어가 컨테이너를 열고있는 상태가 아니라면
-                _thirdPersonController._isInventoryOpen = true;
-                ToggleInventory();              // 인벤토리를 열고
+                //_thirdPersonController._isInventoryOpen = true; // 인벤토리 플래그 변경
+                _isInventoryOpen = true;
+                ToggleInventory();                              // 인벤토리를 열고
 
                 _environmentContainerHolder.OpenContainer();    // 바라보는 물체의 컨테이너를 열음
 
-                if (displayFiller == null)
-                {
-                    displayFiller = this.transform.Find("Canvas/ScrollArea_Enviroment/View/Content/DisplayFiller(Clone)");
-                }
+                // 플레이어로부터 DisplayFiller를 얻고 abstractGrid를 가져와서 인벤토리를 얻음 
+                AbstractGrid _abstractGrid = _displayFiller.abstractGrid;
 
-                AbstractGrid _abstractGrid = displayFiller.GetComponent<DisplayFiller>().abstractGrid;
-
+                // 필드 컨테이너에게 Grid를 전달
                 _environmentContainerCreatorController.ChangeAbstractGrid(_abstractGrid);
             }
         }
         else
         {   // 인벤토리가 열려 있었다면
-            _environmentContainerHolder.CloseContainer();   // 바라보는 물체의 컨테이너를 닫고
-            ToggleInventory();              // 인벤토리도 닫음
-            _thirdPersonController._isInventoryOpen = false;
+            _environmentContainerHolder.CloseContainer();       // 바라보는 물체의 컨테이너를 닫고
+            //_thirdPersonController._isInventoryOpen = false;    // 인벤토리 플래그 변경
+            _isInventoryOpen = false;
+            ToggleInventory();                                  // 인벤토리 닫음
         }
 
         Debug.Log("Open the Item box");
@@ -207,7 +214,8 @@ public class InteractionController : MonoBehaviour
         if (_environmentContainerHolder != null)
         {   // 이전에 열었던 컨테이너의 EnvironmentContainerHolder가 아직 열려있다면
             _environmentContainerHolder.CloseContainer();       // 닫아주고
-            _thirdPersonController._isInventoryOpen = false;    // 플래그 변경
+            //_thirdPersonController._isInventoryOpen = false;    // 플래그 변경
+            _isInventoryOpen = false;
         }
 
         ToggleInventory();  // 인벤토리를 오픈

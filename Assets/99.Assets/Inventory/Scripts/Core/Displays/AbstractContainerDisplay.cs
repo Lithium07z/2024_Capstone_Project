@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Inventory.Scripts.Core.Displays.Filler;
 using Inventory.Scripts.Core.Enums;
 using Inventory.Scripts.Core.Helper;
@@ -127,6 +126,9 @@ namespace Inventory.Scripts.Core.Displays
             var displayFillerPrefab = GetDisplayFillerPrefab();
 
             var newDisplayFiller = Instantiate(displayFillerPrefab, ContainerParent);
+
+            InteractionController interactionController = this.transform.root.GetComponent<InteractionController>();
+            interactionController._displayFiller = newDisplayFiller;
 
             newDisplayFiller.gameObject.SetActive(false);
 
