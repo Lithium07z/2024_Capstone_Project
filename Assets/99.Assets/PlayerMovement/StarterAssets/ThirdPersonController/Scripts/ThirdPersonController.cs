@@ -23,7 +23,7 @@ namespace StarterAssets
         [Tooltip("Sprint speed of the character in m/s")]
         public float SprintSpeed = 5.335f;
 
-        [FormerlySerializedAs("CrouchDampling")] [Tooltip("앉기 중일 때 캐릭터의 속도 감쇠율")] 
+        [Tooltip("앉기 중일 때 캐릭터의 속도 감쇠율")] 
         public float CrouchDamping = 0.1f;
         
         [Tooltip("How fast the character turns to face movement direction")] [Range(0.0f, 0.3f)]
