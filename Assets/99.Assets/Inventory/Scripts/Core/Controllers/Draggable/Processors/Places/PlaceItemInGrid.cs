@@ -4,7 +4,6 @@ using Inventory.Scripts.Core.Items.Grids;
 using Inventory.Scripts.Core.ItemsMetadata;
 using Inventory.Scripts.Core.ScriptableObjects.Items;
 using Inventory.Scripts.Helper;
-using PlasticPipe.PlasticProtocol.Messages;
 using System;
 using UnityEngine;
 
