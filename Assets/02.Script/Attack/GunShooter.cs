@@ -26,22 +26,23 @@ public class GunShooter : MonoBehaviour
     {
         _input = GetComponent<StarterAssetsInputs>();
         _anim = GetComponent<Animator>();
-        _gunProperty = gun.GetComponent<GunProperty>();
     }
 
     private void Update()
     {
+    
+        _gunProperty = gun.GetComponent<GunProperty>();
         // 에임 입력 감지
-        if (_input.aim && !isAiming)
+        if (!isAiming)
         {
             isAiming = true;
             _anim.SetBool(_animIDAim, true);
-        }
+        }/*
         else if (!_input.aim && isAiming)
         {
             isAiming = false;
             _anim.SetBool(_animIDAim, false);
-        }
+        }*/
 
         // 발사 로직 (추가 예정)
         /*
@@ -62,11 +63,15 @@ public class GunShooter : MonoBehaviour
     {
         if (isAiming)
         {
-            _anim.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1.0f);
-            _anim.SetIKRotationWeight(AvatarIKGoal.LeftHand, 1.0f);
+            _anim.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1);
+            _anim.SetIKRotationWeight(AvatarIKGoal.LeftHand, 1);
+            _anim.SetIKPositionWeight(AvatarIKGoal.RightHand, 1);
+            _anim.SetIKRotationWeight(AvatarIKGoal.RightHand, 1);
 
             _anim.SetIKPosition(AvatarIKGoal.LeftHand, _gunProperty.LeftHandTarget.position);
             _anim.SetIKRotation(AvatarIKGoal.LeftHand, _gunProperty.LeftHandTarget.rotation);
+            _anim.SetIKPosition(AvatarIKGoal.RightHand, _gunProperty.RightHandTarget.position);
+            _anim.SetIKRotation(AvatarIKGoal.RightHand, _gunProperty.RightHandTarget.rotation);
         }
         else
         {
