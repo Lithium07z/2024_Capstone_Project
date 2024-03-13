@@ -17,7 +17,6 @@ public class GunShooter : MonoBehaviour
     private Animator _anim;
     private StarterAssetsInputs _input;
 
-    public Transform temp;
     
     // Current Weapon's Property Class Ref
     private GunProperty _gunProperty;
