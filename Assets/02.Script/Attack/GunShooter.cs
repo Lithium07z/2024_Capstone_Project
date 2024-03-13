@@ -33,7 +33,7 @@ public class GunShooter : MonoBehaviour
     
         _gunProperty = gun.GetComponent<GunProperty>();
         // 에임 입력 감지
-        if (!isAiming)
+        if (_input.aim && !isAiming)
         {
             isAiming = true;
             _anim.SetBool(_animIDAim, true);
