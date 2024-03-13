@@ -94,7 +94,7 @@ public class EnvironmentContainerCreatorController : MonoBehaviour
     }
 
     /// <summary>
-    /// 현재 플레이어의 GridTable을 기반으로 Int형 1차원 배열에 아이템 목록을 넣어주는 함수
+    /// 현재 플레이어의 GridTable을 기반으로 1차원 배열에 아이템 목록과 좌표를 넣어주는 함수
     /// </summary>
     public void ConvertGridTableToArray()
     {

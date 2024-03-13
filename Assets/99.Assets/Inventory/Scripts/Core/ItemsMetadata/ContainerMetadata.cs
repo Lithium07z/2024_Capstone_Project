@@ -21,6 +21,8 @@ namespace Inventory.Scripts.Core.ItemsMetadata
 
         [field: SerializeReference] public List<GridTable> GridsInventory { get; private set; }
 
+        //public bool _isLocked = false;
+
         public ContainerMetadata(ItemTable itemTable) : base(itemTable)
         {
             SetProps();

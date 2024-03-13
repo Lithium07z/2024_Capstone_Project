@@ -55,7 +55,6 @@ public class InteractionController : MonoBehaviour
 
     // tags
     private string[] itemTags = new string[] { "Item", "Backpack", "Chest", "Wallet" }; // 아이템 태그
-    private string[] equipment = new string[] { "Backpack", "Chest", "Wallet" };        // 장비 태그
 
     private void Start()
     {
@@ -111,25 +110,14 @@ public class InteractionController : MonoBehaviour
             {   // 컨테이너인 경우
                 OpenContainer();    // 컨테이너 오픈
             }
-            else if (Array.Exists(itemTags, tag => _hit.transform.CompareTag(tag)))
+            else
             {   // 아이템인 경우
                 // FindPlaceForItemInGrids함수의 반환형, 넣으려 시도한 아이템의 ItemTable과 결과를 반환함
                 (ItemTable, GridResponse) findPlaceResult = new(null, GridResponse.NoGridTableSelected);
                 Item item = _hit.transform.GetComponent<Item>();    // 아이템 스크립트를 얻어옴
-                ItemDataSo itemSo = item.GetItemDataSo();           // 실제 아이템 정보를 얻어옴
+                ItemDataSo itemDataSo = item.GetItemDataSo();       // 실제 아이템 정보를 얻어옴
 
-                if (_hit.transform.CompareTag("Item"))
-                {   // 아이템 중에서도 장착물이 아닌 경우
-                    findPlaceResult = _inventorySupplierSo.FindPlaceForItemInGrids(itemSo, _playerInventorySo.GetGrids());
-
-                    if (findPlaceResult.Item2 != GridResponse.Inserted)
-                    {   // 아이템이 인벤토리에 들어가지 않은 경우
-                        return;
-                    }
-
-                    Debug.Log("Take Item");
-                }
-                else if (Array.Exists(equipment, tag => _hit.transform.CompareTag(tag)))
+                if (itemDataSo is ItemContainerDataSo)
                 {   // 아이템 중에서도 장착물인 경우 (가방, 조끼, 지갑)
                     (ItemTable, HolderResponse) equipItemResult = new(null, HolderResponse.Error);
                     // TryEquipItem함수의 반환형, 입으려 시도한 아이템의 ItemTable과 결과를 반환함
@@ -137,29 +125,40 @@ public class InteractionController : MonoBehaviour
                     if (_hit.transform.CompareTag("Backpack"))  // 가방의 경우
                     {
                         Debug.Log("Backpack");
-                        equipItemResult = _inventorySupplierSo.TryEquipItem(itemSo, _backpackContainerHolder);
+                        equipItemResult = _inventorySupplierSo.TryEquipItem(itemDataSo, _backpackContainerHolder);
                     }
                     else if (_hit.transform.CompareTag("Chest"))    // 조끼의 경우
                     {
                         Debug.Log("Chest");
-                        equipItemResult = _inventorySupplierSo.TryEquipItem(itemSo, _chestContainerHolder);
+                        equipItemResult = _inventorySupplierSo.TryEquipItem(itemDataSo, _chestContainerHolder);
                     }
                     else if (_hit.transform.CompareTag("Wallet"))   // 지갑의 경우
                     {
                         Debug.Log("Wallet");
-                        equipItemResult = _inventorySupplierSo.TryEquipItem(itemSo, _walletContainerHolder);
+                        equipItemResult = _inventorySupplierSo.TryEquipItem(itemDataSo, _walletContainerHolder);
                     }
 
                     // 아이템을 이미 착용한 경우 (가방, 조끼, 지갑 등)
                     if (equipItemResult.Item2 == HolderResponse.AlreadyEquipped)
-                    {   // 다시 시도해보고
-                        findPlaceResult = _inventorySupplierSo.FindPlaceForItemInGrids(itemSo, _playerInventorySo.GetGrids());
+                    {   // 아이템을 인벤토리에 넣음
+                        findPlaceResult = _inventorySupplierSo.FindPlaceForItemInGrids(itemDataSo, _playerInventorySo.GetGrids());
 
                         if (findPlaceResult.Item2 != GridResponse.Inserted)
-                        {   // 실패 시 아무 일도 일어나지 않음
+                        {   // 못넣는 경우
                             return;
                         }
                     }
+                }
+                else
+                {   // 아이템 중에서도 장착물이 아닌 경우
+                    findPlaceResult = _inventorySupplierSo.FindPlaceForItemInGrids(itemDataSo, _playerInventorySo.GetGrids());
+
+                    if (findPlaceResult.Item2 != GridResponse.Inserted)
+                    {   // 아이템이 인벤토리에 들어가지 않은 경우
+                        return;
+                    }
+
+                    Debug.Log("Take Item");
                 }
 
                 // 아이템 획득이 끝났다면 파괴

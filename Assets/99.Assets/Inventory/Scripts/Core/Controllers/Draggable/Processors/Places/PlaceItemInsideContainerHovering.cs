@@ -1,6 +1,7 @@
 ﻿using Inventory.Scripts.Core.Enums;
 using Inventory.Scripts.Core.Helper;
 using Inventory.Scripts.Core.Items;
+using Inventory.Scripts.Core.Items.Grids;
 using Inventory.Scripts.Core.ItemsMetadata;
 using Inventory.Scripts.Helper;
 using UnityEngine;
@@ -25,12 +26,23 @@ namespace Inventory.Scripts.Core.Controllers.Draggable.Processors.Places
 
             var _selectedAbstractGrid = ctx.SelectedAbstractGrid;
 
-            // TODO: 객체 이름으로 Grid 특정하는 방법 추후 수정해야 함
+            // TODO: 객체 태그로 Grid 특정, 추후 수정 필요할 수 있음
             // 현재 필드 컨테이너 Grid에서 아이템을 가방에 넣으려 하면
+            /*
             if (_selectedAbstractGrid.transform.parent.CompareTag("Container"))
             {
                 finalState.Placed = false;
                 return;
+            }
+            */
+
+            foreach (GridTable gridTable in containerMetadataFromHoveringItem.GridsInventory)
+            {
+                if (gridTable._isLocked)
+                {
+                    finalState.Placed = false;
+                    return;
+                }
             }
 
             var inventoryMessages =

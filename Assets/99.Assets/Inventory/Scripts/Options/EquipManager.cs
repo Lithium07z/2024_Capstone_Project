@@ -55,7 +55,7 @@ namespace Inventory.Scripts.Options
                 Debug.Log(("Not found any holder free and with the same item type. Type: " + itemDataTypeSo).Info());
                 return;
             }
-
+            
             var equippableMessages = inventorySupplierSo.TryEquipItem(itemTable, holder);
 
             if (equippableMessages == HolderResponse.Equipped)

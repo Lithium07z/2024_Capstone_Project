@@ -22,6 +22,8 @@ namespace Inventory.Scripts.Core.Items.Grids
         public event Action<ItemTable> OnRemove;
         private readonly List<ContainerGrids> _containerGridsInParent = new();
 
+        public bool _isLocked = false;  // Falase인 경우 그리드에 아이템 배치 불가, True인 경우 그리드에 아이템 배치 가능
+
         public GridTable(int newWidth, int newHeight)
         {
             Width = newWidth;

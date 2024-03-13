@@ -242,7 +242,7 @@ namespace Inventory.Scripts.Core.Controllers
                 return false;
             }
 
-            // TODO: 객체 이름으로 Grid 특정하는 방법 추후 수정해야 함
+            // TODO: 객체 태그로 Grid 특정, 추후 수정 필요할 수 있음
             if (_selectedAbstractGrid.transform.parent.CompareTag("Container"))
             {
                 overlapCheck = false;
