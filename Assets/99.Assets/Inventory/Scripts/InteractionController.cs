@@ -6,16 +6,11 @@ using Inventory.Scripts.Core.Items;
 using Inventory.Scripts.Core.ScriptableObjects.Items;
 using Inventory.Scripts.Core.ScriptableObjects;
 using Photon.Pun;
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-//using StarterAssets;
 
 public class InteractionController : MonoBehaviour
 {
-    // thirdPersonController
-    //private ThirdPersonController _thirdPersonController;
-
     // photon
     private PhotonView _photonView;
 
@@ -50,17 +45,13 @@ public class InteractionController : MonoBehaviour
     private RaycastHit _hit;
     private Ray _ray;
 
-    // 
+    // 인벤토리 오픈 플래그
     public bool _isInventoryOpen = false;
-
-    // tags
-    private string[] itemTags = new string[] { "Item", "Backpack", "Chest", "Wallet" }; // 아이템 태그
 
     private void Start()
     {
         _photonView = this.GetComponent<PhotonView>();
         _canvasGroup = _inventory.GetComponent<CanvasGroup>();
-        //_thirdPersonController = this.GetComponent<ThirdPersonController>();
 
         _cinemachineVirtualCamera = GameObject.Find("PlayerFollowCamera");
 
@@ -180,7 +171,6 @@ public class InteractionController : MonoBehaviour
         {   // 인벤토리가 닫혀있고
             if (!_environmentContainerHolder._isOpen)
             {   // 다른 플레이어가 컨테이너를 열고있는 상태가 아니라면
-                //_thirdPersonController._isInventoryOpen = true; // 인벤토리 플래그 변경
                 _isInventoryOpen = true;
                 ToggleInventory();                              // 인벤토리를 열고
 
@@ -196,7 +186,6 @@ public class InteractionController : MonoBehaviour
         else
         {   // 인벤토리가 열려 있었다면
             _environmentContainerHolder.CloseContainer();       // 바라보는 물체의 컨테이너를 닫고
-            //_thirdPersonController._isInventoryOpen = false;    // 인벤토리 플래그 변경
             _isInventoryOpen = false;
             ToggleInventory();                                  // 인벤토리 닫음
         }
@@ -213,7 +202,6 @@ public class InteractionController : MonoBehaviour
         if (_environmentContainerHolder != null)
         {   // 이전에 열었던 컨테이너의 EnvironmentContainerHolder가 아직 열려있다면
             _environmentContainerHolder.CloseContainer();       // 닫아주고
-            //_thirdPersonController._isInventoryOpen = false;    // 플래그 변경
             _isInventoryOpen = false;
         }
 
