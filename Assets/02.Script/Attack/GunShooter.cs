@@ -44,7 +44,6 @@ public class GunShooter : MonoBehaviour
     {
         Aim();
         Debug.Log(leftHandIKPivot.gameObject.name);
-        Debug.Log("Position From GunShooter : " + leftHandIKPivot.position);
         // 발사 로직 (추가 예정)
         /*
         if (_input.shoot)
