@@ -30,7 +30,7 @@ namespace Inventory.Scripts.Windows
                                CurrentItemTable.ItemDataSo.DisplayName);
                 return;
             }
-            //Debug.Log();
+
             _containerMetadata = containerMetadata;
 
             _containerGrids = _containerMetadata.OpenInventory(content);
