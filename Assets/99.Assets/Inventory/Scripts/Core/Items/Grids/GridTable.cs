@@ -6,7 +6,6 @@ using Inventory.Scripts.Core.Helper;
 using Inventory.Scripts.Core.Items.Grids.Helper;
 using Inventory.Scripts.Core.ItemsMetadata;
 using UnityEngine;
-using Photon.Pun;
 
 namespace Inventory.Scripts.Core.Items.Grids
 {
