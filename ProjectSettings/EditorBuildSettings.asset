@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/01.Scenes/IKTestScene.unity
+    path: Assets/01.Scenes/TestRoom.unity
     guid: bbce96fa898340243a2ea42a22262f26
   - enabled: 1
     path: Assets/99.Assets/PlayerMovement/StarterAssets/ThirdPersonController/Scenes/Playground.unity
