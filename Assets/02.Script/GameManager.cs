@@ -23,11 +23,23 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public bool cursorInputForLook;
+    private bool cursorInputForLook = true;
+    private bool isMovingAllowed = true;
+
+    public bool GetCursorInput()
+    {
+        return cursorInputForLook;
+    }
+
+    public bool GetIsMovingAllowed()
+    {
+        return isMovingAllowed;
+    }
     public void SetCursorForUI(bool state)
     {
         Cursor.lockState = state ? CursorLockMode.None : CursorLockMode.Locked;
         Cursor.visible = state;
         cursorInputForLook = !state;
+        isMovingAllowed = !state;
     }
 }

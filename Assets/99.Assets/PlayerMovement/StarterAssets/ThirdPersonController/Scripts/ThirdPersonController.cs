@@ -178,15 +178,16 @@ namespace StarterAssets
 
         private void Update()
         {
-            if (_photonView.IsMine && !_interactionController._isInventoryOpen)
-            {
-                _hasAnimator = TryGetComponent(out _animator);
+                if (_photonView.IsMine && !_interactionController._isInventoryOpen)
+                {
+                    _hasAnimator = TryGetComponent(out _animator);
 
-                JumpAndGravity();
-                GroundedCheck();
-                Move();
-                Crouch();
-            }
+                    JumpAndGravity();
+                    GroundedCheck();
+                    Move();
+                    Crouch();
+                }
+            
         }
 
         private void LateUpdate()
@@ -245,11 +246,16 @@ namespace StarterAssets
 
         private void Move()
         {
-            
+            float targetSpeed;
             // set target speed based on move speed, sprint speed and if sprint is pressed
             // target speed is affected by Crouch damping
-            float targetSpeed = (_input.sprint ? SprintSpeed : MoveSpeed) * (_crouchToggle ? CrouchDamping : 1.0f);
-            
+            if(GameManager.instance.GetIsMovingAllowed())
+                 targetSpeed = (_input.sprint ? SprintSpeed : MoveSpeed) * (_crouchToggle ? CrouchDamping : 1.0f);
+            else
+            {
+                _input.move = Vector2.zero;
+                targetSpeed = 0;
+            }
             // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
             // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude

@@ -1737,7 +1737,6 @@ MonoBehaviour:
   crouch: 0
   aim: 0
   analogMovement: 0
-  cursorInputForLook: 1
 --- !u!114 &1705732929995529545
 MonoBehaviour:
   m_ObjectHideFlags: 0

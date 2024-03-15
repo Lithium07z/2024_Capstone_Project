@@ -16,18 +16,19 @@ namespace StarterAssets
 
         [Header("Movement Settings")] public bool analogMovement;
 
-        [Header("Mouse Cursor Settings")] public bool cursorInputForLook = true;
+        //[Header("Mouse Cursor Settings")] public bool cursorInputForLook = true;
 
 
 #if ENABLE_INPUT_SYSTEM
         public void OnMove(InputValue value)
         {
-            MoveInput(value.Get<Vector2>());
+            if (GameManager.instance.GetIsMovingAllowed())
+                MoveInput(value.Get<Vector2>());
         }
 
         public void OnLook(InputValue value)
         {
-            if (cursorInputForLook)
+            if (GameManager.instance.GetCursorInput())
             {
                 LookInput(value.Get<Vector2>());
             }
@@ -35,22 +36,26 @@ namespace StarterAssets
 
         public void OnJump(InputValue value)
         {
-            JumpInput(value.isPressed);
+            if (GameManager.instance.GetIsMovingAllowed())
+                JumpInput(value.isPressed);
         }
 
         public void OnSprint(InputValue value)
         {
-            SprintInput(value.isPressed);
+            if (GameManager.instance.GetIsMovingAllowed())
+                SprintInput(value.isPressed);
         }
 
         public void OnCrouch(InputValue value)
         {
-            CrouchInput(value.isPressed);
+            if (GameManager.instance.GetIsMovingAllowed())
+                CrouchInput(value.isPressed);
         }
 
         public void OnAim(InputValue value)
         {
-            AimInput(value.isPressed);    
+            if (GameManager.instance.GetIsMovingAllowed())
+                AimInput(value.isPressed);
         }
 #endif
 
@@ -58,6 +63,7 @@ namespace StarterAssets
         {
             aim = newAimState;
         }
+
         public void CrouchInput(bool newCrouchState)
         {
             crouch = newCrouchState;
