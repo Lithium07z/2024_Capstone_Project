@@ -16,13 +16,14 @@ public class GunShooter : MonoBehaviour
     // Character's Component
     private Animator _anim;
     private StarterAssetsInputs _input;
+    private Transform playerSpine;
 
     
     // Current Weapon's Property Class Ref
     private GunProperty _gunProperty;
     private GameObject currentGun;
 
-    
+    public GameObject Test;
     private bool isAiming = false; // 현재 에임 상태
     
     // Animator Parameters
@@ -37,6 +38,8 @@ public class GunShooter : MonoBehaviour
         currentGun.transform.parent = gunPivot;
         _gunProperty = currentGun.GetComponent<GunProperty>();
         leftHandIKPivot = _gunProperty.leftIKPivot.transform;
+
+        playerSpine = _anim.GetBoneTransform(HumanBodyBones.Spine);
     }
     
 
@@ -51,6 +54,12 @@ public class GunShooter : MonoBehaviour
             Shoot();
         }
         */
+    }
+
+    private void LateUpdate()
+    {
+        
+        playerSpine.LookAt(Test.transform); 
     }
 
     void Aim()
