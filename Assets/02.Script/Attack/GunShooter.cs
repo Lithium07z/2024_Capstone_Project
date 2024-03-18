@@ -39,7 +39,7 @@ public class GunShooter : MonoBehaviour
         _gunProperty = currentGun.GetComponent<GunProperty>();
         leftHandIKPivot = _gunProperty.leftIKPivot.transform;
 
-        playerSpine = _anim.GetBoneTransform(HumanBodyBones.Spine);
+        //playerSpine = _anim.GetBoneTransform(HumanBodyBones.Spine);
     }
     
 
@@ -58,8 +58,7 @@ public class GunShooter : MonoBehaviour
 
     private void LateUpdate()
     {
-        
-        playerSpine.LookAt(Test.transform); 
+        //playerSpine.LookAt(Test.transform); 
     }
 
     void Aim()
@@ -94,8 +93,6 @@ public class GunShooter : MonoBehaviour
 
             _anim.SetIKPosition(AvatarIKGoal.LeftHand, leftHandIKPivot.position);
             _anim.SetIKRotation(AvatarIKGoal.LeftHand, leftHandIKPivot.rotation);
-            //_anim.SetIKPosition(AvatarIKGoal.LeftHand, temp.position);
-            //_anim.SetIKRotation(AvatarIKGoal.LeftHand, temp.rotation);
         }
         else
         {
