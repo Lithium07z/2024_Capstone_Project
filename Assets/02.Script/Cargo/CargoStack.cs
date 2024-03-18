@@ -9,27 +9,22 @@ public class CargoStack : MonoBehaviour
     public GameObject cargo;
     public GameObject cargoAnchor;
 
-
-    private List<GameObject> cargoList = new List<GameObject>();
+    private List<GameObject> cargoList;
     private float cargoHeightOffset = 0.02f;
     private PhotonView _photonView;
-    private ButtonManager _buttonManager;
 
     void Start()
     {
         _photonView = GetComponent<PhotonView>();
-        _buttonManager = GameObject.Find("ButtonManager").GetComponent<ButtonManager>();
-        _buttonManager.loadButton.onClick.AddListener(LoadButtonClick);
-        _buttonManager.unloadButton.onClick.AddListener(UnloadButtonClick);
     }
 
-    public void LoadButtonClick()
+    public void LoadCargo()
     {
         if (_photonView.IsMine)
             _photonView.RPC("CreateCargo", RpcTarget.AllBuffered);
     }
 
-    public void UnloadButtonClick()
+    public void UnloadCargo()
     {
         if (_photonView.IsMine)
             if (cargoList.Count > 0)
