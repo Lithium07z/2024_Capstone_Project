@@ -8,10 +8,11 @@ using Inventory.Scripts.Core.ScriptableObjects;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System;
 
 public class InteractionController : MonoBehaviour
 {
-    // photon
+    // photon view
     private PhotonView _photonView;
 
     // inventory canvas group
@@ -37,9 +38,11 @@ public class InteractionController : MonoBehaviour
 
     // 컨테이너 아이템 홀더
     private EnvironmentContainerHolder _environmentContainerHolder;
+    private EnvironmentContainerHolder _playerContainerHolder;
 
     // 컨테이너 아이템 생성 및 동기화 컨트롤러
     private EnvironmentContainerCreatorController _environmentContainerCreatorController;
+    private EnvironmentContainerCreatorController _playerContainerCreatorController;
 
     // RaycastHit, Ray
     private RaycastHit _hit;
@@ -48,6 +51,8 @@ public class InteractionController : MonoBehaviour
     // 인벤토리 오픈 플래그
     public bool _isInventoryOpen = false;
 
+    private string[] itemTags = { "Item", "Backpack", "Chest", "Wallet"};
+
     private void Start()
     {
         _photonView = this.GetComponent<PhotonView>();
@@ -55,6 +60,9 @@ public class InteractionController : MonoBehaviour
 
         _cinemachineVirtualCamera = GameObject.Find("PlayerFollowCamera");
 
+        _playerContainerHolder = this.GetComponent<EnvironmentContainerHolder>();
+        _playerContainerCreatorController = this.GetComponent<EnvironmentContainerCreatorController>();
+        
         if (_photonView.IsMine)
         {
             _inventory.SetActive(true);
@@ -97,11 +105,13 @@ public class InteractionController : MonoBehaviour
     {   // 현재 플레이어 레이어를 제외하고 Ray에 충돌한 물체 반환
         if (Physics.Raycast(_ray, out _hit, 6, ~LayerMask.GetMask("Player")))
         {
-            if (_hit.transform.CompareTag("Container"))
+            string _tag = _hit.transform.tag;
+
+            if (_tag.Equals("Container"))
             {   // 컨테이너인 경우
                 OpenContainer();    // 컨테이너 오픈
             }
-            else
+            else if (Array.Exists(itemTags, itemTag => _hit.transform.CompareTag(itemTag)))
             {   // 아이템인 경우
                 // FindPlaceForItemInGrids함수의 반환형, 넣으려 시도한 아이템의 ItemTable과 결과를 반환함
                 (ItemTable, GridResponse) findPlaceResult = new(null, GridResponse.NoGridTableSelected);
@@ -159,6 +169,25 @@ public class InteractionController : MonoBehaviour
     }
 
     /// <summary>
+    /// 인벤토리 오픈 함수 | Inventory Input Actions와 연동됨 | 키 : Tab Key
+    /// </summary>
+    /// <param name="value">NewInput 입력, TabKey</param>
+    private void OnOpenInventory(InputValue value)
+    {
+        if (_environmentContainerHolder != null)
+        {   // 이전에 열었던 컨테이너의 EnvironmentContainerHolder가 아직 열려있다면
+            _environmentContainerHolder.CloseContainer();       // 닫아주고
+            _isInventoryOpen = false;                           // 플래그 변경
+        }
+
+        ToggleInventory();  // 인벤토리를 오픈
+    }
+
+    /*************************************** 
+    *            ↓상호작용 함수↓            *                                       
+    ***************************************/
+
+    /// <summary>
     /// 컨테이너 오픈 함수
     /// </summary>
     private void OpenContainer()
@@ -171,14 +200,14 @@ public class InteractionController : MonoBehaviour
         {   // 인벤토리가 닫혀있고
             if (!_environmentContainerHolder._isOpen)
             {   // 다른 플레이어가 컨테이너를 열고있는 상태가 아니라면
-                _isInventoryOpen = true;
-                ToggleInventory();                              // 인벤토리를 열고
+                _isInventoryOpen = true;    // 플래그 변경 후
+                ToggleInventory();          // 인벤토리를 열고
 
                 _environmentContainerHolder.OpenContainer();    // 바라보는 물체의 컨테이너를 열음
 
                 // 플레이어로부터 DisplayFiller를 얻고 abstractGrid를 가져와서 인벤토리를 얻음 
                 AbstractGrid _abstractGrid = _displayFiller.abstractGrid;
-
+                Debug.Log(_abstractGrid + "!@#!@#@!#@!#!@#@!#!#@!#@!#@!#!#@!");
                 // 필드 컨테이너에게 Grid를 전달
                 _environmentContainerCreatorController.ChangeAbstractGrid(_abstractGrid);
             }
@@ -186,26 +215,11 @@ public class InteractionController : MonoBehaviour
         else
         {   // 인벤토리가 열려 있었다면
             _environmentContainerHolder.CloseContainer();       // 바라보는 물체의 컨테이너를 닫고
-            _isInventoryOpen = false;
+            _isInventoryOpen = false;                           // 플래그 변경 후
             ToggleInventory();                                  // 인벤토리 닫음
         }
 
         Debug.Log("Open the Item box");
-    }
-
-    /// <summary>
-    /// 인벤토리 오픈 함수 | Inventory Input Actions와 연동됨 | 키 : Tab Key
-    /// </summary>
-    /// <param name="value">NewInput 입력, TabKey</param>
-    private void OnOpenInventory(InputValue value)
-    {
-        if (_environmentContainerHolder != null)
-        {   // 이전에 열었던 컨테이너의 EnvironmentContainerHolder가 아직 열려있다면
-            _environmentContainerHolder.CloseContainer();       // 닫아주고
-            _isInventoryOpen = false;
-        }
-
-        ToggleInventory();  // 인벤토리를 오픈
     }
 
     private void ToggleInventory() // << 수정 필요
@@ -222,5 +236,27 @@ public class InteractionController : MonoBehaviour
         }
 
         _canvasGroup.alpha = _canvasGroup.alpha == 0 ? 1 : 0;
+    }
+
+    /*************************************** 
+    *        ↓플레이어 사망 시 호출↓        *                                       
+    ***************************************/
+
+    [PunRPC]
+    public void ChangePlayerToEnvironmentContainer()
+    {   // 플레이어는 사망 시 더 이상 플레이어가 아닌 필드 컨테이너로 취급
+        _playerContainerHolder.enabled = true;              // 컨테이너 이므로 ECH 활성화
+        _playerContainerCreatorController.enabled = true;   // 컨테이너 이므로 ECCC 활성화
+
+        _playerContainerCreatorController._hasBeenGenerated = true;    // 현재 플레이어의 아이템을 Grid에 넣을 것이므로 아이템 생성 플래그 변경
+
+        this.gameObject.layer = 0;          // 더 이상 플레이어가 아니므로 레이어 제거
+        this.gameObject.tag = "Container";  // 컨테이너 태그 부착
+    }
+
+    private void OnDead(InputValue value)
+    {
+        _photonView.RPC("ChangePlayerToEnvironmentContainer", RpcTarget.AllBufferedViaServer);
+        _playerContainerCreatorController.ConvertGridTableToList(_playerInventorySo.GetGrids());    // 현재 플레이어의 Grid를 ECCC에서 동기화하기 위해 List로 변환
     }
 }
