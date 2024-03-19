@@ -1571,6 +1571,8 @@ GameObject:
   - component: {fileID: 3100064389622333753}
   - component: {fileID: 1705732929995529545}
   - component: {fileID: 3830405297315691722}
+  - component: {fileID: 5923583591577297517}
+  - component: {fileID: 7249281859472905678}
   - component: {fileID: 3091696754715891612}
   - component: {fileID: 3091696754715891613}
   - component: {fileID: 4808647034611636078}
@@ -1857,6 +1859,39 @@ MonoBehaviour:
   _backpackContainerHolder: {fileID: 728761494060937459}
   _walletContainerHolder: {fileID: 1400830512529004425}
   _isInventoryOpen: 0
+--- !u!114 &5923583591577297517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1705732929995529541}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 352141bb8fcaee048b0bcf11640421d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventorySupplierSo: {fileID: 11400000, guid: 5b9dfb24d6eaa0e4cba00c6c53305396, type: 2}
+  itemContainerDataSo: {fileID: 11400000, guid: 9da2ae4e32c5df842ab2f788a0704d55, type: 2}
+  containerDisplayAnchorSo: {fileID: 11400000, guid: 1496162ba3ab44d9dbe27350c9387a35, type: 2}
+  environmentContainerCreatorController: {fileID: 7249281859472905678}
+  _isOpen: 0
+--- !u!114 &7249281859472905678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1705732929995529541}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad25f34cfacc7048912cc1c19f445e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEnabled: 1
+  datastoreItems: {fileID: 11400000, guid: 8baef87fb842c7643a76000baf38379f, type: 2}
+  inventorySupplierSo: {fileID: 11400000, guid: 5b9dfb24d6eaa0e4cba00c6c53305396, type: 2}
+  _hasBeenGenerated: 1
 --- !u!114 &3091696754715891612
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -109,7 +109,7 @@ namespace Inventory.Scripts.Core.Controllers
 
             var orderedEnumerable = inventoryMetadata.OptionsMetadata.OrderBy(so => so.Order).ToList();
 
-            // TODO: 객체 이름으로 Grid 특정하는 방법 추후 수정해야 함
+            // TODO: 객체 태그로 Grid 특정하는 방법 추후 수정해야 함
             if (_selectedAbstractGrid != null && _selectedAbstractGrid.transform.parent.CompareTag("Container") && inventoryMetadata is ContainerMetadata)
             {
                 foreach (OptionSo optionSo in orderedEnumerable)

@@ -2,13 +2,17 @@ using Inventory.Scripts.Core.Enums;
 using Inventory.Scripts.Core.Helper;
 using Inventory.Scripts.Core.Items;
 using Inventory.Scripts.Core.Items.Grids;
+using Inventory.Scripts.Core.ItemsMetadata;
 using Inventory.Scripts.Core.ScriptableObjects;
 using Inventory.Scripts.Core.ScriptableObjects.Datastores;
 using Inventory.Scripts.Core.ScriptableObjects.Items;
 using Photon.Pun;
 using System.IO;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class EnvironmentContainerCreatorController : MonoBehaviour
 {
@@ -37,10 +41,10 @@ public class EnvironmentContainerCreatorController : MonoBehaviour
     private int itemID = -1;    // 아이템 ID
     
     private bool _hasBeenCalled = false;    // Grid를 초기화했는지 판단하는 플래그
-    private bool _hasBeenGenerated = false; // 아이템이 생성되었는지 판단하는 플래그
+    public bool _hasBeenGenerated = false;  // 아이템이 생성되었는지 판단하는 플래그
 
-    private int[] _allItemsFromGridInt;          // GridTable의 아이템을 Int형으로 저장하는 배열
-    private string[] _allItemsFromGridPosition;  // GridTable의 아이템 위치를 저장하는 배열
+    private List<int> _allItemsFromGridInt;         // GridTable의 아이템을 Int형으로 저장하는 배열
+    private string[] _allItemsFromGridPosition;     // GridTable의 아이템 위치를 저장하는 배열
 
     private string[] _itemPosition = new string[2];  // 아이템 위치를 분리해 임시 저장하는 배열
 
@@ -73,6 +77,10 @@ public class EnvironmentContainerCreatorController : MonoBehaviour
         }
     }
 
+    /*************************************** 
+    *           ↓아이템 생성 함수↓          *                                       
+    ***************************************/
+
     /// <summary>
     /// 아이템 생성 함수, 최초 호출 이후 호출되지 않음 (아이템 재생성 방지)
     /// </summary>
@@ -93,6 +101,61 @@ public class EnvironmentContainerCreatorController : MonoBehaviour
         }
     }
 
+    /*************************************** 
+    *           ↓아이템 생성 삽입↓          *                                       
+    ***************************************/
+
+    /// <summary>
+    /// GridTable에 아이템 삽입 함수
+    /// </summary>
+    /// <param name="_itemDataSo">GridTable에 넣을 아이템의 ItemDataSo</param>
+    /// <param name="_posX">GridTable에 넣을 아이템의 x좌표</param>
+    /// <param name="_posY">GridTable에 넣을 아이템의 y좌표</param>
+    private void PlaceItem(ItemDataSo _itemDataSo, int _posX = -1, int _posY = -1)
+    {
+        _placeItemResult = inventorySupplierSo.PlaceItem(_itemDataSo, _selectedGridTable, _posX, _posY);
+
+        if (_placeItemResult.Item2.Equals(GridResponse.InventoryFull))
+        {   // 인벤토리가 가득 찬 경우
+            Debug.Log("Inventory is full...".Info());
+        }
+
+        var abstractItem = _placeItemResult.Item1.GetAbstractItem();
+
+        if (!_placeItemResult.Item2.Equals(GridResponse.Inserted) && abstractItem != null)
+        {
+            Destroy(abstractItem.gameObject);
+        }
+    }
+
+    public void InsertItemToList(ItemTable[] _allItemsFromGrid)
+    {
+        foreach (ItemTable _itemTable in _allItemsFromGrid) //
+        {
+            if (_itemTable.InventoryMetadata is ContainerMetadata _containerMetadata)   //
+            {
+                foreach (GridTable _gridTable in _containerMetadata.GridsInventory)     //
+                {
+                    ItemTable[] _allItemsFromNextGrid = _gridTable.GetAllItemsFromGrid();   //
+
+                    if (_allItemsFromNextGrid.Length > 0)   //
+                    {
+                        InsertItemToList(_gridTable.GetAllItemsFromGrid()); //
+                    }
+                }
+            }
+
+            //
+            _allItemsFromGridInt.Add(_itemTable.ItemDataSo.itemID);
+        }
+        //Debug.LogError("Finish Insert Item to List " + _allItemsFromGridInt.Count + " !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        SendAllItemsInfoFromGrid();
+    }
+
+    /*************************************** 
+    *         ↓                  ↓         *                                       
+    ***************************************/
+
     /// <summary>
     /// 현재 플레이어의 GridTable을 기반으로 1차원 배열에 아이템 목록과 좌표를 넣어주는 함수
     /// </summary>
@@ -101,17 +164,17 @@ public class EnvironmentContainerCreatorController : MonoBehaviour
         StringBuilder stringBuilder = new StringBuilder();
 
         _allItemsFromGrid = _selectedGridTable.GetAllItemsFromGrid();   // 현재 플레이어의 GridTable로부터 모든 아이템을 얻음
-        _allItemsFromGridInt = new int [_allItemsFromGrid.Length];
+        _allItemsFromGridInt = new List<int>();
         _allItemsFromGridPosition = new string[_allItemsFromGrid.Length];
 
-        for (int i = 0; i < _allItemsFromGridInt.Length; i++)
+        for (int i = 0; i < _allItemsFromGrid.Length; i++)
         {
             stringBuilder.Clear();
             // 각 아이템의 ItemID를 추출해 Int형 배열에 초기화
-            _allItemsFromGridInt[i] = _allItemsFromGrid[i].ItemDataSo.itemID;
+            _allItemsFromGridInt.Add(_allItemsFromGrid[i].ItemDataSo.itemID);
             _allItemsFromGridPosition[i] = stringBuilder.Append(_allItemsFromGrid[i].OnGridPositionX).Append(" ").Append(_allItemsFromGrid[i].OnGridPositionY).ToString();
         }
-
+        Debug.LogError("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
         SendAllItemsInfoFromGrid();  // 현재 컨테이너의 모든 아이템을 Int형 배열로 전달
     }
 
@@ -123,13 +186,44 @@ public class EnvironmentContainerCreatorController : MonoBehaviour
         // 아이템을 채우기 전에 GridTable을 모두 비워줌
         inventorySupplierSo.ClearGridTable(_selectedGridTable);
 
-        for (int i = 0; i < _allItemsFromGridInt.Length; i++)
+        for (int i = 0; i < _allItemsFromGridInt.Count; i++)
         {
             itemDataSo = datastoreItems.GetItemFromID(_allItemsFromGridInt[i]); // 동기화 된 배열의 ID를 기반으로 아이템을 얻고
-            _itemPosition = _allItemsFromGridPosition[i].Split(' ');            // string형의 좌표를 공백 기준 분리해 임시 저장    
-            PlaceItem(itemDataSo, int.Parse(_itemPosition[0]), int.Parse(_itemPosition[1]));    // 현재 유저의 GridTable에 해당 아이템을 넣어줌
+
+            if (_allItemsFromGridPosition != null)
+            {
+                _itemPosition = _allItemsFromGridPosition[i].Split(' ');                            // string형의 좌표를 공백 기준 분리해 임시 저장    
+                PlaceItem(itemDataSo, int.Parse(_itemPosition[0]), int.Parse(_itemPosition[1]));    // 현재 유저의 GridTable에 해당 아이템을 넣어줌
+            }
+            else
+            {
+                PlaceItem(itemDataSo);
+            }
         }
     }
+
+    /*************************************** 
+    *                                      *                                       
+    ***************************************/
+
+    public void ConvertGridTableToList(List<GridTable> _gridTables)
+    {
+        _allItemsFromGridInt = new List<int>();
+
+        foreach (GridTable _gridTable in _gridTables)   //
+        {
+            ItemTable[] _allItemsFromGrid = _gridTable.GetAllItemsFromGrid();   //
+
+            if (_allItemsFromGrid.Length > 0)   //
+            {
+                InsertItemToList(_allItemsFromGrid);    //
+            }
+        }
+    }
+
+    /*************************************** 
+    *                                        *                                       
+    ***************************************/
 
     /// <summary>
     /// 컨테이너 아이템 생성 여부 플래그를 받아 동기화하는 함수
@@ -158,7 +252,7 @@ public class EnvironmentContainerCreatorController : MonoBehaviour
     private void ReceiveAllItemsInfoFromGrid(int[] _allItemsFromGridInt, string[] _allItemsFromGridPosition)
     {
         // 현재 Box에 Int형 아이템 배열과 아이템 위치를 동기화
-        this._allItemsFromGridInt = _allItemsFromGridInt;
+        this._allItemsFromGridInt = new List<int>(_allItemsFromGridInt);
         this._allItemsFromGridPosition = _allItemsFromGridPosition;
     }
 
@@ -167,29 +261,6 @@ public class EnvironmentContainerCreatorController : MonoBehaviour
     /// </summary>
     private void SendAllItemsInfoFromGrid()
     {
-        _photonView.RPC("ReceiveAllItemsInfoFromGrid", RpcTarget.AllBufferedViaServer, _allItemsFromGridInt, _allItemsFromGridPosition);
-    }
-
-    /// <summary>
-    /// 인자로 받은 현재 플레이어의 GridTable에 아이템을 넣는 함수
-    /// </summary>
-    /// <param name="_itemDataSo">GridTable에 넣을 아이템</param>
-    /// <param name="_posX">GridTable에 넣을 아이템의 x좌표</param>
-    /// <param name="_posY">GridTable에 넣을 아이템의 y좌표</param>
-    private void PlaceItem(ItemDataSo _itemDataSo, int _posX = -1, int _posY = -1)
-    {
-        _placeItemResult = inventorySupplierSo.PlaceItem(_itemDataSo, _selectedGridTable, _posX, _posY);
-
-        if (_placeItemResult.Item2.Equals(GridResponse.InventoryFull))
-        {   // 인벤토리가 꽉 찼다면 로그 출력
-            Debug.Log("Inventory is full...".Info());
-        }
-
-        var abstractItem = _placeItemResult.Item1.GetAbstractItem();
-
-        if (!_placeItemResult.Item2.Equals(GridResponse.Inserted) && abstractItem != null)
-        {   
-            Destroy(abstractItem.gameObject);
-        }
+        _photonView.RPC("ReceiveAllItemsInfoFromGrid", RpcTarget.AllBufferedViaServer, _allItemsFromGridInt.ToArray(), _allItemsFromGridPosition);
     }
 }

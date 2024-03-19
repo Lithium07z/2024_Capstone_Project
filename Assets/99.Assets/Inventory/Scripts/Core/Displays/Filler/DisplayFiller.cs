@@ -88,9 +88,9 @@ namespace Inventory.Scripts.Core.Displays.Filler
 
             gameObject.SetActive(true);
 
-            if (_openedContainerGrids.name == "Box_Container(Clone)")
+            if (_openedContainerGrids.CompareTag("Container"))
             {
-                Transform itemGrid = _openedContainerGrids.transform.Find("Item Grid");
+                Transform itemGrid = _openedContainerGrids.transform.GetChild(0);
                 abstractGrid = itemGrid.GetComponent<GridInteract2D>().GetAbstractGrid();
             }
 
