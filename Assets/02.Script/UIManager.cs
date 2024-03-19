@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
-
     private static UIManager instance;
 
     public static UIManager Instance
@@ -24,14 +21,5 @@ public class UIManager : MonoBehaviour
     public void SetActiveCrosshair(bool state)
     {
         crosshair.enabled = state;
-    }
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
     }
 }

@@ -76,11 +76,13 @@ public class GunShooter : MonoBehaviour
         {
             aimState = AimState.Aim;
             _anim.SetBool(_animIDAim, true);
+            UIManager.Instance.SetActiveCrosshair(true);
         }
         else if (!_input.aim && aimState == AimState.Aim)
         {
             aimState = AimState.Idle;
             _anim.SetBool(_animIDAim, false);
+            UIManager.Instance.SetActiveCrosshair(false);
         }
     }
     
