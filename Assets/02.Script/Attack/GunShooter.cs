@@ -9,9 +9,22 @@ using UnityEngine.Serialization;
 
 public class GunShooter : MonoBehaviour
 {
+    public enum AimState
+    {
+        Idle,
+        Aim,
+    }
+    
+    public AimState aimState { get; private set; }
+    
+    
+    // Current Weapon's Property Class Ref
+    private GunProperty _gunProperty;
+    private GameObject currentGun;
     public GameObject gun;
     public Transform gunPivot;
     private Transform leftHandIKPivot;
+    
     
     // Character's Component
     private Animator _anim;
@@ -19,12 +32,8 @@ public class GunShooter : MonoBehaviour
     private Transform playerSpine;
 
     
-    // Current Weapon's Property Class Ref
-    private GunProperty _gunProperty;
-    private GameObject currentGun;
 
     public GameObject Test;
-    private bool isAiming = false; // 현재 에임 상태
     
     // Animator Parameters
     private static readonly int _animIDAim = Animator.StringToHash("Aim");
@@ -46,7 +55,6 @@ public class GunShooter : MonoBehaviour
     private void Update()
     {
         Aim();
-        Debug.Log(leftHandIKPivot.gameObject.name);
         // 발사 로직 (추가 예정)
         /*
         if (_input.shoot)
@@ -64,14 +72,14 @@ public class GunShooter : MonoBehaviour
     void Aim()
     {
         // 에임 입력 감지
-        if (_input.aim && !isAiming)
+        if (_input.aim && aimState == AimState.Idle)
         {
-            isAiming = true;
+            aimState = AimState.Aim;
             _anim.SetBool(_animIDAim, true);
         }
-        else if (!_input.aim && isAiming)
+        else if (!_input.aim && aimState == AimState.Aim)
         {
-            isAiming = false;
+            aimState = AimState.Idle;
             _anim.SetBool(_animIDAim, false);
         }
     }
@@ -86,7 +94,7 @@ public class GunShooter : MonoBehaviour
 
     private void OnAnimatorIK(int layerIndex)
     {
-        if (isAiming)
+        if (aimState == AimState.Aim)
         {
             _anim.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1);
             _anim.SetIKRotationWeight(AvatarIKGoal.LeftHand, 1);
