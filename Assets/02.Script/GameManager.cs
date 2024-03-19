@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -19,14 +17,28 @@ public class GameManager : MonoBehaviour
         else
         {
             if (instance != this) //instance가 내가 아니라면 이미 instance가 하나 존재하고 있다는 의미
-                Destroy(this.gameObject); //둘 이상 존재하면 안되는 객체이니 방금 AWake된 자신을 삭제
+                Destroy(this.gameObject); //둘 이상 존재하면 안되는 객체이니 방금 Awake된 자신을 삭제
         }
+        SetCursorForUI(false);
     }
 
-    public bool cursorInputForLook;
+    private bool cursorInputForLook = true;
+    private bool isMovingAllowed = true;
+
+    public bool GetCursorInput()
+    {
+        return cursorInputForLook;
+    }
+
+    public bool GetIsMovingAllowed()
+    {
+        return isMovingAllowed;
+    }
     public void SetCursorForUI(bool state)
     {
-        Cursor.lockState = state ? CursorLockMode.Locked : CursorLockMode.None;
+        Cursor.lockState = state ? CursorLockMode.None : CursorLockMode.Locked;
         Cursor.visible = state;
+        cursorInputForLook = !state;
+        isMovingAllowed = !state;
     }
 }

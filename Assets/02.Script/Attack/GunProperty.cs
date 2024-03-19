@@ -7,9 +7,4 @@ using UnityEngine.Serialization;
 public class GunProperty : MonoBehaviour
 {
     public GameObject leftIKPivot;
-
-    private void Update()
-    {
-        Debug.Log("position from GunProperty: " + leftIKPivot.transform.position);
-    }
 }

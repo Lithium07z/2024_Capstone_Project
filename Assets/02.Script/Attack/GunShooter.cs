@@ -9,21 +9,31 @@ using UnityEngine.Serialization;
 
 public class GunShooter : MonoBehaviour
 {
-    public GameObject gun;
-    public Transform gunPivot;
-    private Transform leftHandIKPivot;
+    public enum AimState
+    {
+        Idle,
+        Aim,
+    }
     
-    // Character's Component
-    private Animator _anim;
-    private StarterAssetsInputs _input;
-
+    public AimState aimState { get; private set; }
+    
     
     // Current Weapon's Property Class Ref
     private GunProperty _gunProperty;
     private GameObject currentGun;
+    public GameObject gun;
+    public Transform gunPivot;
+    private Transform leftHandIKPivot;
+    
+    
+    // Character's Component
+    private Animator _anim;
+    private StarterAssetsInputs _input;
+    private Transform playerSpine;
 
     
-    private bool isAiming = false; // 현재 에임 상태
+
+    public GameObject Test;
     
     // Animator Parameters
     private static readonly int _animIDAim = Animator.StringToHash("Aim");
@@ -37,14 +47,14 @@ public class GunShooter : MonoBehaviour
         currentGun.transform.parent = gunPivot;
         _gunProperty = currentGun.GetComponent<GunProperty>();
         leftHandIKPivot = _gunProperty.leftIKPivot.transform;
+
+        //playerSpine = _anim.GetBoneTransform(HumanBodyBones.Spine);
     }
     
 
     private void Update()
     {
         Aim();
-        Debug.Log(leftHandIKPivot.gameObject.name);
-        Debug.Log("Position From GunShooter : " + leftHandIKPivot.position);
         // 발사 로직 (추가 예정)
         /*
         if (_input.shoot)
@@ -54,18 +64,25 @@ public class GunShooter : MonoBehaviour
         */
     }
 
+    private void LateUpdate()
+    {
+        //playerSpine.LookAt(Test.transform); 
+    }
+
     void Aim()
     {
         // 에임 입력 감지
-        if (_input.aim && !isAiming)
+        if (_input.aim && aimState == AimState.Idle)
         {
-            isAiming = true;
+            aimState = AimState.Aim;
             _anim.SetBool(_animIDAim, true);
+            UIManager.Instance.SetActiveCrosshair(true);
         }
-        else if (!_input.aim && isAiming)
+        else if (!_input.aim && aimState == AimState.Aim)
         {
-            isAiming = false;
+            aimState = AimState.Idle;
             _anim.SetBool(_animIDAim, false);
+            UIManager.Instance.SetActiveCrosshair(false);
         }
     }
     
@@ -79,15 +96,13 @@ public class GunShooter : MonoBehaviour
 
     private void OnAnimatorIK(int layerIndex)
     {
-        if (isAiming)
+        if (aimState == AimState.Aim)
         {
             _anim.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1);
             _anim.SetIKRotationWeight(AvatarIKGoal.LeftHand, 1);
 
             _anim.SetIKPosition(AvatarIKGoal.LeftHand, leftHandIKPivot.position);
             _anim.SetIKRotation(AvatarIKGoal.LeftHand, leftHandIKPivot.rotation);
-            //_anim.SetIKPosition(AvatarIKGoal.LeftHand, temp.position);
-            //_anim.SetIKRotation(AvatarIKGoal.LeftHand, temp.rotation);
         }
         else
         {
