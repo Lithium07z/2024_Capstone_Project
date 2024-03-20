@@ -174,7 +174,7 @@ public class EnvironmentContainerCreatorController : MonoBehaviour
             _allItemsFromGridInt.Add(_allItemsFromGrid[i].ItemDataSo.itemID);
             _allItemsFromGridPosition[i] = stringBuilder.Append(_allItemsFromGrid[i].OnGridPositionX).Append(" ").Append(_allItemsFromGrid[i].OnGridPositionY).ToString();
         }
-        Debug.LogError("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
+
         SendAllItemsInfoFromGrid();  // 현재 컨테이너의 모든 아이템을 Int형 배열로 전달
     }
 
