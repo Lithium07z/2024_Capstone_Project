@@ -1,10 +1,25 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
+    // static instance
     private static UIManager instance;
 
+    // shooting guns UI
+    [SerializeField] private Image crosshair;
+    
+    // cursor UI
+    private bool cursorInputForLook = true;
+    private bool isMovingAllowed = true;
+
+    // HUD - Need to Convert Text to Image-based Later
+    [SerializeField] private TMP_Text hpTextTemp;
+    [SerializeField] private TMP_Text maxHpTextTemp;
+    [SerializeField] private TMP_Text spTextTemp;
+    [SerializeField] private TMP_Text maxSpTextTemp;
+    
     public static UIManager Instance
     {
         get
@@ -31,16 +46,10 @@ public class UIManager : MonoBehaviour
     }
 
 
-    [SerializeField] private Image crosshair;
-
-
     public void SetActiveCrosshair(bool state)
     {
         crosshair.enabled = state;
     }
-
-    private bool cursorInputForLook = true;
-    private bool isMovingAllowed = true;
 
     public bool GetCursorInput()
     {
