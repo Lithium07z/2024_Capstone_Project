@@ -194,7 +194,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [PunRPC]
     void ResetMatchingTimeRPC()
     {
-        matchingTime = 60.0f;
+        matchingTime = 10.0f;
     }
     
     // 게임 시작 버튼을 누르면 호출되는 함수
