@@ -109,6 +109,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (isJoinedRoom && matchingTime <= 0)
         {
             PhotonNetwork.LoadLevel("GameScene");
+            isJoinedRoom = false;
         }
     }
 
