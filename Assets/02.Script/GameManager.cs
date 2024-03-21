@@ -1,44 +1,78 @@
+using Unity.VisualScripting;
 using UnityEngine;
-
+/*
 public class GameManager : MonoBehaviour
 {
-    /* // 싱글톤 //
-     * instance라는 변수를 static으로 선언을 하여 다른 오브젝트 안의 스크립트에서도 instance를 불러올 수 있게 합니다 
-     */
-    public static GameManager instance = null;
+    // instance 멤버변수는 private하게 선언
+    private static GameManager instance = null;
 
     private void Awake()
     {
-        if (instance == null) //instance가 null. 즉, 시스템상에 존재하고 있지 않을때
+        if (null == instance)
         {
-            instance = this; //내자신을 instance로 넣어줍니다.
-            DontDestroyOnLoad(gameObject); //OnLoad(씬이 로드 되었을때) 자신을 파괴하지 않고 유지
+            // 씬 시작될때 인스턴스 초기화, 씬을 넘어갈때도 유지되기위한 처리
+            instance = this;
+            DontDestroyOnLoad(this.gameObject);
         }
         else
         {
-            if (instance != this) //instance가 내가 아니라면 이미 instance가 하나 존재하고 있다는 의미
-                Destroy(this.gameObject); //둘 이상 존재하면 안되는 객체이니 방금 Awake된 자신을 삭제
+            // instance가, GameManager가 존재한다면 GameObject 제거 
+            Destroy(this.gameObject);
         }
-        SetCursorForUI(false);
     }
 
-    private bool cursorInputForLook = true;
-    private bool isMovingAllowed = true;
+    // Public 프로퍼티로 선언해서 외부에서 private 멤버변수에 접근만 가능하게 구현
+    public static GameManager Instance
+    {
+        get
+        {
+            if (null == instance)
+            {
+                return null;
+            }
 
-    public bool GetCursorInput()
+            return instance;
+        }
+    }
+}*/
+
+
+public class GameManager : MonoBehaviour
+{
+    private static GameManager instance = null;
+
+    public static GameManager Instance
     {
-        return cursorInputForLook;
+        get
+        {
+            if (instance is null)
+            {
+                return null;
+            }
+
+            return instance;
+        }
+    }
+    void CheckInstance()
+    {
+        if (instance is null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
-    public bool GetIsMovingAllowed()
+    
+    
+    private void Awake()
     {
-        return isMovingAllowed;
+        CheckInstance();
+
     }
-    public void SetCursorForUI(bool state)
-    {
-        Cursor.lockState = state ? CursorLockMode.None : CursorLockMode.Locked;
-        Cursor.visible = state;
-        cursorInputForLook = !state;
-        isMovingAllowed = !state;
-    }
+
+    
 }
