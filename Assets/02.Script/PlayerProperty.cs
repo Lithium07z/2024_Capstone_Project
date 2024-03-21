@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,9 +19,19 @@ public class PlayerProperty : MonoBehaviour
     private float weight;
 
     // Check Player's State is Dead or Alive
-    private bool isDead;
+    public bool isDead { get; private set; } = false;
+
     public void TakeDamage(float damage)
     {
         currentHP -= damage;
+        if (damage <= 0)
+        {
+            isDead = true;
+        }
+    }
+
+    public void Heal(float amount)
+    {
+        currentHP = Math.Max(currentHP + amount, maxHP);
     }
 }
