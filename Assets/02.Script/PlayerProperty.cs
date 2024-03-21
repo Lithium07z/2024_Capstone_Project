@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class PlayerProperty : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public float maxHP;
+    public float maxStamina;
+    public float maxWeight;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    private float currentHP { get; set; }
+    private float currentStamina { get; set; }
+    private float weight { get; set; }
+
+    
 }
