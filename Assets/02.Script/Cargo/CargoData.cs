@@ -13,6 +13,7 @@ public class CargoData : ScriptableObject
 
     public enum Fragile
     {
+        Normal, // 평범한 화물.
         Pizza, // 세로로 배달하면 안됨. 맛있음.
         Handle, // 조심해서 다뤄야 함. 내구도가 낮음.
         Water, // 습기에 닿으면 안됨. 물이나 증기에 닿을 시 빠르게 내구도 감소
