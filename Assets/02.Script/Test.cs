@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Test : MonoBehaviour
 {
+    public CargoStack _cargostack;
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.K))
@@ -15,6 +16,15 @@ public class Test : MonoBehaviour
         {
             UIManager.Instance.SetCursorForUI(false);
         }
-            
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            _cargostack.LoadCargo();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            _cargostack.UnloadCargo();
+        }
     }
 }

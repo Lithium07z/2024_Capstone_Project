@@ -6,11 +6,15 @@ using Photon.Pun;
 
 public class CargoStack : MonoBehaviour
 {
+    // Cargo Prefabs & Anchors
     public GameObject cargo;
     public GameObject cargoAnchor;
 
-    private List<GameObject> cargoList;
+    // Cargo Set
+    [SerializeField] private List<GameObject> cargoList;
     private float cargoHeightOffset = 0.02f;
+    
+    // Photon Initialize
     private PhotonView _photonView;
 
     void Start()
@@ -45,20 +49,19 @@ public class CargoStack : MonoBehaviour
     void CreateCargo()
     {
         GameObject newBox = Instantiate(cargo, cargoAnchor.transform.position, Quaternion.identity);
-        newBox.transform.SetParent(this.transform);
-
-        SetAnchorHeight(newBox.GetComponent<CargoProperty>().height);
         cargoList.Add(newBox);
+        newBox.transform.SetParent(this.transform);
+        SetAnchorHeight(newBox.GetComponent<Cargo>().height);
     }
 
     [PunRPC]
     void DestroyCargo()
     {
-        Debug.Log("버튼 눌림");
         int deleteElement = cargoList.Count - 1;
         GameObject deleteBox = cargoList[deleteElement];
 
-        SetAnchorHeight(-1 * deleteBox.GetComponent<CargoProperty>().height);
+        SetAnchorHeight(-1 * deleteBox.GetComponent<Cargo>().height);
+        
         cargoList.Remove(cargoList[deleteElement]);
 
         Destroy(deleteBox);
