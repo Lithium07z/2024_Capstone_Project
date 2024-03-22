@@ -14,13 +14,20 @@ public class PlayerProperty : MonoBehaviour
     public float maxWeight;
 
     // Player's propertiy fields
-    private float currentHP;
-    private float currentStamina;
-    private float weight;
+    [SerializeField] private float currentHP;
+    [SerializeField] private float currentStamina;
+    private float currentWeight;
 
     // Check Player's State is Dead or Alive
     public bool isDead { get; private set; } = false;
 
+    void Start()
+    {
+        currentHP = maxHP;
+        currentStamina = maxStamina;
+        currentWeight = 0;
+    }
+    
     public void TakeDamage(float damage)
     {
         currentHP -= damage;
@@ -32,6 +39,6 @@ public class PlayerProperty : MonoBehaviour
 
     public void Heal(float amount)
     {
-        currentHP = Math.Max(currentHP + amount, maxHP);
+        currentHP = Math.Min(currentHP + amount, maxHP);
     }
 }

@@ -14,12 +14,6 @@ public class UIManager : MonoBehaviour
     private bool cursorInputForLook = true;
     private bool isMovingAllowed = true;
 
-    // HUD - Need to Convert Text to Image-based Later
-    [SerializeField] private TMP_Text hpTextTemp;
-    [SerializeField] private TMP_Text maxHpTextTemp;
-    [SerializeField] private TMP_Text spTextTemp;
-    [SerializeField] private TMP_Text maxSpTextTemp;
-    
     public static UIManager Instance
     {
         get
@@ -29,6 +23,8 @@ public class UIManager : MonoBehaviour
             return instance;
         }
     }
+
+  
 
     void Awake()
     {
@@ -50,6 +46,7 @@ public class UIManager : MonoBehaviour
     {
         crosshair.enabled = state;
     }
+    
 
     public bool GetCursorInput()
     {
