@@ -51,7 +51,7 @@ public class CargoStack : MonoBehaviour
         GameObject newBox = Instantiate(cargo, cargoAnchor.transform.position, Quaternion.identity);
         cargoList.Add(newBox);
         newBox.transform.SetParent(this.transform);
-        SetAnchorHeight(newBox.GetComponent<Cargo>().height);
+        SetAnchorHeight(newBox.GetComponent<Cargo>().cargoData.cargoHeight);
     }
 
     [PunRPC]
@@ -60,7 +60,7 @@ public class CargoStack : MonoBehaviour
         int deleteElement = cargoList.Count - 1;
         GameObject deleteBox = cargoList[deleteElement];
 
-        SetAnchorHeight(-1 * deleteBox.GetComponent<Cargo>().height);
+        SetAnchorHeight(-1 * deleteBox.GetComponent<Cargo>().cargoData.cargoHeight);
         
         cargoList.Remove(cargoList[deleteElement]);
 

@@ -5,12 +5,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Cargo Data", menuName = "Scriptable Object/Cargo Data", order = int.MaxValue)]
 public class CargoData : ScriptableObject
 {
-    public int cargoID { get; private set; } // cargo Data의 ID, 내부 데이터
-    public int cargoName { get; private set; } // cargo Data의 이름, 플레이어에게 보여짐
-    public int value { get; private set; } // cargo의 가치. 배달 완료 시 예상 수익에 추가 됨
-    public float weight { get; private set; } // cargo의 무게. 플레이어가 적재할 시 플레이어의 무게에 추가
-
-    public float cargoHeight { get; private set; } // cargo의 높이. cargo 적재 알고리즘에서 로직 상 필요.
+    public int cargoID; // cargo Data의 ID, 내부 데이터
+    public string cargoName; // cargo Data의 이름, 플레이어에게 보여짐
+    public int value;// cargo의 가치. 배달 완료 시 예상 수익에 추가 됨
+    public float weight;
+    public float cargoHeight;// cargo의 높이. cargo 적재 알고리즘에서 로직 상 필요.
 
     public enum Fragile
     {
