@@ -72,6 +72,9 @@ MonoBehaviour:
   - ChatRPC
   - ChangePlayerToEnvironmentContainer
   - ResetMatchingTimeRPC
+  - TakeDamage
+  - RPC_TakeDamage
+  - RPC_GetKill
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
