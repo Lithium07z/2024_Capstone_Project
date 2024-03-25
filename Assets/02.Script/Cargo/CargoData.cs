@@ -11,6 +11,9 @@ public class CargoData : ScriptableObject
     public float weight;
     public float cargoHeight;// cargo의 높이. cargo 적재 알고리즘에서 로직 상 필요.
 
+    public bool isBroken = false;
+    public float destroyTime;
+
     public enum Fragile
     {
         Normal, // 평범한 화물.
