@@ -44,7 +44,7 @@ namespace Inventory.Scripts.Core.Holders
 
             if (this.gameObject.CompareTag("Player"))
             {
-                _isPlayerContainerHolder = true;
+                this._isPlayerContainerHolder = true;
             }
 
             InitializeEnvironmentContainer();

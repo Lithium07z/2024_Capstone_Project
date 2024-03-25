@@ -92,6 +92,7 @@ namespace Inventory.Scripts.Core.Displays.Filler
             {
                 Transform itemGrid = _openedContainerGrids.transform.GetChild(0);
                 abstractGrid = itemGrid.GetComponent<GridInteract2D>().GetAbstractGrid();
+                Debug.Log(abstractGrid.ToString() + "  1");
             }
 
             RefreshUI();

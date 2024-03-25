@@ -71,10 +71,10 @@ public class InteractionController : MonoBehaviour
     // 인벤토리 플래그
     public bool _isInventoryOpen = false;
 
-    // 커서 On/Off를 위한 델리게이트
+    // ToggleCursorDelegate 델리게이트는 불리언 값을 매개변수로 받음
     public delegate void ToggleCursorDelegate(bool state);
 
-    //
+    // _toggleCursorDelegate를 통해 ToggleCursorDelegate에 참조 가능
     public ToggleCursorDelegate _toggleCursorDelegate;
 
     private void Start()
@@ -261,7 +261,7 @@ public class InteractionController : MonoBehaviour
 
                 // 플레이어로부터 DisplayFiller를 얻고 abstractGrid를 가져와서 인벤토리를 얻음 
                 AbstractGrid _abstractGrid = _displayFiller.abstractGrid;
-
+                Debug.Log(_displayFiller.ToString() + "  2");
                 // 필드 컨테이너에게 Grid를 전달
                 _environmentContainerCreatorController.ChangeAbstractGrid(_abstractGrid);
             }
@@ -276,23 +276,23 @@ public class InteractionController : MonoBehaviour
         Debug.Log("Open the Item box");
     }
 
-    private void ToggleInventory() // << 수정 필요
+    private void ToggleInventory()
     {
         if (_canvasGroup.alpha == 0)
-        {
-            _canvasGroup.alpha = 1;
-            ToggleCursor(true);
+        {   // 인벤토리가 닫혀 있다면
+            _canvasGroup.alpha = 1; // 인벤토리를 열고
+            ToggleCursor(true);     // 커서 활성화
         }
         else
-        {
-            _canvasGroup.alpha = 0;
-            ToggleCursor(false);
+        {   // 인벤토리가 열려있다면
+            _canvasGroup.alpha = 0; // 인벤토리를 닫고
+            ToggleCursor(false);    // 커서 비활성화
         }
     }
 
     public void ToggleCursor(bool state)
     {
-        _toggleCursorDelegate?.Invoke(state);
+        _toggleCursorDelegate?.Invoke(state);   // 델리게이트를 이용해 UIManager의 SetCursorForUI함수 호출
     }
 
     /*************************************** 

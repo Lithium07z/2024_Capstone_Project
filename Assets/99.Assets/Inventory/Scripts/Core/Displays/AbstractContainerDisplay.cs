@@ -128,7 +128,14 @@ namespace Inventory.Scripts.Core.Displays
             var newDisplayFiller = Instantiate(displayFillerPrefab, ContainerParent);
 
             InteractionController interactionController = this.transform.root.GetComponent<InteractionController>();
-            interactionController._displayFiller = newDisplayFiller;
+            if (interactionController._displayFiller == null)
+            {   /*  DisplayFiller는 처음 생성되고나면 true/false로 조절하기 때문에 한번만 넣어줌
+                    DisplayFiller를 초기화하는 이유는 필드 컨테이너의 Grid정보를 얻어오기 위함이므로
+                    최초 초기화 이후로는 다시 넣을 이유가 없음
+                    실제 아이템 정보는 DisplayFiller의 자식들이 교체되며 이루어짐 
+                    DisplayFiller.cs의 if (_openedContainerGrids.CompareTag("Container"))를 확인할 것 */
+                interactionController._displayFiller = newDisplayFiller;
+            }
 
             newDisplayFiller.gameObject.SetActive(false);
 

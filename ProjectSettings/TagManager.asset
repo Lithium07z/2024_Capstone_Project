@@ -10,6 +10,7 @@ TagManager:
   - Chest
   - Wallet
   - Container
+  - CargoContainer
   layers:
   - Default
   - TransparentFX

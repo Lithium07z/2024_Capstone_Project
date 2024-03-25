@@ -166,6 +166,7 @@ namespace StarterAssets
 
             AssignAnimationIDs();
 
+            // InteractionController의 델리게이트와 UIManager의 SetCursorForUI함수를 연결
             _interactionController._toggleCursorDelegate = UIManager.Instance.SetCursorForUI;
 
             // reset our timeouts on start
