@@ -15,7 +15,7 @@ namespace Inventory.Scripts.Core.Holders
         private InventorySupplierSo inventorySupplierSo;
 
         [Header("Environment Container Holder Settings")] [SerializeField]
-        private ItemContainerDataSo itemContainerDataSo;
+        public ItemContainerDataSo itemContainerDataSo;
 
         [Header("Displaying on...")] [SerializeField]
         private ContainerDisplayAnchorSo containerDisplayAnchorSo;
@@ -28,6 +28,7 @@ namespace Inventory.Scripts.Core.Holders
 
         private PhotonView _photonView;
 
+        public bool _isPlayerContainerHolder = false;
         public bool _isOpen;
 
         private void Start()
@@ -41,6 +42,11 @@ namespace Inventory.Scripts.Core.Holders
 
             _photonView = this.GetComponent<PhotonView>();
 
+            if (this.gameObject.CompareTag("Player"))
+            {
+                _isPlayerContainerHolder = true;
+            }
+
             InitializeEnvironmentContainer();
         }
 
@@ -52,7 +58,7 @@ namespace Inventory.Scripts.Core.Holders
             }
         }
 
-        private void InitializeEnvironmentContainer()
+        public void InitializeEnvironmentContainer()
         {
             _containerInventoryItem =
                 inventorySupplierSo.InitializeEnvironmentContainer(itemContainerDataSo, transform);
@@ -73,7 +79,10 @@ namespace Inventory.Scripts.Core.Holders
         /// </summary>
         public void CloseContainer()
         {
-            environmentContainerCreatorController.ConvertGridTableToArray();
+            if (!_isPlayerContainerHolder)
+            {
+                environmentContainerCreatorController.ConvertGridTableToArray();
+            }
             containerDisplayAnchorSo.CloseContainer(_containerInventoryItem);
             SendIsOpen(false);
             OnChangeOpenState?.Invoke(_isOpen);

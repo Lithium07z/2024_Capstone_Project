@@ -6,10 +6,9 @@ using Inventory.Scripts.Core.Items;
 using Inventory.Scripts.Core.ScriptableObjects.Items;
 using Inventory.Scripts.Core.ScriptableObjects;
 using Photon.Pun;
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
+using System.Collections.Generic;
 
 public class InteractionController : MonoBehaviour
 {
@@ -29,13 +28,20 @@ public class InteractionController : MonoBehaviour
     [SerializeField] private GameObject _inventory;         // 인벤토리 캔버스
     [SerializeField] private GameObject _inventoryManager;  // 인벤토리 매니저
 
-    [SerializeField] private InventorySo _playerInventorySo;             // player inventory scriptable object
-    [SerializeField] private InventorySupplierSo _inventorySupplierSo;   // inventory supplier scriptable object
+    [SerializeField] private InventorySo _playerInventorySo;            // player inventory scriptable object
+    [SerializeField] private InventorySupplierSo _inventorySupplierSo;  // inventory supplier scriptable object
+
+    [SerializeField] private ItemContainerDataSo _itemContainerDataSo;  // 플레이어 사망 시 변경할 ItemContainerDataSo
 
     // player conainer
-    [SerializeField] private ContainerHolder _chestContainerHolder;      // 가슴 인벤토리
-    [SerializeField] private ContainerHolder _backpackContainerHolder;   // 가방 인벤토리
-    [SerializeField] private ContainerHolder _walletContainerHolder;     // 지갑 인벤토리
+    [Header("Container Holder")]
+    [SerializeField] private ContainerHolder[] _containerHolders = new ContainerHolder[3];
+    // [0] : 조끼 인벤토리    [1] : 가방 인벤토리   [2] : 지갑 인벤토리
+
+    [Header("Item Holder")]
+    [SerializeField] private ItemHolder[] _itemHolders = new ItemHolder[7];
+    /* [0] : 헬멧 인벤토리        [1] : 주무기 인벤토리1    [2] : 주무기 인벤토리2  [3] : 보조무기 인벤토리  *
+     * [4] : 근접무기 인벤토리    [5] : 투척무기 인벤토리1  [6] : 투척무기 인벤토리2                        */
 
     // 컨테이너 아이템 홀더
     private EnvironmentContainerHolder _environmentContainerHolder;
@@ -45,15 +51,31 @@ public class InteractionController : MonoBehaviour
     private EnvironmentContainerCreatorController _environmentContainerCreatorController;
     private EnvironmentContainerCreatorController _playerContainerCreatorController;
 
+    // 아이템 타입 ItemDataTypeSo
+    [Header("ItemDataTypeSo")]
+    [SerializeField] private ItemDataTypeSo _helmetTypeSo;
+    [SerializeField] private ItemDataTypeSo _weaponTypeSo;
+    [SerializeField] private ItemDataTypeSo _pistolTypeSo;
+    [SerializeField] private ItemDataTypeSo _knifeTypeSo;
+    [SerializeField] private ItemDataTypeSo _granadeTypeSo;
+    [SerializeField] private ItemDataTypeSo _chestTypeSo;
+    [SerializeField] private ItemDataTypeSo _backpackTypeSo;
+    [SerializeField] private ItemDataTypeSo _walletTypeSo;
+
+    private enum itemDataTypeSoEnum { helmetTypeSo,  }
+
     // RaycastHit, Ray
     private RaycastHit _hit;
     private Ray _ray;
 
-    // 
+    // 인벤토리 플래그
     public bool _isInventoryOpen = false;
 
-    // tags
-    private string[] itemTags = new string[] { "Item", "Backpack", "Chest", "Wallet" }; // 아이템 태그
+    // 커서 On/Off를 위한 델리게이트
+    public delegate void ToggleCursorDelegate(bool state);
+
+    //
+    public ToggleCursorDelegate _toggleCursorDelegate;
 
     private void Start()
     {
@@ -113,35 +135,72 @@ public class InteractionController : MonoBehaviour
             {   // 컨테이너인 경우
                 OpenContainer();    // 컨테이너 오픈
             }
-            else if (Array.Exists(itemTags, itemTag => _hit.transform.CompareTag(itemTag)))
-            {   // 아이템인 경우
-                // FindPlaceForItemInGrids함수의 반환형, 넣으려 시도한 아이템의 ItemTable과 결과를 반환함
+            else
+            {   // FindPlaceForItemInGrids함수의 반환형, 넣으려 시도한 아이템의 ItemTable과 결과를 반환함
                 (ItemTable, GridResponse) findPlaceResult = new(null, GridResponse.NoGridTableSelected);
-                Item item = _hit.transform.GetComponent<Item>();    // 아이템 스크립트를 얻어옴
-                ItemDataSo itemDataSo = item.GetItemDataSo();       // 실제 아이템 정보를 얻어옴
+                Item item = _hit.transform.GetComponent<Item>();    // 얻으려는 물체의 아이템 스크립트를 얻어옴
 
-                if (itemDataSo is ItemContainerDataSo)
-                {   // 아이템 중에서도 장착물인 경우 (가방, 조끼, 지갑)
+                if (item != null)   // 아이템인 경우
+                {   // TryEquipItem함수의 반환형, 입으려 시도한 아이템의 ItemTable과 결과를 반환함
                     (ItemTable, HolderResponse) equipItemResult = new(null, HolderResponse.Error);
-                    // TryEquipItem함수의 반환형, 입으려 시도한 아이템의 ItemTable과 결과를 반환함
+                    ItemDataSo itemDataSo = item.GetItemDataSo();               // 실제 아이템 정보를 얻어옴
+                    ItemDataTypeSo itemDataTypeSo = itemDataSo.ItemDataTypeSo;  // 아이템의 타입 정보를 얻어옴
+                    
+                    if (itemDataTypeSo == _helmetTypeSo)        // 헬멧의 경우
+                    {
+                        equipItemResult = _inventorySupplierSo.TryEquipItem(itemDataSo, _itemHolders[0]);
+                    }
+                    else if (itemDataTypeSo == _weaponTypeSo)   // 주무기의 경우
+                    {
+                        equipItemResult = _inventorySupplierSo.TryEquipItem(itemDataSo, _itemHolders[1]);
 
-                    if (_hit.transform.CompareTag("Backpack"))  // 가방의 경우
-                    {
-                        Debug.Log("Backpack");
-                        equipItemResult = _inventorySupplierSo.TryEquipItem(itemDataSo, _backpackContainerHolder);
+                        // 아이템을 이미 착용한 경우
+                        if (equipItemResult.Item2 == HolderResponse.AlreadyEquipped)
+                        {   // 주무기 2번 창에 착용
+                            equipItemResult = _inventorySupplierSo.TryEquipItem(itemDataSo, _itemHolders[2]);
+                        }
                     }
-                    else if (_hit.transform.CompareTag("Chest"))    // 조끼의 경우
+                    else if (itemDataTypeSo == _pistolTypeSo) // 보조무기 의 경우
                     {
-                        Debug.Log("Chest");
-                        equipItemResult = _inventorySupplierSo.TryEquipItem(itemDataSo, _chestContainerHolder);
+                        equipItemResult = _inventorySupplierSo.TryEquipItem(itemDataSo, _itemHolders[3]);
                     }
-                    else if (_hit.transform.CompareTag("Wallet"))   // 지갑의 경우
+                    else if (itemDataTypeSo == _knifeTypeSo) // 근접무기의 경우
                     {
-                        Debug.Log("Wallet");
-                        equipItemResult = _inventorySupplierSo.TryEquipItem(itemDataSo, _walletContainerHolder);
+                        equipItemResult = _inventorySupplierSo.TryEquipItem(itemDataSo, _itemHolders[4]);
                     }
+                    else if (itemDataTypeSo == _granadeTypeSo) // 투척무기의 경우
+                    {
+                        equipItemResult = _inventorySupplierSo.TryEquipItem(itemDataSo, _itemHolders[5]);
 
-                    // 아이템을 이미 착용한 경우 (가방, 조끼, 지갑 등)
+                        // 아이템을 이미 착용한 경우
+                        if (equipItemResult.Item2 == HolderResponse.AlreadyEquipped)
+                        {   // 주무기 2번 창에 착용
+                            equipItemResult = _inventorySupplierSo.TryEquipItem(itemDataSo, _itemHolders[6]);
+                        }
+                    }
+                    else if (itemDataTypeSo == _chestTypeSo)    // 조끼의 경우
+                    {
+                        equipItemResult = _inventorySupplierSo.TryEquipItem(itemDataSo, _containerHolders[0]);
+                    }
+                    else if (itemDataTypeSo == _backpackTypeSo) // 가방의 경우
+                    {
+                        equipItemResult = _inventorySupplierSo.TryEquipItem(itemDataSo, _containerHolders[1]);
+                    }
+                    else if (itemDataTypeSo == _walletTypeSo)   // 지갑의 경우
+                    {
+                        equipItemResult = _inventorySupplierSo.TryEquipItem(itemDataSo, _containerHolders[2]);
+                    }
+                    else
+                    {   // 아이템이지만 장비가 아닌 경우
+                        findPlaceResult = _inventorySupplierSo.FindPlaceForItemInGrids(itemDataSo, _playerInventorySo.GetGrids());
+
+                        if (findPlaceResult.Item2 != GridResponse.Inserted)
+                        {   // 아이템이 인벤토리에 들어가지 않은 경우
+                            return;
+                        }
+                    }
+                    
+                    // 아이템을 이미 착용한 경우
                     if (equipItemResult.Item2 == HolderResponse.AlreadyEquipped)
                     {   // 아이템을 인벤토리에 넣음
                         findPlaceResult = _inventorySupplierSo.FindPlaceForItemInGrids(itemDataSo, _playerInventorySo.GetGrids());
@@ -151,21 +210,12 @@ public class InteractionController : MonoBehaviour
                             return;
                         }
                     }
-                }
-                else
-                {   // 아이템 중에서도 장착물이 아닌 경우
-                    findPlaceResult = _inventorySupplierSo.FindPlaceForItemInGrids(itemDataSo, _playerInventorySo.GetGrids());
-
-                    if (findPlaceResult.Item2 != GridResponse.Inserted)
-                    {   // 아이템이 인벤토리에 들어가지 않은 경우
-                        return;
-                    }
 
                     Debug.Log("Take Item");
-                }
 
-                // 아이템 획득이 끝났다면 파괴
-                item.DestroyItem();
+                    // 아이템 획득이 끝났다면 파괴
+                    item.DestroyItem();
+                }
             }
         }
     }
@@ -181,8 +231,9 @@ public class InteractionController : MonoBehaviour
             _environmentContainerHolder.CloseContainer();       // 닫아주고
             _isInventoryOpen = false;                           // 플래그 변경
         }
-
+        
         ToggleInventory();  // 인벤토리를 오픈
+        _playerContainerHolder.OpenContainer();
     }
 
     /*************************************** 
@@ -205,6 +256,7 @@ public class InteractionController : MonoBehaviour
                 _isInventoryOpen = true;    // 플래그 변경 후
                 ToggleInventory();          // 인벤토리를 열고
 
+                _playerContainerHolder.CloseContainer();
                 _environmentContainerHolder.OpenContainer();    // 바라보는 물체의 컨테이너를 열음
 
                 // 플레이어로부터 DisplayFiller를 얻고 abstractGrid를 가져와서 인벤토리를 얻음 
@@ -226,7 +278,21 @@ public class InteractionController : MonoBehaviour
 
     private void ToggleInventory() // << 수정 필요
     {
-        _canvasGroup.alpha = _canvasGroup.alpha == 0 ? 1 : 0;
+        if (_canvasGroup.alpha == 0)
+        {
+            _canvasGroup.alpha = 1;
+            ToggleCursor(true);
+        }
+        else
+        {
+            _canvasGroup.alpha = 0;
+            ToggleCursor(false);
+        }
+    }
+
+    public void ToggleCursor(bool state)
+    {
+        _toggleCursorDelegate?.Invoke(state);
     }
 
     /*************************************** 
@@ -236,10 +302,11 @@ public class InteractionController : MonoBehaviour
     [PunRPC]
     public void ChangePlayerToEnvironmentContainer()
     {   // 플레이어는 사망 시 더 이상 플레이어가 아닌 필드 컨테이너로 취급
-        _playerContainerHolder.enabled = true;              // 컨테이너 이므로 ECH 활성화
-        _playerContainerCreatorController.enabled = true;   // 컨테이너 이므로 ECCC 활성화
+        _playerContainerHolder._isPlayerContainerHolder = false;        // 플레이어 컨테이너 홀더가 아니므로 플래그 변경
+        _playerContainerCreatorController._hasBeenGenerated = true;     // 현재 플레이어의 아이템을 Grid에 넣을 것이므로 아이템 생성 플래그 변경
 
-        _playerContainerCreatorController._hasBeenGenerated = true;    // 현재 플레이어의 아이템을 Grid에 넣을 것이므로 아이템 생성 플래그 변경
+        _playerContainerHolder.itemContainerDataSo = _itemContainerDataSo;  // 플레이어 사망 시 화물 컨테이너에서 플레이어 아이템 컨테이너로 변경
+        _playerContainerHolder.InitializeEnvironmentContainer();
 
         this.gameObject.layer = 0;          // 더 이상 플레이어가 아니므로 레이어 제거
         this.gameObject.tag = "Container";  // 컨테이너 태그 부착
@@ -248,6 +315,28 @@ public class InteractionController : MonoBehaviour
     private void OnDead(InputValue value)
     {
         _photonView.RPC("ChangePlayerToEnvironmentContainer", RpcTarget.AllBufferedViaServer);
+
+        List<ItemTable> _playerEquipment = new List<ItemTable>();
+
+        // 플레이어가 장착하고 있는 컨테이너를 동기화하기 위해 playerEquipment 리스트에 추가
+        foreach (ContainerHolder _containerHolder in _containerHolders)
+        {
+            if (_containerHolder.isEquipped)
+            {
+                _playerEquipment.Add(_containerHolder.GetItemEquipped().ItemTable);
+            }
+        }
+
+        // 플레이어가 장착하고 있는 아이템을 동기화하기 위해 playerEquipment 리스트에 추가
+        foreach (ItemHolder _itemHolder in _itemHolders)
+        {
+            if (_itemHolder.isEquipped)
+            {
+                _playerEquipment.Add(_itemHolder.GetItemEquipped().ItemTable);
+            }
+        }
+
+        _playerContainerCreatorController.InsertPlayerEquipmentToList(_playerEquipment);            // 현재 플레이어가 장착한 장비를 동기화하기 위해 먼저 추가
         _playerContainerCreatorController.ConvertGridTableToList(_playerInventorySo.GetGrids());    // 현재 플레이어의 Grid를 ECCC에서 동기화하기 위해 List로 변환
     }
 }

@@ -26,9 +26,14 @@ namespace Inventory.Scripts.Core.ScriptableObjects
         /// <param name="itemDataSo">The item data so which will be placed (Will create an ItemTable)</param>
         /// <param name="gridTable">The grid which will be placed</param>
         /// <returns>ItemTable created and also the Grid Response to see if was inserted or not</returns>
-        public (ItemTable, GridResponse) PlaceItem(ItemDataSo itemDataSo, GridTable gridTable, int posX = -1, int posY = -1)
+        public (ItemTable, GridResponse) PlaceItem(ItemDataSo itemDataSo, GridTable gridTable, int posX = -1, int posY = -1, bool isRotated = false)
         {
             var itemTable = new ItemTable(itemDataSo, abstractGridSelectedAnchorSo);
+
+            if (isRotated)
+            {
+                itemTable.Rotate();
+            }
 
             var inserted = PlaceItem(itemTable, gridTable, posX, posY);
 
