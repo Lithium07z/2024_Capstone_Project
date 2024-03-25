@@ -249,7 +249,7 @@ namespace StarterAssets
             float targetSpeed;
             // set target speed based on move speed, sprint speed and if sprint is pressed
             // target speed is affected by Crouch damping
-            if(GameManager.instance.GetIsMovingAllowed())
+            if(UIManager.Instance.GetIsMovingAllowed())
                  targetSpeed = (_input.sprint ? SprintSpeed : MoveSpeed) * (_crouchToggle ? CrouchDamping : 1.0f);
             else
             {

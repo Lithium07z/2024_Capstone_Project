@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 1744776663472324489}
   - component: {fileID: -3826992519505745404}
   m_Layer: 6
-  m_Name: Cargo
+  m_Name: Temp_Cargo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -142,4 +142,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44b7db5eaadd77c4d9e6e76c23f6f72a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  height: 0.2
+  cargoData: {fileID: 11400000, guid: 807c02999a25faa48a1ca5fdfe88b0f0, type: 2}

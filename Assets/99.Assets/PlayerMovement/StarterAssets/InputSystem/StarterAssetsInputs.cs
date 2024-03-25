@@ -22,13 +22,13 @@ namespace StarterAssets
 #if ENABLE_INPUT_SYSTEM
         public void OnMove(InputValue value)
         {
-            if (GameManager.instance.GetIsMovingAllowed())
+            if (UIManager.Instance.GetIsMovingAllowed())
                 MoveInput(value.Get<Vector2>());
         }
 
         public void OnLook(InputValue value)
         {
-            if (GameManager.instance.GetCursorInput())
+            if (UIManager.Instance.GetCursorInput())
             {
                 LookInput(value.Get<Vector2>());
             }
@@ -36,25 +36,25 @@ namespace StarterAssets
 
         public void OnJump(InputValue value)
         {
-            if (GameManager.instance.GetIsMovingAllowed())
+            if (UIManager.Instance.GetIsMovingAllowed())
                 JumpInput(value.isPressed);
         }
 
         public void OnSprint(InputValue value)
         {
-            if (GameManager.instance.GetIsMovingAllowed())
+            if (UIManager.Instance.GetIsMovingAllowed())
                 SprintInput(value.isPressed);
         }
 
         public void OnCrouch(InputValue value)
         {
-            if (GameManager.instance.GetIsMovingAllowed())
+            if (UIManager.Instance.GetIsMovingAllowed())
                 CrouchInput(value.isPressed);
         }
 
         public void OnAim(InputValue value)
         {
-            if (GameManager.instance.GetIsMovingAllowed())
+            if (UIManager.Instance.GetIsMovingAllowed())
                 AimInput(value.isPressed);
         }
 #endif
