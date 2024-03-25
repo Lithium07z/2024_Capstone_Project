@@ -7552,7 +7552,7 @@ GameObject:
   - component: {fileID: 1762972329}
   - component: {fileID: 1762972328}
   m_Layer: 0
-  m_Name: Pistol (1)
+  m_Name: Rifle
   m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7624,7 +7624,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c021c4afb2802d4f8f83a70dac27bb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _itemSo: {fileID: 11400000, guid: fc903438544b84a459e9b3c67ed92701, type: 2}
+  _itemSo: {fileID: 11400000, guid: 0758ad1e63c9fe04b9c9332821f3122e, type: 2}
 --- !u!65 &1762972331
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8141,7 +8141,7 @@ GameObject:
   - component: {fileID: 2011026027}
   - component: {fileID: 2011026026}
   m_Layer: 0
-  m_Name: Pistol (2)
+  m_Name: Rifle2
   m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8213,7 +8213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c021c4afb2802d4f8f83a70dac27bb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _itemSo: {fileID: 11400000, guid: fc903438544b84a459e9b3c67ed92701, type: 2}
+  _itemSo: {fileID: 11400000, guid: 0758ad1e63c9fe04b9c9332821f3122e, type: 2}
 --- !u!65 &2011026029
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8942,6 +8942,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7249281859472905678, guid: ce73f10ae7cfc384fb7e7b1f9495fb91, type: 3}
       propertyPath: isEnabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7249281859472905678, guid: ce73f10ae7cfc384fb7e7b1f9495fb91, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8728397244476662316, guid: ce73f10ae7cfc384fb7e7b1f9495fb91, type: 3}

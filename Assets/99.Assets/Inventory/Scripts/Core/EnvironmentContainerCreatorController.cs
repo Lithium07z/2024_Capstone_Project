@@ -7,19 +7,12 @@ using Inventory.Scripts.Core.ScriptableObjects;
 using Inventory.Scripts.Core.ScriptableObjects.Datastores;
 using Inventory.Scripts.Core.ScriptableObjects.Items;
 using Photon.Pun;
-using System.IO;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class EnvironmentContainerCreatorController : MonoBehaviour
 {
-    [Header("Creator Configuration")]
-    [SerializeField]
-    private bool isEnabled;
-
     [Header("Datasource Items")]
     [SerializeField]
     private DatastoreItems datastoreItems;
@@ -45,13 +38,9 @@ public class EnvironmentContainerCreatorController : MonoBehaviour
 
     private List<int> _allItemsFromGridInt;         // GridTable의 아이템을 Int형으로 저장하는 배열
     private string[] _allItemsFromGridPosition;     // GridTable의 아이템 위치를 저장하는 배열
+    private bool[] _allItemsFormGridRotation;         // GridTable의 아이템 회전 여부를 저장하는 배열
 
     private string[] _itemPosition = new string[2];  // 아이템 위치를 분리해 임시 저장하는 배열
-
-    private void Awake()
-    {
-        enabled = isEnabled;
-    }
 
     private void Start()
     {
@@ -78,7 +67,7 @@ public class EnvironmentContainerCreatorController : MonoBehaviour
     }
 
     /*************************************** 
-    *           ↓아이템 생성 함수↓          *                                       
+    *          ↓ 아이템 생성 함수 ↓         *                                       
     ***************************************/
 
     /// <summary>
@@ -102,7 +91,7 @@ public class EnvironmentContainerCreatorController : MonoBehaviour
     }
 
     /*************************************** 
-    *           ↓아이템 생성 삽입↓          *                                       
+    *          ↓ 아이템 삽입 함수 ↓          *                                       
     ***************************************/
 
     /// <summary>
@@ -111,9 +100,9 @@ public class EnvironmentContainerCreatorController : MonoBehaviour
     /// <param name="_itemDataSo">GridTable에 넣을 아이템의 ItemDataSo</param>
     /// <param name="_posX">GridTable에 넣을 아이템의 x좌표</param>
     /// <param name="_posY">GridTable에 넣을 아이템의 y좌표</param>
-    private void PlaceItem(ItemDataSo _itemDataSo, int _posX = -1, int _posY = -1)
+    private void PlaceItem(ItemDataSo _itemDataSo, int _posX = -1, int _posY = -1, bool isRotated = false)
     {
-        _placeItemResult = inventorySupplierSo.PlaceItem(_itemDataSo, _selectedGridTable, _posX, _posY);
+        _placeItemResult = inventorySupplierSo.PlaceItem(_itemDataSo, _selectedGridTable, _posX, _posY, isRotated);
 
         if (_placeItemResult.Item2.Equals(GridResponse.InventoryFull))
         {   // 인벤토리가 가득 찬 경우
@@ -125,6 +114,16 @@ public class EnvironmentContainerCreatorController : MonoBehaviour
         if (!_placeItemResult.Item2.Equals(GridResponse.Inserted) && abstractItem != null)
         {
             Destroy(abstractItem.gameObject);
+        }
+    }
+
+    public void InsertPlayerEquipmentToList(List<ItemTable> _playerEquipment)
+    {
+        _allItemsFromGridInt = new List<int>();
+
+        foreach (ItemTable equipment in _playerEquipment)
+        {
+            _allItemsFromGridInt.Add(equipment.ItemDataSo.itemID);
         }
     }
 
@@ -148,12 +147,12 @@ public class EnvironmentContainerCreatorController : MonoBehaviour
             //
             _allItemsFromGridInt.Add(_itemTable.ItemDataSo.itemID);
         }
-        //Debug.LogError("Finish Insert Item to List " + _allItemsFromGridInt.Count + " !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
         SendAllItemsInfoFromGrid();
     }
 
     /*************************************** 
-    *         ↓                  ↓         *                                       
+    *    ↓ GridTable, Array간 변환 함수 ↓   *                                       
     ***************************************/
 
     /// <summary>
@@ -166,6 +165,7 @@ public class EnvironmentContainerCreatorController : MonoBehaviour
         _allItemsFromGrid = _selectedGridTable.GetAllItemsFromGrid();   // 현재 플레이어의 GridTable로부터 모든 아이템을 얻음
         _allItemsFromGridInt = new List<int>();
         _allItemsFromGridPosition = new string[_allItemsFromGrid.Length];
+        _allItemsFormGridRotation = new bool[_allItemsFromGrid.Length];
 
         for (int i = 0; i < _allItemsFromGrid.Length; i++)
         {
@@ -173,6 +173,7 @@ public class EnvironmentContainerCreatorController : MonoBehaviour
             // 각 아이템의 ItemID를 추출해 Int형 배열에 초기화
             _allItemsFromGridInt.Add(_allItemsFromGrid[i].ItemDataSo.itemID);
             _allItemsFromGridPosition[i] = stringBuilder.Append(_allItemsFromGrid[i].OnGridPositionX).Append(" ").Append(_allItemsFromGrid[i].OnGridPositionY).ToString();
+            _allItemsFormGridRotation[i] = _allItemsFromGrid[i].IsRotated;
         }
 
         SendAllItemsInfoFromGrid();  // 현재 컨테이너의 모든 아이템을 Int형 배열로 전달
@@ -193,7 +194,7 @@ public class EnvironmentContainerCreatorController : MonoBehaviour
             if (_allItemsFromGridPosition != null)
             {
                 _itemPosition = _allItemsFromGridPosition[i].Split(' ');                            // string형의 좌표를 공백 기준 분리해 임시 저장    
-                PlaceItem(itemDataSo, int.Parse(_itemPosition[0]), int.Parse(_itemPosition[1]));    // 현재 유저의 GridTable에 해당 아이템을 넣어줌
+                PlaceItem(itemDataSo, int.Parse(_itemPosition[0]), int.Parse(_itemPosition[1]), _allItemsFormGridRotation[i]);    // 현재 유저의 GridTable에 해당 아이템을 넣어줌
             }
             else
             {
@@ -203,26 +204,24 @@ public class EnvironmentContainerCreatorController : MonoBehaviour
     }
 
     /*************************************** 
-    *                                      *                                       
+    *      ↓ 플레이어 아이템 삽입 함수 ↓     *                                       
     ***************************************/
 
     public void ConvertGridTableToList(List<GridTable> _gridTables)
     {
-        _allItemsFromGridInt = new List<int>();
-
-        foreach (GridTable _gridTable in _gridTables)   //
+        foreach (GridTable _gridTable in _gridTables)   // 전체 GridTable을 검사
         {
-            ItemTable[] _allItemsFromGrid = _gridTable.GetAllItemsFromGrid();   //
+            ItemTable[] _allItemsFromGrid = _gridTable.GetAllItemsFromGrid();   // 각 GridTable의 모든 아이템을 얻음
 
-            if (_allItemsFromGrid.Length > 0)   //
+            if (_allItemsFromGrid.Length > 0)   // GridTable에 아이템이 존재하는 경우
             {
-                InsertItemToList(_allItemsFromGrid);    //
+                InsertItemToList(_allItemsFromGrid);    // 모두 추가하기 위해 InsertItemToList 함수 호출
             }
         }
     }
 
     /*************************************** 
-    *                                        *                                       
+    *            ↓ 동기화 함수 ↓            *                                       
     ***************************************/
 
     /// <summary>
@@ -248,12 +247,14 @@ public class EnvironmentContainerCreatorController : MonoBehaviour
     /// </summary>
     /// <param name="_allItemsFromGridInt">동기화하기 위해 받은 Int형 아이템 배열</param>
     /// <param name="_allItemsFromGridPosition">동기화하기 위해 받은 string형 아이템 위치 배열</param>
+    /// <param name="_allItemsFormGridRotation">동기화하기 위해 받은 bool형 아이템 회전 여부 배열</param>
     [PunRPC]
-    private void ReceiveAllItemsInfoFromGrid(int[] _allItemsFromGridInt, string[] _allItemsFromGridPosition)
+    private void ReceiveAllItemsInfoFromGrid(int[] _allItemsFromGridInt, string[] _allItemsFromGridPosition, bool[] _allItemsFormGridRotation)
     {
         // 현재 Box에 Int형 아이템 배열과 아이템 위치를 동기화
         this._allItemsFromGridInt = new List<int>(_allItemsFromGridInt);
         this._allItemsFromGridPosition = _allItemsFromGridPosition;
+        this._allItemsFormGridRotation = _allItemsFormGridRotation;
     }
 
     /// <summary>
@@ -261,6 +262,6 @@ public class EnvironmentContainerCreatorController : MonoBehaviour
     /// </summary>
     private void SendAllItemsInfoFromGrid()
     {
-        _photonView.RPC("ReceiveAllItemsInfoFromGrid", RpcTarget.AllBufferedViaServer, _allItemsFromGridInt.ToArray(), _allItemsFromGridPosition);
+        _photonView.RPC("ReceiveAllItemsInfoFromGrid", RpcTarget.AllBufferedViaServer, _allItemsFromGridInt.ToArray(), _allItemsFromGridPosition, _allItemsFormGridRotation);
     }
 }

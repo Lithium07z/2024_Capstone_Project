@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
     {
         return isMovingAllowed;
     }
+
     public void SetCursorForUI(bool state)
     {
         Cursor.lockState = state ? CursorLockMode.None : CursorLockMode.Locked;

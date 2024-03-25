@@ -32,14 +32,13 @@ namespace Inventory.Scripts.Core.Controllers.Draggable.Processors.Places
             GridResponse inventoryMessages = GridResponse.NoGridTableSelected;
 
             // TODO: 객체 태그로 Grid 특정, 추후 수정 필요할 수 있음
-            // 아이템을 넣으려는 Grid가 필드 컨테이너이고 넣으려는 아이템이 컨테이너(가방, 조끼, 지갑) 종류라면
+            // 넣으려는 아이템이 컨테이너(가방, 조끼, 지갑) 종류인지 검사
             if (itemTable.InventoryMetadata is ContainerMetadata containerMetadata)
             {
                 var gridsInventory = containerMetadata.GridsInventory;  // 아이템의 Grid를 모두 가져온 뒤
 
-                if (selectedAbstractGrid.transform.parent.CompareTag("Container"))
-                {
-                    // 컨테이너 내부가 비어있지 않은 경우
+                if (selectedAbstractGrid.transform.parent.CompareTag("Container"))  // 아이템을 넣으려는 Grid가 필드 컨테이너인지 검사
+                {   // 컨테이너 내부가 비어있지 않은 경우
                     foreach (GridTable inventoryGridTable in gridsInventory)    // 반복문으로 확인
                     {
                         if (inventoryGridTable.GetAllItemsFromGrid().Length > 0)    // 내부가 비어있지 않다면
@@ -63,6 +62,14 @@ namespace Inventory.Scripts.Core.Controllers.Draggable.Processors.Places
                     {   // 내부 Grid 잠금 해제
                         inventoryGridTable._isLocked = false;
                     }
+                }
+            }
+
+            if (selectedAbstractGrid.transform.parent.CompareTag("CargoContainer"))
+            {
+                if (itemTable.ItemDataSo.ItemDataTypeSo.Equals("PistolType"))
+                {
+                    
                 }
             }
 

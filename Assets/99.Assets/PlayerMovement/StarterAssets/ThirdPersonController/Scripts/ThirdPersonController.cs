@@ -166,6 +166,8 @@ namespace StarterAssets
 
             AssignAnimationIDs();
 
+            _interactionController._toggleCursorDelegate = GameManager.instance.SetCursorForUI;
+
             // reset our timeouts on start
             _jumpTimeoutDelta = JumpTimeout;
             _fallTimeoutDelta = FallTimeout;

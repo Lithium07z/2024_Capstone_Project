@@ -737,6 +737,7 @@ MonoBehaviour:
   itemContainerDataSo: {fileID: 11400000, guid: ad7b965a241e13745b9d38b4abde7c7d, type: 2}
   containerDisplayAnchorSo: {fileID: 11400000, guid: 1496162ba3ab44d9dbe27350c9387a35, type: 2}
   environmentContainerCreatorController: {fileID: 0}
+  _isPlayerContainerHolder: 0
   _isOpen: 0
 --- !u!114 &7792859046749005858
 MonoBehaviour:
@@ -1856,9 +1857,27 @@ MonoBehaviour:
   _inventoryManager: {fileID: 4104362353395072617}
   _playerInventorySo: {fileID: 11400000, guid: 64c55f7b16662aa4aaa73b2ea1984023, type: 2}
   _inventorySupplierSo: {fileID: 11400000, guid: 5b9dfb24d6eaa0e4cba00c6c53305396, type: 2}
-  _chestContainerHolder: {fileID: 3740032263002119175}
-  _backpackContainerHolder: {fileID: 728761494060937459}
-  _walletContainerHolder: {fileID: 1400830512529004425}
+  _itemContainerDataSo: {fileID: 11400000, guid: 9da2ae4e32c5df842ab2f788a0704d55, type: 2}
+  _containerHolders:
+  - {fileID: 3740032263002119175}
+  - {fileID: 728761494060937459}
+  - {fileID: 1400830512529004425}
+  _itemHolders:
+  - {fileID: 4738343715427284540}
+  - {fileID: 5154594598653726741}
+  - {fileID: 4084208817214180602}
+  - {fileID: 6153136989387458866}
+  - {fileID: 7061349150114542256}
+  - {fileID: 74098857877125104}
+  - {fileID: 2281784564294813968}
+  _helmetTypeSo: {fileID: 11400000, guid: f48e8284bf5cb9e4e8eef0970d0149ba, type: 2}
+  _weaponTypeSo: {fileID: 11400000, guid: 469f8ff37f466564e8ae94912574472d, type: 2}
+  _pistolTypeSo: {fileID: 11400000, guid: 90ac5f34f102610459cf98acf19564d5, type: 2}
+  _knifeTypeSo: {fileID: 11400000, guid: 880f403277b547549a2485a6744893a5, type: 2}
+  _granadeTypeSo: {fileID: 11400000, guid: 8c052d9293fbeb94d987fb03948b9d63, type: 2}
+  _chestTypeSo: {fileID: 11400000, guid: b974aae7150cfb74e8975b4b9714949a, type: 2}
+  _backpackTypeSo: {fileID: 11400000, guid: 7167622b55324f94985083e6279328aa, type: 2}
+  _walletTypeSo: {fileID: 11400000, guid: 32ca312bd00ddd540806bf5d696b5691, type: 2}
   _isInventoryOpen: 0
 --- !u!114 &5923583591577297517
 MonoBehaviour:
@@ -1867,15 +1886,16 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1705732929995529541}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 352141bb8fcaee048b0bcf11640421d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   inventorySupplierSo: {fileID: 11400000, guid: 5b9dfb24d6eaa0e4cba00c6c53305396, type: 2}
-  itemContainerDataSo: {fileID: 11400000, guid: 9da2ae4e32c5df842ab2f788a0704d55, type: 2}
+  itemContainerDataSo: {fileID: 11400000, guid: fea5cda6f17ac2e4096dd375fea2ad23, type: 2}
   containerDisplayAnchorSo: {fileID: 11400000, guid: 1496162ba3ab44d9dbe27350c9387a35, type: 2}
   environmentContainerCreatorController: {fileID: 7249281859472905678}
+  _isPlayerContainerHolder: 0
   _isOpen: 0
 --- !u!114 &7249281859472905678
 MonoBehaviour:
@@ -1884,12 +1904,11 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1705732929995529541}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aad25f34cfacc7048912cc1c19f445e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isEnabled: 1
   datastoreItems: {fileID: 11400000, guid: 8baef87fb842c7643a76000baf38379f, type: 2}
   inventorySupplierSo: {fileID: 11400000, guid: 5b9dfb24d6eaa0e4cba00c6c53305396, type: 2}
   _hasBeenGenerated: 1
@@ -2922,6 +2941,7 @@ MonoBehaviour:
   itemContainerDataSo: {fileID: 11400000, guid: 9da2ae4e32c5df842ab2f788a0704d55, type: 2}
   containerDisplayAnchorSo: {fileID: 11400000, guid: 1496162ba3ab44d9dbe27350c9387a35, type: 2}
   environmentContainerCreatorController: {fileID: 0}
+  _isPlayerContainerHolder: 0
   _isOpen: 0
 --- !u!114 &6947544678897591001
 MonoBehaviour:
