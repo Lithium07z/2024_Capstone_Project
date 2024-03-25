@@ -1,17 +1,18 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
 [DisallowMultipleComponent]
 public class PlayerProperty : MonoBehaviour
 {
     // Player's Max-value presets
-    public float maxHP;
-    
-    public float maxStamina;
-    public float staminaRegeneration;
-    public float maxWeight;
+    public float maxHP = 100f;
+
+    public float maxStamina = 100f;
+    public float staminaRegeneration = 10f;
+    public float maxWeight = 100f;
 
     // Player's propertiy fields
     [SerializeField] private float currentHP;
@@ -40,5 +41,22 @@ public class PlayerProperty : MonoBehaviour
     public void Heal(float amount)
     {
         currentHP = Math.Min(currentHP + amount, maxHP);
+        
+    }
+    
+    [PunRPC]
+    void RPC_TakeDamage(float damage)
+    {
+        currentHP -= damage;
+
+        if (currentHP <= 0)
+        {
+            // 플레이어가 죽었을때 처리
+        }
+    }
+    
+    void Die()
+    {
+        
     }
 }
