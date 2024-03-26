@@ -10,12 +10,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 {
     [Header("LoginPanel")]
     public GameObject loginPanel;
-    public TMP_InputField nickNameInput;
+    public InputField nickNameInput;
 
     [Header("LobbyPanel")]
     public GameObject lobbyPanel;
     // public TMP_InputField RoomInput;
-    public TMP_Text WelcomeText;
+    public TMP_Text UsernameText;
     public TMP_Text lobbyInfoText;
     // public Button[] CellBtn;
     // public Button PreviousBtn;
@@ -127,7 +127,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         lobbyPanel.SetActive(true);
         roomPanel.SetActive(false);
         PhotonNetwork.LocalPlayer.NickName = nickNameInput.text;
-        WelcomeText.text = "Welcome! " + PhotonNetwork.LocalPlayer.NickName;
+        UsernameText.text = PhotonNetwork.LocalPlayer.NickName;
         // myList.Clear();
     }
 
@@ -150,6 +150,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public void LeaveRoom()
     {
         lobbyPanel.SetActive(true);
+        roomPanel.SetActive(false);
         isJoinedRoom = false;
         PhotonNetwork.LeaveRoom();
     }
