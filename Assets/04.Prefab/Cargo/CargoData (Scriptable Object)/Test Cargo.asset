@@ -10,10 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ce8ec76925d7364dbbaafc51be6822f, type: 3}
-  m_Name: Temp_Cargo
+  m_Name: Test Cargo
   m_EditorClassIdentifier: 
   cargoID: 0
-  cargoName: Cargo-Test
+  cargoName: Test
   value: 1
   weight: 1
   cargoHeight: 0.2
+  isBroken: 0
+  destroyTime: 5

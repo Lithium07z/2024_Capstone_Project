@@ -12,7 +12,7 @@ public class CargoData : ScriptableObject
     public float cargoHeight;// cargo의 높이. cargo 적재 알고리즘에서 로직 상 필요.
 
     public bool isBroken = false;
-    public float destroyTime;
+    public float destroyTime; // 파괴된 후 게임에서 삭제되기 까지의 시간
 
     public enum Fragile
     {
@@ -29,5 +29,5 @@ public class CargoData : ScriptableObject
         Animal, // 놔두면 자기 혼자 조금씩 움직이거나 튀어오름.
     }
 
-    public Fragile currentProperty { get; private set; }
+    public Fragile currentProperty { get; }
 }

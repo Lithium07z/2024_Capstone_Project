@@ -84,7 +84,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99ae4919a679978499b1e4c985c05789, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cvc: {fileID: 0}
 --- !u!1 &2070925442191277755
 GameObject:
   m_ObjectHideFlags: 0
@@ -97,6 +96,7 @@ GameObject:
   - component: {fileID: 2070925442191277757}
   - component: {fileID: 2070925442191277753}
   - component: {fileID: 2070925442191277752}
+  - component: {fileID: -1845961234839674599}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -167,8 +167,32 @@ MonoBehaviour:
   CameraDistance: 4
   CameraCollisionFilter:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 128
   IgnoreTag: Player
   CameraRadius: 0.15
   DampingIntoCollision: 0
   DampingFromCollision: 0
+--- !u!114 &-1845961234839674599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2070925442191277755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd6043bde05a7fc4cba197d06915c1e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Damping: {x: 0.1, y: 0.5, z: 0.3}
+  ShoulderOffset: {x: 0.5, y: -0.4, z: 0}
+  VerticalArmLength: 0.4
+  CameraSide: 1
+  CameraDistance: 2
+  CameraCollisionFilter:
+    serializedVersion: 2
+    m_Bits: 0
+  IgnoreTag: 
+  CameraRadius: 0.2
+  DampingIntoCollision: 0
+  DampingFromCollision: 2

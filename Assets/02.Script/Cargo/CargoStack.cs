@@ -38,7 +38,7 @@ public class CargoStack : MonoBehaviour
             
     }
 
-    void SetAnchorHeight(float y)
+    private void SetAnchorHeight(float y)
     {
         var position = cargoAnchor.transform.position;
         position = new Vector3(position.x, position.y + y, position.z);
@@ -46,7 +46,7 @@ public class CargoStack : MonoBehaviour
     }
 
     [PunRPC]
-    void CreateCargo()
+    private void CreateCargo()
     {
         GameObject newBox = Instantiate(cargo, cargoAnchor.transform.position, Quaternion.identity);
         cargoList.Add(newBox);
@@ -55,7 +55,7 @@ public class CargoStack : MonoBehaviour
     }
 
     [PunRPC]
-    void DestroyCargo()
+    private void DestroyCargo()
     {
         int deleteElement = cargoList.Count - 1;
         GameObject deleteBox = cargoList[deleteElement];
@@ -65,5 +65,11 @@ public class CargoStack : MonoBehaviour
         cargoList.Remove(cargoList[deleteElement]);
 
         Destroy(deleteBox);
+    }
+
+    [PunRPC]
+    private void DestroyCargo(int index)
+    {
+        
     }
 }

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5693864966091949444}
   - component: {fileID: 5693864966091949467}
   - component: {fileID: 5693864966091949464}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Cargo Stack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -136,6 +136,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cargo: {fileID: 5486439287738824601, guid: 296f591775f0dda48841761e2fb016a5, type: 3}
   cargoAnchor: {fileID: 5693864966112519034}
+  cargoList: []
 --- !u!1 &5693864966112519034
 GameObject:
   m_ObjectHideFlags: 0
@@ -145,7 +146,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5693864966112519037}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Anchor Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
