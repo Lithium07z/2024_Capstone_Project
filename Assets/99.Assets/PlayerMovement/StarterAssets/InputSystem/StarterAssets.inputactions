@@ -320,7 +320,7 @@
                 {
                     "name": "",
                     "id": "c227ae60-cf86-4d13-8a69-1f1ddd59f363",
-                    "path": "<Keyboard>/e",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",

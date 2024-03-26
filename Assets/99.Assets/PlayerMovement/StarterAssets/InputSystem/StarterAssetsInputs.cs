@@ -54,7 +54,7 @@ namespace StarterAssets
 
         public void OnAim(InputValue value)
         {
-            if (UIManager.Instance.GetIsMovingAllowed())
+            if (UIManager.Instance.GetIsMovingAllowed()) 
                 AimInput(value.isPressed);
         }
 #endif

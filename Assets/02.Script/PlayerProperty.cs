@@ -18,9 +18,18 @@ public class PlayerProperty : MonoBehaviour
     [SerializeField] private float currentHP;
     [SerializeField] private float currentStamina;
     private float currentWeight;
+    
+
+    private PhotonView PV;
+    private PlayerManager playerManager;
 
     // Check Player's State is Dead or Alive
     public bool isDead { get; private set; } = false;
+
+    private void Awake()
+    {
+        playerManager = PhotonView.Find((int)PV.InstantiationData[0]).GetComponent<PlayerManager>();
+    }
 
     void Start()
     {
@@ -43,20 +52,33 @@ public class PlayerProperty : MonoBehaviour
         currentHP = Math.Min(currentHP + amount, maxHP);
         
     }
+
+    public void GetDamaged()
+    {
+        PV.RPC("RPC_TakeDamage", RpcTarget.AllBufferedViaServer);
+    }
     
     [PunRPC]
-    void RPC_TakeDamage(float damage)
+    void RPC_TakeDamage(float damage, PhotonMessageInfo info)
     {
         currentHP -= damage;
 
         if (currentHP <= 0)
         {
-            // 플레이어가 죽었을때 처리
+            Die();
+            PlayerManager.Find(info.Sender).GetKill();
+            PV.RPC("RPC_Dead", RpcTarget.AllBufferedViaServer);
         }
     }
     
     void Die()
     {
-        
+        playerManager.Die();
+    }
+
+    [PunRPC]
+    void RPC_Dead()
+    {
+        isDead = true;
     }
 }

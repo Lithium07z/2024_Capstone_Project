@@ -1,6 +1,7 @@
-using System;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
+using System.Linq;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class PlayerManager : MonoBehaviour
@@ -17,10 +18,10 @@ public class PlayerManager : MonoBehaviour
     void Start()
     {
         // 로비 및 맵 생성 후 활성화
-        // if (PV.IsMine)
-        // {
-        //     CreateController();
-        // }
+        if (PV.IsMine)
+        {
+            CreateController();
+        }
     }
 
     // Update is called once per frame
@@ -30,10 +31,10 @@ public class PlayerManager : MonoBehaviour
     }
     
     // 비 및 맵 생성 후 활성화 추가 계획
-    // void CreateController()
-    // {
-    //     // 스폰위치 및 캐릭터 생성 코드 작성 예정
-    // }
+    void CreateController()
+    {
+        // 스폰위치 및 캐릭터 생성 코드 작성 예정
+    }
 
     public void GetKill()
     {
@@ -54,5 +55,10 @@ public class PlayerManager : MonoBehaviour
         Hashtable hash = new Hashtable();
         hash.Add("Kills", kills);
         PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+    }
+
+    public static PlayerManager Find(Player player)
+    {
+        return FindObjectsOfType<PlayerManager>().SingleOrDefault(x=> x.PV.Owner == player);
     }
 }
