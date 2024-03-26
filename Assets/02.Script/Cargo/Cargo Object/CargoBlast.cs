@@ -5,18 +5,17 @@ using UnityEngine;
 public class CargoBlast : Cargo
 {
     public GameObject blastParticle;
-    public Material brokenMaterial;
-    
-    public void Broke()
+    void Update()
     {
-        base.isBroken = true;
-        base._renderer.material = brokenMaterial;
-        Destroy(gameObject, base.destroyTime);
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            Blast();
+        }
     }
+    
     public void Blast()
     {
+        base.Broke();
         Instantiate(blastParticle, transform.position, Quaternion.identity);
-        base._rigidbody.constraints = RigidbodyConstraints.None;
-        Broke();
     }
 }

@@ -23,5 +23,5 @@ public class CargoData : ScriptableObject
     public Fragile currentProperty; // cargo의 성격
     public int cargoID; // cargo Data의 ID, 내부 데이터
     public float cargoHeight;       // cargo의 높이. cargo 적재 알고리즘에서 로직 상 필요.
-    public GameObject Model;
+    public GameObject model;
 }

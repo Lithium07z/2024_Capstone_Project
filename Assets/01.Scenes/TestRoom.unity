@@ -1290,7 +1290,8 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Cargo
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -3826992519505745404, guid: 296f591775f0dda48841761e2fb016a5, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 296f591775f0dda48841761e2fb016a5, type: 3}
 --- !u!1 &1774454480
 GameObject:

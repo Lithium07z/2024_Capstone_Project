@@ -7,16 +7,24 @@ using UnityEngine;
 public class Cargo : MonoBehaviour
 {
     public CargoData cargoData;
+    public Material brokenMaterial;
 
     private string cargoName;
     private float value;
     private float weight;
 
-    protected bool isBroken = false;
-    protected float destroyTime;
+    private bool isBroken = false;
+    public float destroyTime;
     
-    protected MeshRenderer _renderer;
-    protected Rigidbody _rigidbody;
+    private MeshRenderer _renderer;
+    private Rigidbody _rigidbody;
+
+    public void SetData(string name, float value, float weight)
+    {
+        cargoName = name;
+        this.value = value;
+        this.weight = weight;
+    }
 
     private void Start()
     {
@@ -30,5 +38,13 @@ public class Cargo : MonoBehaviour
         {
             gameObject.AddComponent<CargoBlast>();
         }
+    }
+
+    protected void Broke()
+    {
+        isBroken = true;
+        value = 0f;
+        _renderer.material = brokenMaterial;
+        Destroy(gameObject, destroyTime);
     }
 }
