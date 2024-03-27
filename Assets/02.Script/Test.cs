@@ -26,5 +26,10 @@ public class Test : MonoBehaviour
         {
             _cargostack.UnloadCargo();
         }
+
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            _cargostack.UnloadCargo(3);
+        }
     }
 }

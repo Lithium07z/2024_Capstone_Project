@@ -28,14 +28,19 @@ public class CargoStack : MonoBehaviour
             _photonView.RPC("CreateCargo", RpcTarget.AllBuffered);
     }
 
-    public void UnloadCargo()
+    public void UnloadCargo(int i=0)
     {
         if (_photonView.IsMine)
             if (cargoList.Count > 0)
-                _photonView.RPC("DestroyCargo", RpcTarget.AllBuffered);
+            {
+                if(i==0)
+                    _photonView.RPC("DestroyCargo", RpcTarget.AllBuffered);
+                else
+                    _photonView.RPC("DestroyCargo", RpcTarget.AllBuffered,3);
+            }
             else
                 Debug.Log("보관함에 박스가 없음!");
-            
+        
     }
 
     private void AddAnchorHeight(float y)
