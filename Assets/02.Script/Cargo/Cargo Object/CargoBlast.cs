@@ -6,17 +6,12 @@ using Photon.Pun;
 public class CargoBlast : Cargo
 {
     public GameObject blastParticle;
-    private PhotonView photonview;
-
-    void Start()
-    {
-        photonview = GetComponent<PhotonView>();
-    }
+    
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.B))
+        if (Input.GetKeyDown(KeyCode.B) && base.photonview.IsMine)
         {
-            photonview.RPC("Blast", RpcTarget.All);
+            base.photonview.RPC("Blast", RpcTarget.All);
         }
     }
     

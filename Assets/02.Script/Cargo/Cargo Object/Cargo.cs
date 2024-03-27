@@ -3,11 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Rendering;
 using UnityEngine;
+using Photon.Pun;
 
 public class Cargo : MonoBehaviour
 {
     public CargoData cargoData;
     public Material brokenMaterial;
+    protected PhotonView photonview;
 
     private string cargoName;
     private float value;
@@ -16,7 +18,7 @@ public class Cargo : MonoBehaviour
     private bool isBroken = false;
     public float destroyTime;
     
-    private MeshRenderer _renderer;
+    [SerializeField] private MeshRenderer _renderer;
     private Rigidbody _rigidbody;
 
     public void SetData(string name, float value, float weight)
@@ -26,25 +28,18 @@ public class Cargo : MonoBehaviour
         this.weight = weight;
     }
 
-    private void Start()
+    protected virtual void Start()
     {
+        photonview = GetComponent<PhotonView>();
         _renderer = transform.GetChild(0).GetComponent<MeshRenderer>();
         _rigidbody = GetComponent<Rigidbody>();
-        
-        
-        if(_renderer is null) { Debug.LogWarning("에셋 구조가 잘못 됨."); }
-
-        if (cargoData.currentProperty == CargoData.Fragile.Bomb)
-        {
-            gameObject.AddComponent<CargoBlast>();
-        }
     }
 
     protected void Broke()
     {
         isBroken = true;
         value = 0f;
-        //_renderer.material = brokenMaterial;
+        _renderer.material = brokenMaterial;
         Destroy(gameObject, destroyTime);
     }
 }
