@@ -9,7 +9,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     private static NetworkManager instance = null;
     public PhotonView PV;
     
-    private bool isJoinedRoom;
     private float matchingTime;
     private int min, sec;
     
@@ -44,10 +43,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         MainGUIManager.Instance.UpdatePhotonStatusText(PhotonNetwork.NetworkClientState.ToString());
         MainGUIManager.Instance.UpdateLobbyInfoText((PhotonNetwork.CountOfPlayers - PhotonNetwork.CountOfPlayersInRooms), PhotonNetwork.CountOfPlayers);
 
-        if (isJoinedRoom && matchingTime <= 0)
+        if (PhotonNetwork.InRoom && matchingTime <= 0)
         {
             SceneLoader.Instance.LoadGameScene();
-            isJoinedRoom = false;
         }
 
         CalcMatchingTime();
@@ -55,7 +53,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     private void CalcMatchingTime()
     {
-        if (isJoinedRoom && matchingTime > 0)
+        if (PhotonNetwork.InRoom && matchingTime > 0)
         {
             matchingTime -= Time.deltaTime;
             // 남은 시간을 분과 초로 변환
@@ -91,16 +89,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void JoinRandomRoom() => PhotonNetwork.JoinRandomRoom();
 
-    public void LeaveRoom()
-    {
-        PhotonNetwork.LeaveRoom();
-        isJoinedRoom = false;
-    }
+    public void LeaveRoom() => PhotonNetwork.LeaveRoom();
     
     public override void OnJoinedRoom()
     {
         MainGUIManager.Instance.RoomRenewal(PhotonNetwork.CurrentRoom.PlayerCount, PhotonNetwork.CurrentRoom.MaxPlayers);
-        isJoinedRoom = true;
         PV.RPC("ResetMatchingTimeRPC", RpcTarget.All);
     }
 
