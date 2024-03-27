@@ -6,8 +6,8 @@ using Photon.Realtime;
 // PhotonNetwork. 어쩌구 코드들만 남아있을 것
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
-    public PhotonView PV;
     private static NetworkManager instance = null;
+    public PhotonView PV;
     
     private bool isJoinedRoom;
     private float matchingTime;
@@ -25,9 +25,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             return instance;
         }
     }
-
-    #region 서버연결
-
+    
     void Awake()
     {
         if (instance is null)
@@ -40,12 +38,23 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             Destroy(gameObject);
         }
     }
-
+    
     void Update()
     {
         MainGUIManager.Instance.UpdatePhotonStatusText(PhotonNetwork.NetworkClientState.ToString());
         MainGUIManager.Instance.UpdateLobbyInfoText((PhotonNetwork.CountOfPlayers - PhotonNetwork.CountOfPlayersInRooms), PhotonNetwork.CountOfPlayers);
 
+        if (isJoinedRoom && matchingTime <= 0)
+        {
+            SceneLoader.Instance.LoadGameScene();
+            isJoinedRoom = false;
+        }
+
+        CalcMatchingTime();
+    }
+
+    private void CalcMatchingTime()
+    {
         if (isJoinedRoom && matchingTime > 0)
         {
             matchingTime -= Time.deltaTime;
@@ -56,14 +65,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             // UI에 표시
             MainGUIManager.Instance.UpdateTimerText(min, sec);
         }
-
-        if (isJoinedRoom && matchingTime <= 0)
-        {
-            SceneLoader.Instance.LoadGameScene();
-            isJoinedRoom = false;
-        }
     }
-
+    
+    #region 포톤서버연결, 로비연결
     public void Connect() => PhotonNetwork.ConnectUsingSettings();
 
     public override void OnConnectedToMaster()
@@ -75,7 +79,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnJoinedLobby()
     {
         PhotonNetwork.LocalPlayer.NickName = MainGUIManager.Instance.GetUserName();
-        // myList.Clear();
     }
 
     public void Disconnect() => PhotonNetwork.Disconnect();
@@ -99,8 +102,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         MainGUIManager.Instance.RoomRenewal(PhotonNetwork.CurrentRoom.PlayerCount, PhotonNetwork.CurrentRoom.MaxPlayers);
         isJoinedRoom = true;
         PV.RPC("ResetMatchingTimeRPC", RpcTarget.All);
-        // ChatInput.text = "";
-        // for (int i = 0; i < ChatText.Length; i++) ChatText[i].text = "";
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message) { CreateRoom(); } 
@@ -110,17 +111,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         MainGUIManager.Instance.RoomRenewal(PhotonNetwork.CurrentRoom.PlayerCount, PhotonNetwork.CurrentRoom.MaxPlayers);
-        // ChatRPC("<color=yellow>" + newPlayer.NickName + "님이 참가하셨습니다</color>");
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         MainGUIManager.Instance.RoomRenewal(PhotonNetwork.CurrentRoom.PlayerCount, PhotonNetwork.CurrentRoom.MaxPlayers);
-        // ChatRPC("<color=yellow>" + otherPlayer.NickName + "님이 퇴장하셨습니다</color>");
     }
 
     [PunRPC]
-    void ResetMatchingTimeRPC()
+    private void ResetMatchingTimeRPC()
     {
         matchingTime = 10.0f;
     }
