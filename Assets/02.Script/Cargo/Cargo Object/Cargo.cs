@@ -18,7 +18,7 @@ public class Cargo : MonoBehaviour
     private bool isBroken = false;
     public float destroyTime;
     
-    [SerializeField] private MeshRenderer _renderer;
+    private MeshRenderer _renderer;
     private Rigidbody _rigidbody;
 
     public void SetData(string name, float value, float weight)
