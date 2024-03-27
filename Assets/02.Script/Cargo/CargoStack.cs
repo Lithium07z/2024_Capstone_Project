@@ -38,20 +38,27 @@ public class CargoStack : MonoBehaviour
             
     }
 
-    private void SetAnchorHeight(float y)
+    private void AddAnchorHeight(float y)
     {
         var position = cargoAnchor.transform.position;
         position = new Vector3(position.x, position.y + y, position.z);
         cargoAnchor.transform.position = position;
     }
 
+    private void SetAnchorHeight(float y)
+    {
+        var position = cargoAnchor.transform.position;
+        position = new Vector3(position.x, y, position.z);
+        cargoAnchor.transform.position = position;
+    }
+
     [PunRPC]
     private void CreateCargo()
     {
-        GameObject newBox = Instantiate(cargo, cargoAnchor.transform.position, Quaternion.identity);
+        GameObject newBox = PhotonNetwork.Instantiate("TestCargo", cargoAnchor.transform.position, Quaternion.identity);
         cargoList.Add(newBox);
         newBox.transform.SetParent(this.transform);
-        SetAnchorHeight(newBox.GetComponent<Cargo>().cargoData.cargoHeight);
+        AddAnchorHeight(newBox.GetComponent<Cargo>().cargoData.cargoHeight);
     }
 
     [PunRPC]
@@ -60,16 +67,19 @@ public class CargoStack : MonoBehaviour
         int deleteElement = cargoList.Count - 1;
         GameObject deleteBox = cargoList[deleteElement];
 
-        SetAnchorHeight(-1 * deleteBox.GetComponent<Cargo>().cargoData.cargoHeight);
+        AddAnchorHeight(-1 * deleteBox.GetComponent<Cargo>().cargoData.cargoHeight);
         
         cargoList.Remove(cargoList[deleteElement]);
 
-        Destroy(deleteBox);
+        PhotonNetwork.Destroy(deleteBox);
     }
 
     [PunRPC]
     private void DestroyCargo(int index)
     {
-        
+        for (int i = cargoList.Count - 1; i > index; i--)
+        {
+            DestroyCargo();
+        }
     }
 }

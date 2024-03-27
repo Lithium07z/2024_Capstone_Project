@@ -44,7 +44,7 @@ public class Cargo : MonoBehaviour
     {
         isBroken = true;
         value = 0f;
-        _renderer.material = brokenMaterial;
+        //_renderer.material = brokenMaterial;
         Destroy(gameObject, destroyTime);
     }
 }
