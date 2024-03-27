@@ -108,14 +108,12 @@ public class MainGUIManager : MonoBehaviour
     public void EnterRoom()
     {
         NetworkManager.Instance.JoinRandomRoom();
-        lobbyPanel.SetActive(false);
         roomPanel.SetActive(true);
     }
     
     public void LeaveRoom()
     {
         NetworkManager.Instance.LeaveRoom();
-        lobbyPanel.SetActive(true);
         roomPanel.SetActive(false);
     }
     
