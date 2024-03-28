@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
@@ -12,7 +13,8 @@ namespace StarterAssets
         public bool jump;
         public bool sprint;
         public bool crouch;
-        public bool aim;
+        public bool aim; 
+        public bool shoot;
 
         [Header("Movement Settings")] public bool analogMovement;
 
@@ -57,8 +59,18 @@ namespace StarterAssets
             if (UIManager.Instance.GetIsMovingAllowed()) 
                 AimInput(value.isPressed);
         }
-#endif
 
+        public void OnShoot(InputValue value)
+        { 
+            ShootInput(value.isPressed);
+        }
+        
+#endif
+        public void ShootInput(bool newFireState)
+        {
+            shoot = newFireState;
+        }
+        
         public void AimInput(bool newAimState)
         {
             aim = newAimState;
