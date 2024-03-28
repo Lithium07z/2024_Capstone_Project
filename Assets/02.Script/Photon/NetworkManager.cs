@@ -40,15 +40,20 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     
     void Update()
     {
-        MainGUIManager.Instance.UpdatePhotonStatusText(PhotonNetwork.NetworkClientState.ToString());
-        MainGUIManager.Instance.UpdateLobbyInfoText((PhotonNetwork.CountOfPlayers - PhotonNetwork.CountOfPlayersInRooms), PhotonNetwork.CountOfPlayers);
-
-        if (PhotonNetwork.InRoom && matchingTime <= 0)
+        Debug.Log(SceneLoader.Instance.GetSceneName());
+        if (SceneLoader.Instance.GetSceneName() == "StartScene")
         {
-            SceneLoader.Instance.LoadGameScene();
-        }
+            MainGUIManager.Instance.UpdatePhotonStatusText(PhotonNetwork.NetworkClientState.ToString());
+            MainGUIManager.Instance.UpdateLobbyInfoText((PhotonNetwork.CountOfPlayers - PhotonNetwork.CountOfPlayersInRooms), PhotonNetwork.CountOfPlayers);
 
-        CalcMatchingTime();
+            if (PhotonNetwork.InRoom && matchingTime <= 0)
+            {
+                SceneLoader.Instance.LoadGameScene();
+                matchingTime = 10.0f;
+            }
+
+            CalcMatchingTime();
+        }
     }
 
     private void CalcMatchingTime()
