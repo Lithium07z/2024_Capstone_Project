@@ -1,4 +1,4 @@
-using System.Collections;
+    using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
@@ -11,36 +11,40 @@ public class Blast : MonoBehaviour
 
     public float damage;
 
-    private Collider[] colliders;
 
     public LayerMask layermask;
     
-    public GameObject blaseParticle;
 
     private Rigidbody _rigidbody;
-    private SphereCollider _collider;
 
     void Awake()
     {
         //layermask = ??
-        colliders = Physics.OverlapSphere(transform.position, range);
+        _rigidbody = GetComponent<Rigidbody>();
     }
     
     void Start()
     {
-        GameObject particle = Instantiate(blaseParticle, transform.position, Quaternion.identity);
         BlastRigidbody();
-        Destroy(particle, 3f);
+        Destroy(gameObject, 3f);
     }
 
     void BlastRigidbody()
     {
-        _rigidbody.AddExplosionForce(power, transform.position, range, upperPower);
-        //Damage() -> Need Check Process that player's location is inside the blast range
+        Collider[] colliders;
+        colliders = Physics.OverlapSphere(transform.position, range);
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            if (colliders[i].gameObject.layer == layermask)
+            {
+                _rigidbody.AddExplosionForce(power, transform.position, range, upperPower);
+                Damage(colliders[i]?.GetComponent<PlayerProperty>());
+            }
+        }
     }
 
     void Damage(PlayerProperty player)
     {
-        player.TakeDamage(damage); 
+        if(player is not null) player.TakeDamage(damage); 
     }
 }

@@ -49,14 +49,7 @@ public class CargoStack : MonoBehaviour
         position = new Vector3(position.x, position.y + y, position.z);
         cargoAnchor.transform.position = position;
     }
-
-    private void SetAnchorHeight(float y)
-    {
-        var position = cargoAnchor.transform.position;
-        position = new Vector3(position.x, y, position.z);
-        cargoAnchor.transform.position = position;
-    }
-
+    
     [PunRPC]
     private void CreateCargo()
     {
